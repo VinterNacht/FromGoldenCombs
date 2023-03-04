@@ -194,6 +194,7 @@ namespace FromGoldenCombs.BlockEntities
 
             private void OnScanForEmptySkep(float dt)
             {
+                RoomRegistry roomRegistry = this.roomreg;
                 Room room = roomreg?.GetRoomForPosition(Pos);
                 roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
 

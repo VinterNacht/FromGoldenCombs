@@ -36,8 +36,6 @@ namespace FromGoldenCombs.BlockEntities
         public BECeramicBroodPot()
         {
             inv = new InventoryGeneric(1, "hivepot-slot", null, null);
-            meshes = new MeshData[1];
-
         }
 
         static BECeramicBroodPot()
@@ -161,27 +159,6 @@ namespace FromGoldenCombs.BlockEntities
             mat.RotateYDeg(this.Block.Shape.rotateY);
 
             base.updateMeshes();
-        }
-
-        protected override MeshData genMesh(ItemStack stack)
-        {
-            MeshData mesh;
-
-            ICoreClientAPI capi = Api as ICoreClientAPI;
-            mesh = capi.TesselatorManager.GetDefaultBlockMesh(stack.Block).Clone();
-            //nowTesselatingItem = stack.Item;
-            nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Block.Shape.Base);
-            mesh.RenderPassesAndExtraBits.Fill((short)EnumChunkRenderPass.BlendNoCull);
-
-            float x = 0;
-            float y = -.985f;
-            float z = 0;
-            Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-            //This seems to work for rotating the actual appearance of the blocks in the itemslots.
-            mesh.Rotate(new Vec3f(0.5f, 1f, 0.5f), 3.14f, this.Block != null ? this.Block.Shape.rotateY * GameMath.DEG2RAD : 0f, 0f);
-            mesh.Translate(offset.XYZ);
-
-            return mesh;
         }
 
         public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tessThreadTesselator)
@@ -463,5 +440,29 @@ namespace FromGoldenCombs.BlockEntities
 
         }
 
+        protected ModelTransform genTransform(ItemStack stack, int index)
+        {
+
+            ModelTransform transform = new();
+            Vec3f offset = new Vec3f(0, .3333f * index, 0);
+            transform.Origin = new Vec3f(0.5f, 0f, 0.5f);
+            transform.WithRotation(new Vec3f(0f, this.Block.Shape.rotateY * GameMath.DEG2RAD, 0f));
+            transform.Translation.Y = offset.Y;
+            return transform;
+        }
+
+        protected override float[][] genTransformationMatrices()
+        {
+            float[][] tfMatrices = new float[1][];
+            for (int index = 0; index < 1; index++)
+            {
+                ItemStack itemstack = this.Inventory[index].Itemstack;
+                if (itemstack != null)
+                {
+                    tfMatrices[index] = new Matrixf().Set(genTransform(itemstack, index).AsMatrix).Values;
+                }
+            }
+            return tfMatrices;
+        }
     }
 }

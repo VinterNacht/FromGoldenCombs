@@ -1,70 +1,8 @@
-﻿1.15.6-v1.1.1
-- Add Config File to control Wildhive and Skep hivepop times.
-- Set skeps and wild hives to only swarm in spring
+﻿1.17-v1.3.15
+	- Fixed issue with empty hand interaction with the frame rack
 
-1.15.6-v1.2.1
-- Langstroth Hive
-	- Add Langstroth Super
-	- Add Langstroth Brood Box
-	- Add Langstroth Base
-
-1.15.7-v1.3.0
- - Langstroth Hive:
- - Beeframes will have durability that will degrade when harvested
-	- Beeframes can be repaired with wax infused twine
-	- Beeframes require frame liners to make
- - Wax infused linen swatches is crafted using wax and linen swatches, or waxed linen twince
- - Frame liners are created using a knife and waxed linen
- - Wax infused linen twine is crafted using wax and linen twine (in batches of 4 twine, 1 wax)
- - Frame Rack for holding/processing/repairing hives
-
- 1.15.7-v1.3.1
- - Remove attributes from Ceramic Pot
- - Update shape locations for Super/Stack/
-
- 1.15.7-v1.3.2
- - Added Documentation
- - Added Names to the en.json
-
- 1.15.7-v1.3.3
- - Removed recipe for Langstroth Broodbox involving the super, changed to in-world interaction (right click super with a broodbox top with the matching pattern)
- - Updated documentation to represent this.
-
- 1.15.7-v1.3.4
-	- Fixed
-		- Broodtop not consumed when used to make a Brood Box.
-		- Finish Handbook Documentation
-		- Add more feedback from hive
-			- Reports remaining time to hive producing comb (configurable)
-		- Added missing populated bool to Ceramic Hive tree attributes.
-
-1.15.7-v1.3.5
-	- Fixed
-		- Ceramic pot interaction showing left-click to pick up.
-		- Updated Beeframe listing in folder.
-		- Added partial Russian translation.
-		- Added Interactions for more Langstroth Blocks
-		- Corrected crash caused by NPE in Super/Claypot Interactions
-		- More documentation
-
-1.15.7-v1.3.5-rc.1
-	- Documentation
-		- Fixed issue with game:block-linen-waxed-* not showing as Waxed linen.
-		- More documentation updates
-		- Corrected crash caused by NPE in Broodpot Interactions with an empty hand.
-		- Corrected error where brood box would be removed when attempting to pick up with no space for it.
-		- Made behavior consistent between picking up ceramic broodpot and Brood Box.
-		- Corrected error where hive would be rendered unpopulated on swapping from claypot to ceramic.
-
-1.15.7-v1.3.5-rc.2
-	- Documentation
-		- Fixed Ceramic Hive killing colony when picking up brood pot with active colony
-		- Fixed bees taking excessive amount of time to settle in to a Ceramic Hive
-		- Fixed interacting with populated hive while holding a populated skep resulting in a crash.
-		- Polished hive block info feedback.
-
-1.15.7-v1.3.5-rc.3
-	- Removed one piece of dangling ding-dang code that was crashin' the whole works. 
+1.17-v1.3.7-rc.1
+	-Updated to 1.17-rc.4
 
 1.15.7-v1.3.5-rc.4
 	- Ensured langstroth stack references bottom stack when reporting OnBlockInfo
