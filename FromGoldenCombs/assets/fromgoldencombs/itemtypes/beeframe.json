@@ -1,6 +1,5 @@
 {
   "code": "beeframe",
-  "class": "langstrothframe",
   "maxstacksize": 10,
   "variantgroups": [
     { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
@@ -10,22 +9,21 @@
 			"cap": { "base": "game:block/wood/debarked/{primary}" }
 	},
   "shape": { "base": "item/langstroth/beeframe-{harvestable}" },  
-  "creativeinventory": { "general": ["*"] },
+  "creativeinventory": { "general": ["beeframe-ebony-*"] },
   "attributes": {
-        "handbookByType": {
-          "*-empty": {
-            "groupBy": ["beeframe-*-empty"],
-            "extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-emptybeeframe", "text": "fromgoldencombs:item-handbooktext-emptybeeframe" } ]
-          },
-          "*-lined": {
-            "groupBy": ["beeframe-*-lined"],
-            "extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-linedbeeframe", "text": "fromgoldencombs:item-handbooktext-linedbeeframe" } ]
-          },
-          "*-harvestable": {
-            "groupBy": ["beeframe-*-harvestable"],
-            "extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-harvestablebeeframe", "text": "fromgoldencombs:item-handbooktext-harvestablebeeframe" } ]
-          }
+        "handbook": {
+          "excludeByType":{
+          "*-ebony-empty": false,
+          "*-ebony-lined": false,
+          "*-ebony-harvestable": false,
+          "*": true
+        },
+        "extraSectionsByType": {
+          "*-empty": [ { "title": "fromgoldencombs:item-handbooktitle-emptybeeframe", "text": "fromgoldencombs:item-handbooktext-emptybeeframe" } ],
+          "*-lined": [ { "title": "fromgoldencombs:item-handbooktitle-linedbeeframe", "text": "fromgoldencombs:item-handbooktext-linedbeeframe" } ],
+          "*-harvestable": [{ "title": "fromgoldencombs:item-handbooktitle-harvestablebeeframe", "text": "fromgoldencombs:item-handbooktext-harvestablebeeframe" }]
         }
+    },
   },
   "durabilityByType":{
     "*-empty": 0,

@@ -35,7 +35,7 @@ namespace FromGoldenCombs.BlockEntities
         public override void Initialize(ICoreAPI api)
         {
          
-            block = api.World.BlockAccessor.GetBlock(Pos);
+            block = api.World.BlockAccessor.GetBlock(Pos, 0);
             base.Initialize(api);
         }
 
@@ -48,8 +48,8 @@ namespace FromGoldenCombs.BlockEntities
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             CollectibleObject colObj = slot.Itemstack?.Collectible;
-            bool isBeeframe = colObj is LangstrothFrame;
-            BlockContainer block = Api.World.BlockAccessor.GetBlock(blockSel.Position) as BlockContainer;
+            bool isBeeframe = colObj.FirstCodePart() == "beeframe";
+            BlockContainer block = Api.World.BlockAccessor.GetBlock(blockSel.Position, 0) as BlockContainer;
             int index = blockSel.SelectionBoxIndex;
             block.SetContents(new(block), this.GetContentStacks());
             if (slot.Empty && index < 10)
@@ -62,8 +62,6 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (slot.Itemstack?.Item?.FirstCodePart() == "knife" && index < 10 && !inv[index].Empty && inv[index].Itemstack.Collectible.Variant["harvestable"] == "harvestable")
             {
-                ItemStack stack = slot.Itemstack;
-                ItemStack rackSlot = inv[index].Itemstack;
                 if (TryHarvest(Api.World, byPlayer, inv[index]))
                 {
 
@@ -160,10 +158,9 @@ namespace FromGoldenCombs.BlockEntities
             int minYield = FromGoldenCombsConfig.Current.minFrameYield;
             int maxYield = FromGoldenCombsConfig.Current.maxFrameYield;
             ItemStack stackHandler;
-            int durability = FromGoldenCombsConfig.Current.baseframedurability;
+            int durability;
 
             stackHandler = rackStack.Itemstack;
-            durability = rackStack.Itemstack.Attributes.GetInt("durability");
 
             //Check to see if harvestable rack will break when harvested
             if (rackStack.Itemstack.Attributes.GetInt("durability") == 1)
@@ -226,11 +223,10 @@ namespace FromGoldenCombs.BlockEntities
         protected override MeshData genMesh(ItemStack stack)
         {
 
-            IContainedMeshSource containedMeshSource = stack.Collectible as IContainedMeshSource;
             MeshData meshData;
-            if (containedMeshSource != null)
+            if (stack.Collectible as IContainedMeshSource != null)
             {
-                meshData = containedMeshSource.GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
+                meshData = (stack.Collectible as IContainedMeshSource).GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
                 meshData.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 0f, base.Block.Shape.rotateY * 0.017453292f, 0f);
             }
             else

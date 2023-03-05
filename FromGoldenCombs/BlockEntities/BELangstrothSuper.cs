@@ -1,4 +1,5 @@
 ﻿using FromGoldenCombs.Items;
+using System;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -29,7 +30,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public override void Initialize(ICoreAPI api)
         {
-            block = api.World.BlockAccessor.GetBlock(Pos);
+            block = api.World.BlockAccessor.GetBlock(Pos, 0);
             base.Initialize(api);
         }
                 
@@ -43,65 +44,74 @@ namespace FromGoldenCombs.BlockEntities
         //{
         //    get { return GetBehavior<BEBehaviorAnimatable>()?.animUtil; }
         //}
-        
+
         internal bool OnInteract(IPlayer byPlayer, BlockSelection blockSel)
         {
-            ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
-            CollectibleObject colObj = slot.Itemstack?.Collectible;
-            bool isBeeframe = colObj is LangstrothFrame;
-            BlockContainer block = Api.World.BlockAccessor.GetBlock(blockSel.Position) as BlockContainer;
-            block.SetContents(new(block), this.GetContentStacks());
-
-            
-            if (!slot.Empty && slot.Itemstack.Collectible.FirstCodePart() == "langstrothbroodtop" && (slot.Itemstack.Collectible.Variant["primary"] == this.Block.Variant["primary"] && slot.Itemstack.Collectible.Variant["accent"] == this.Block.Variant["accent"]))
+            ItemSlot activeHotbarSlot = byPlayer.InventoryManager.ActiveHotbarSlot;
+            ItemStack itemstack = activeHotbarSlot.Itemstack;
+            bool flag = (itemstack != null ? itemstack.Collectible.FirstCodePart() == "beeframe" : false);
+                //((itemstack != null) ? itemstack.Collectible : null) is LangstrothFrame;
+            BlockContainer blockContainer = this.Api.World.BlockAccessor.GetBlock(blockSel.Position, 0) as BlockContainer;
+            blockContainer.SetContents(new ItemStack(blockContainer, 1), base.GetContentStacks(true));
+            if (!activeHotbarSlot.Empty && activeHotbarSlot.Itemstack.Collectible.FirstCodePart(0) == "langstrothbroodtop" && activeHotbarSlot.Itemstack.Collectible.Variant["primary"] == base.Block.Variant["primary"] && activeHotbarSlot.Itemstack.Collectible.Variant["accent"] == base.Block.Variant["accent"])
             {
-                
-                Api.World.BlockAccessor.SetBlock(Api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothbrood-empty-"+ this.Block.Variant["primary"] + "-" + this.Block.Variant["accent"] + "-" + this.block.Variant["side"])).BlockId,Pos);
-                slot.TakeOutWhole();
-                MarkDirty(true);
-                return true;
-            }
-            else if ((slot.Empty || !isBeeframe) && blockSel.SelectionBoxIndex < 10 && this.Block.Variant["open"] == "open")
-            {
-                if (TryTake(byPlayer, blockSel))
+                if (this.inv.Empty)
                 {
-                    MarkDirty(true);
+                    this.Api.World.BlockAccessor.SetBlock(this.Api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", string.Concat(new string[]
+                    {
+                        "langstrothbrood-empty-",
+                        base.Block.Variant["primary"],
+                        "-",
+                        base.Block.Variant["accent"],
+                        "-",
+                        this.block.Variant["side"]
+                    }))).BlockId, this.Pos);
+                    activeHotbarSlot.TakeOut(1);
+                    base.MarkDirty(true, null);
+                    return true;
+                }
+                ICoreClientAPI coreClientAPI = byPlayer.Entity.World.Api as ICoreClientAPI;
+                if (coreClientAPI != null)
+                {
+                    coreClientAPI.TriggerIngameError(this, "nonemptysuper", Lang.Get("fromgoldencombs:nonemptysuper", Array.Empty<object>()));
+                }
+            }
+            else if ((activeHotbarSlot.Empty || !flag) && blockSel.SelectionBoxIndex < 10 && base.Block.Variant["open"] == "open")
+            {
+                if (this.TryTake(byPlayer, blockSel))
+                {
+                    base.MarkDirty(true, null);
                     return true;
                 }
             }
-            else if (isBeeframe && blockSel.SelectionBoxIndex < 10  && this.Block.Variant["open"] == "open")
+            else if (flag && blockSel.SelectionBoxIndex < 10 && base.Block.Variant["open"] == "open")
             {
-                //AssetLocation sound = slot.Itemstack?.Item?.Sounds?.Place;
-                MarkDirty(true);
-                if (TryPut(slot, blockSel))
+                base.MarkDirty(true, null);
+                if (this.TryPut(activeHotbarSlot, blockSel))
                 {
-                    //Api.World.PlaySoundAt(sound != null ? sound : new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
                     return true;
                 }
-
             }
-            else if (//byPlayer.Entity.Controls.Sneak &&
-                     slot.Itemstack == null
-                     && (int)slot.StorageType == 2
-                     && Api.World.BlockAccessor.GetBlock(blockSel.Position).Variant["open"] == "closed"
-                     && byPlayer.InventoryManager.TryGiveItemstack(block.OnPickBlock(Api.World, blockSel.Position))
-                     )
+            else
             {
-                Api.World.BlockAccessor.SetBlock(0, blockSel.Position);
-                MarkDirty(true);
-                return true;        
-            }
-            else if (this.Block.Variant["open"] == "open" && !byPlayer.Entity.Controls.Sneak)
-            {
-                Api.World.BlockAccessor.ExchangeBlock(Api.World.GetBlock(block.CodeWithVariant("open", "closed")).BlockId, blockSel.Position);
-                MarkDirty(true);
-                return true;
-            }
-            else if (this.Block.Variant["open"] == "closed")
-            { 
-                Api.World.BlockAccessor.ExchangeBlock(Api.World.GetBlock(block.CodeWithVariant("open", "open")).BlockId, blockSel.Position);
-                MarkDirty(true);
-                return true;
+                if (activeHotbarSlot.Itemstack == null && activeHotbarSlot.StorageType == EnumItemStorageFlags.Backpack && this.Api.World.BlockAccessor.GetBlock(blockSel.Position).Variant["open"] == "closed" && byPlayer.InventoryManager.TryGiveItemstack(blockContainer.OnPickBlock(this.Api.World, blockSel.Position), false))
+                {
+                    this.Api.World.BlockAccessor.SetBlock(0, blockSel.Position);
+                    base.MarkDirty(true, null);
+                    return true;
+                }
+                if (base.Block.Variant["open"] == "open" && !byPlayer.Entity.Controls.Sneak)
+                {
+                    this.Api.World.BlockAccessor.ExchangeBlock(this.Api.World.GetBlock(blockContainer.CodeWithVariant("open", "closed")).BlockId, blockSel.Position);
+                    base.MarkDirty(true, null);
+                    return true;
+                }
+                if (base.Block.Variant["open"] == "closed")
+                {
+                    this.Api.World.BlockAccessor.ExchangeBlock(this.Api.World.GetBlock(blockContainer.CodeWithVariant("open", "open")).BlockId, blockSel.Position);
+                    base.MarkDirty(true, null);
+                    return true;
+                }
             }
             return false;
         }
@@ -180,11 +190,10 @@ namespace FromGoldenCombs.BlockEntities
         protected override MeshData genMesh(ItemStack stack)
         {
 
-            IContainedMeshSource containedMeshSource = stack.Collectible as IContainedMeshSource;
             MeshData meshData;
-            if (containedMeshSource != null)
+            if (stack.Collectible as IContainedMeshSource != null)
             {
-                meshData = containedMeshSource.GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
+                meshData = (stack.Collectible as IContainedMeshSource).GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
                 meshData.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 0f, base.Block.Shape.rotateY * 0.017453292f, 0f);
             } else
             {

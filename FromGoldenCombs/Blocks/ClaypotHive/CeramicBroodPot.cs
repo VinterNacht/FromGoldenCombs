@@ -13,8 +13,6 @@ namespace FromGoldenCombs.Blocks
 
     class CeramicBroodPot : BlockContainer
     {
-        TreeAttribute treeAttribute = new();
-        BoolAttribute populated;
 
         public object ActionLangCode { get; private set; }
 
@@ -80,10 +78,9 @@ namespace FromGoldenCombs.Blocks
             WorldInteraction[] wi3 = base.GetPlacedBlockInteractionHelp(world, selection, forPlayer);
 
             
-            if (world.BlockAccessor.GetBlockEntity(selection.Position) is BECeramicBroodPot)
+            if (world.BlockAccessor.GetBlockEntity(selection.Position) is BECeramicBroodPot pot)
             {
-                BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(selection.Position);
-                if (beCeramicBroodPot != null)
+                if (pot != null)
 
                 {
 
@@ -92,7 +89,7 @@ namespace FromGoldenCombs.Blocks
                     topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-harvestable"))));
 
                     //Information about world interaction
-                    if (!beCeramicBroodPot.isActiveHive)
+                    if (!pot.isActiveHive)
                     {
                         wi = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions", () =>
                         {

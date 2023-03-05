@@ -10,14 +10,22 @@
 		"primary": { "base": "game:block/wood/planks/{primary}1" }
 	},
 	
-  "creativeinventory": { "general": ["*"] },
-  "attributes": {
-        "handbookByType": {
-          "langstrothside-*": {
-            "groupBy": ["langstrothside-*"],
-            "extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-langstrothside", "text": "fromgoldencombs:item-handbooktext-langstrothside" } ]
-          }
-        }  
+  "creativeinventory": { "general": ["langstrothside-ebony"] },
+	"attributes": {
+    "handbook": {
+      "groupBy": ["langstrothside-ebony"],
+			"groupedName": ["langstrothside-ebony"],
+      "excludeFromListByType":{
+        "langstrothside-ebony": false,
+        "langstrothside-*": true
+      },
+			"extraSections": [
+        {
+					"title": "fromgoldencombs:item-handbooktitle-langstrothside",
+          "text": "fromgoldencombs:item-handbooktext-langstrothside"
+        }
+      ]
+    }
   },
 	"combustibleProps": {
 		"burnTemperature": 700,

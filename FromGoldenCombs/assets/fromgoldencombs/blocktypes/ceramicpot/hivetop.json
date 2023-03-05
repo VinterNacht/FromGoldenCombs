@@ -8,6 +8,16 @@
     "origin": { "x": 0.5, "y": 0.2, "z": 0.5 },
     "scale": 0.59
   },
+  "attributes": {
+    "handbook": {
+      "extraSections": [
+        {
+          "title": "fromgoldencombs:block-handbooktitle-hivetop",
+          "text": "fromgoldencombs:block-handbooktext-hivetop"
+        }
+      ]
+    }
+  },
   "variantgroups": [
     { "code": "type", "states": [ "empty", "harvestable", "raw" ] }
   ],

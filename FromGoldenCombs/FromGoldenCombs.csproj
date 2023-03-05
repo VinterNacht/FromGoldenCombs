@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
@@ -6,16 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="assets\fromgoldencombs\patches\**" />
-    <Compile Remove="assets\itemtypes\**" />
     <Compile Remove="bin\**" />
     <Compile Remove="obj\**" />
-    <EmbeddedResource Remove="assets\fromgoldencombs\patches\**" />
-    <EmbeddedResource Remove="assets\itemtypes\**" />
     <EmbeddedResource Remove="bin\**" />
     <EmbeddedResource Remove="obj\**" />
-    <None Remove="assets\fromgoldencombs\patches\**" />
-    <None Remove="assets\itemtypes\**" />
     <None Remove="bin\**" />
     <None Remove="obj\**" />
   </ItemGroup>
@@ -44,53 +38,10 @@
 	<Content Include="assets/**">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</Content>
-	<Content Remove="assets\fromgoldencombs\patches\**" />
-	<Content Remove="assets\itemtypes\**" />
 	<Compile Remove="BlockEntities\BlockEntityClaypotHive.cs" />
 	<Compile Remove="Blocks\BlockClaypotHive.cs" />
 	<Compile Remove="Blocks\BlockHiveTop.cs" />
 	<Compile Remove="Blocks\BlockRawClaypotHive .cs" />
-	<Content Remove="assets\fromgoldencombs\shapes\block\ceramicbroodpot-withtop.json" />
-	<Content Remove="assets\fromgoldencombs\shapes\block\hive\ceramic\ceramicbroodpot-withtop.json" />
-	<Content Remove="assets\fromgoldencombs\shapes\block\hive\langstroth\langstrothbrood-unused-small.json" />
-	<Content Remove="assets\fromgoldencombs\shapes\block\langstroth-all-components.json" />
-	<Content Remove="assets\fromgoldencombs\shapes\block\langstrothsuper-unused.json" />
-	<Content Remove="assets\fromgoldencombs\shapes\block\hive\langstroth\langstroth-all-components.json" />
-	<Content Remove="assets\fromgoldencombs\shapes\block\hive\langstroth\langstrothsuper-unused.json" />
-	<None Remove="assets\fromgoldencombs\blocktypes\ceramicbroodpot.json" />
-	<None Remove="assets\fromgoldencombs\blocktypes\ceramicpot\ceramicbroodpot.json" />
-	<None Remove="assets\fromgoldencombs\blocktypes\ceramicpot\claypothive.json" />
-	<None Remove="assets\fromgoldencombs\blocktypes\langstrothbase.json" />
-	<None Remove="assets\fromgoldencombs\blocktypes\langstrothbrood.json" />
-	<None Remove="assets\fromgoldencombs\blocktypes\langstrothstack.json" />
-	<None Remove="assets\fromgoldencombs\blocktypes\langstrothsuper.json" />
-	<None Remove="assets\fromgoldencombs\blocktypes\langstroth\framerack.json" />
-	<None Remove="assets\fromgoldencombs\itemtypes\beeframe.json" />
-	<None Remove="assets\fromgoldencombs\itemtypes\frameliner.json" />
-	<None Remove="assets\fromgoldencombs\itemtypes\waxedtwine.json" />
-	<None Remove="assets\fromgoldencombs\lang\ru.json" />
-	<None Remove="assets\fromgoldencombs\recipes\barrel\waxedlinen.json" />
-	<None Remove="assets\fromgoldencombs\recipes\barrel\waxedtwine.json" />
-	<None Remove="assets\fromgoldencombs\recipes\grid\cleanframe.json" />
-	<None Remove="assets\fromgoldencombs\recipes\grid\parts\beeframe.json" />
-	<None Remove="assets\fromgoldencombs\recipes\grid\parts\frameliner.json" />
-	<None Remove="assets\fromgoldencombs\recipes\grid\parts\framerack.json" />
-	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothbase.json" />
-	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothbrood.json" />
-	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothpart-brood.json" />
-	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothpart-side.json" />
-	<None Remove="assets\fromgoldencombs\shapes\block\ceramicbroodpot-notop.json" />
-	<None Remove="assets\fromgoldencombs\shapes\block\ceramicbroodpot-withtop.json" />
-	<None Remove="assets\fromgoldencombs\shapes\block\hive\langstroth\langstrothbrood-unused-small.json" />
-	<None Remove="assets\fromgoldencombs\shapes\block\hive\langstroth\langstrothsuper-unused.json" />
-	<None Remove="assets\fromgoldencombs\shapes\block\langstroth-all-components.json" />
-	<None Remove="assets\fromgoldencombs\shapes\block\langstrothstack.json" />
-	<None Remove="assets\fromgoldencombs\shapes\block\langstrothsuper-unused.json" />
-	<None Remove="assets\fromgoldencombs\shapes\item\beeframe-empty.json" />
-	<None Remove="assets\game\patches\bandagerecipepatch.json" />
-	<None Remove="assets\game\patches\beehive.json" />
-	<None Remove="assets\game\patches\beeswax.json" />
-	<None Remove="assets\game\patches\waxedlinen.json" />
 	<None Remove="modinfo.json" />
 	<Content Include="modinfo.json">
 	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -98,37 +49,41 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="assets\fromgoldencombs\textures\item\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="AnimatedGif">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1179\Lib\AnimatedGif.dll</HintPath>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1170-rc4\Lib\0Harmony.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="cairo-sharp">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1181\Lib\cairo-sharp.dll</HintPath>
+    <Reference Include="AnimatedGif">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1170-rc4\Lib\AnimatedGif.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1181\Lib\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1170-rc4\Lib\Newtonsoft.Json.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="protobuf-net">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1181\Lib\protobuf-net.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1170-rc4\Lib\protobuf-net.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="VintagestoryAPI">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1179\VintagestoryAPI.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1170-rc4\VintagestoryAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="VintagestoryLib">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1170-rc4\VintagestoryLib.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="VSBuildLib">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1179\VSBuildLib.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1170-rc4\VSBuildLib.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="VSCreativeMod">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1181\Mods\VSCreativeMod.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1170-rc4\Mods\VSCreativeMod.dll</HintPath>
+
       <Private>false</Private>
     </Reference>
     <Reference Include="VSEssentials">
@@ -136,30 +91,13 @@
       <Private>false</Private>
     </Reference>
     <Reference Include="VSSurvivalMod">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1181\Mods\VSSurvivalMod.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1170-rc4\Mods\VSSurvivalMod.dll</HintPath>
+
       <Private>false</Private>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="assets\fromgoldencombs\itemtypes\langstrothparts\langstrothbroodtop.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\en.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\ru.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\game\patches\bandagerecipepatch.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="assets\fromgoldencombs\shapes\block\hive\ceramic\ceramicbroodpot-withtop.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="changelog.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

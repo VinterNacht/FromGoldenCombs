@@ -70,17 +70,6 @@
 	"ingredients": {
 		"H": {"type": "item", "code": "game:hammer-*", "isTool": true },
 		"P": {"type": "item", "code": "langstrothside-*",	"name":	"primary", "quantity": "2", "states": ["aged"], "loadFromProperties": "block/wood" },
-		"A": {"type": "item", "code": "langstrothside-acacia", "quantity": 2, "states": ["aged"], "loadFromProperties": "block/wood" }
-	},
-	"width": 3,
-	"height": 3,
-	"output": {	"type": "item", "code": "langstrothbroodtop-{primary}-acacia", "quantity": "1"}
-},
-{
-	"ingredientPattern": "_H_	_A_	PAP",
-	"ingredients": {
-		"H": {"type": "item", "code": "game:hammer-*", "isTool": true },
-		"P": {"type": "item", "code": "langstrothside-*",	"name":	"primary", "quantity": "2", "states": ["aged"], "loadFromProperties": "block/wood" },
 		"A": {"type": "item", "code": "langstrothside-kapok", "quantity": 2, "states": ["aged"], "loadFromProperties": "block/wood" }
 	},
 	"width": 3,

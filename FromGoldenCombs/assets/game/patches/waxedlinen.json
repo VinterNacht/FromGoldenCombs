@@ -32,5 +32,15 @@
     "path": "/block-linen-waxed-*",
     "value": "Linen (Waxed)",
     "file": "lang/en.json"
+  },
+  {
+	  "op": "add",
+	  "path":  "/attributes/inContainerTextureByType",
+	  "value": {
+		  "linen-waxed-*": { "base": "fromgoldencombs:block/cloth/linen/waxedlinen"},
+		  "linen-*": { "base": "block/cloth/linen/{pattern}1"}
+
+	  },
+     "file": "blocktypes/cloth/linen.json"
   }
 ]

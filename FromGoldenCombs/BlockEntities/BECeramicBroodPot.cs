@@ -75,7 +75,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public bool OnInteract(IPlayer byPlayer)
         {
-            Block hive = Api.World.BlockAccessor.GetBlock(Pos);
+            Block hive = Api.World.BlockAccessor.GetBlock(Pos,0);
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             if (slot.Empty)
             {
@@ -177,7 +177,7 @@ namespace FromGoldenCombs.BlockEntities
             float temp = conds.Temperature + (roomness > 0 ? 5 : 0);
             actvitiyLevel = GameMath.Clamp(temp / 5f, 0f, 1f);
 
-            bool hasEmptyHivetop = !inv[0].Empty && inv[0].Itemstack.Block.Variant["type"] == "empty";
+            bool hasEmptyHivetop = !inv[0].Empty && inv[0]?.Itemstack?.Block.Variant["type"] == "empty";
             // Reset timers during winter
             if (temp <= -10)
             {
@@ -200,7 +200,7 @@ namespace FromGoldenCombs.BlockEntities
                 //then reset harvestableAtHours, and begin cooldown stage
                 else if (worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor)
                 {
-                    inv[0].Itemstack = new ItemStack(Api.World.GetBlock(inv[0].Itemstack.Collectible.CodeWithVariant("type", "harvestable")), 1);
+                    inv[0].Itemstack = new ItemStack(Api.World.GetBlock(inv[0]?.Itemstack?.Collectible.CodeWithVariant("type", "harvestable")), 1);
                     harvestableAtTotalHours = 0;
                     cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
                     updateMeshes();
@@ -319,7 +319,7 @@ namespace FromGoldenCombs.BlockEntities
                 Block langstrothstack3s = Api.World.GetBlock(new AssetLocation("langstrothstack-three-south"));
                 Block langstrothstack3w = Api.World.GetBlock(new AssetLocation("langstrothstack-three-west"));
 
-                Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, pos) =>
+                Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, posx, posy, posz) =>
                 {
                     if (block.Id == 0) return;
 
@@ -382,7 +382,7 @@ namespace FromGoldenCombs.BlockEntities
                         dsc.AppendLine(combPopTime);
                     } 
                 }
-                else if (isActiveHive && (this.Block.Variant["top"] == "notop" || inv[0].Itemstack.Collectible.Variant["type"]=="harvestable"))
+                else if (isActiveHive && (this.Block.Variant["top"] == "notop" || inv[0]?.Itemstack?.Collectible.Variant["type"]=="harvestable"))
                 {
                     dsc.AppendLine("Hive lacks a usable honey pot, will not produce comb.");
                 }

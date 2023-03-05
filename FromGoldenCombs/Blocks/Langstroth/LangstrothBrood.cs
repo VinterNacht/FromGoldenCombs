@@ -16,7 +16,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             if (slot.Empty)
             {
-                ItemStack stack = api.World.BlockAccessor.GetBlock(blockSel.Position).OnPickBlock(api.World, blockSel.Position);
+                ItemStack stack = api.World.BlockAccessor.GetBlock(blockSel.Position, 0).OnPickBlock(api.World, blockSel.Position);
                 if (byPlayer.InventoryManager.TryGiveItemstack(stack))
                 {
                     api.World.BlockAccessor.SetBlock(0, blockSel.Position);

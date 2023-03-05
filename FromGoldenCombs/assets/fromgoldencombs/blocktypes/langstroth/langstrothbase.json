@@ -3,20 +3,36 @@
   "class": "langstrothbase",
   "storageFlags": 2,
   "maxstacksize": 1,
+  "attributes": {
+    "handbook": {
+      "excludeFromListByType": {
+        "langstrothbase-ebony-baldcrypress-east": false,
+        "langstrothbase-*": true
+      },
+      "extraSections": [
+        {
+          "title": "fromgoldencombs:block-handbooktitle-langstrothbase",
+          "text": "fromgoldencombs:block-handbooktext-langstrothbase"
+        }
+      ],
+      "groupBy": ["langstrothbase-{primary}-{accent}-east"],
+      "groupedName": ["langstrothbase-aged-aged-east" ]
+    }
+  },
+  "variantgroups": [
+    { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
+    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
+    { "code": "side", "loadFromProperties": "abstract/horizontalorientation"}
+  ],
   "behaviors": [{
         "name": "HorizontalOrientable",
         "properties": { "dropBlockFace": "east" }
     },
     { "name": "Unstable" }
   ],
-  "creativeinventory": { "general": ["*-east"] },
+  "creativeinventory": { "general": ["langstrothbase-ebony-baldcypress-east"] },
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
-  "variantgroups": [
-    { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
-    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
-    { "code": "side", "loadFromProperties": "abstract/horizontalorientation"}
-  ],
   "textures": {		
       "primary": { "base": "game:block/wood/debarked/{primary}" },
 			"accent": { "base": "game:block/wood/debarked/{accent}" }

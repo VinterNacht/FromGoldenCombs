@@ -21,7 +21,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
-            Block block = api.World.BlockAccessor.GetBlock(blockSel.Position);
+            Block block = api.World.BlockAccessor.GetBlock(blockSel.Position, 0);
             if (!slot.Empty &&
                 IsValidLangstroth(block))
             {

@@ -8,7 +8,7 @@
 	"textureSizes": {
 	},
 	"textures": {
-		"accent": "game:block/wood/planks/maple1",
+		"accent": "game:block/wood/planks/birch1",
 		"primary":"game:block/wood/planks/maple1"
 	},
 	"elements": [

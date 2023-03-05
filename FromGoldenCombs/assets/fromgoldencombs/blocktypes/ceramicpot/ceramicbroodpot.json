@@ -4,6 +4,16 @@
 	"entityClass": "beceramichive",
 	"storageFlags": 2,
 	"maxstacksize": 1,
+	"attributes": {
+    "handbook": {
+      "extraSections": [
+        {
+          "title": "fromgoldencombs:block-handbooktitle-ceramicbroodpot",
+          "text": "fromgoldencombs:block-handbooktext-ceramicbroodpot"
+        }
+      ]
+    }
+  },
 	"heldTpIdleAnimation": "holdbothhands",
 	"variantgroups": [{
 		"code": "top",

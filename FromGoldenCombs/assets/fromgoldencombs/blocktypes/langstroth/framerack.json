@@ -7,10 +7,18 @@
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
   "attributes": {
-        "handbookByType": {
-        "*": { "groupBy": ["framerack-*"] }
+        "handbook": {
+        "groupBy": ["framerack-{primary}-*"],
+        "groupedName": ["framerack-birch-ebony"],
+        "excludeFromListByType":{
+          "framerack-birch-ebony-*": false,
+          "framerack-*": true
         },
-        "extraSections": [ { title: "item-handbooktitle-framerack", text: "item-handbooktitle-framerack" } ]
+        "extraSections": [{
+              "title": "fromgoldencombs:block-handbooktitle-framerack",
+              "text": "fromgoldencombs:block-handbooktext-framerack"
+            }]
+        }
   },
   "behaviors": [
     { "name": "HorizontalOrientable", "properties": { "dropBlockFace": "east" }},
@@ -21,7 +29,7 @@
     { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
     { "code": "side", "loadFromProperties": "abstract/horizontalorientation" }
   ],
-  "creativeinventory": { "general": ["*-east"] },
+  "creativeinventory": { "general": ["framerack-ebony-baldcypress-east"] },
    "textures": {		
       "primary": { "base": "game:block/wood/debarked/{primary}" },
 			"accent": { "base": "game:block/wood/debarked/{accent}" }

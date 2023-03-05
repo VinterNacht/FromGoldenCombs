@@ -61,7 +61,7 @@ namespace FromGoldenCombs.BlockEntities
             if (api.Side == EnumAppSide.Client)
             {
                ICoreClientAPI capi = api as ICoreClientAPI;
-                Block ownBlock = Api.World.BlockAccessor.GetBlock(Pos);
+                Block ownBlock = Api.World.BlockAccessor.GetBlock(Pos, 0);
                 Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/hive/ceramic/claypothive-empty-none-notop.json")).ToObject<Shape>();
                 capi.Tesselator.TesselateShape(ownBlock, shape, out plane);
 
@@ -79,7 +79,7 @@ namespace FromGoldenCombs.BlockEntities
             //This will require identifying the correct type of honeypot to give the player, if the Ceramic Hive has one,
             //Or, it will require converting the hive to a Ceramic Hive, and placing the new top.  Populated vs Not will have to be transferred as well
 
-            Block hive = Api.World.BlockAccessor.GetBlock(Pos);
+            Block hive = Api.World.BlockAccessor.GetBlock(Pos, 0);
 
             ItemStack stack = new(world.GetBlock(new AssetLocation("fromgoldencombs", "ceramicbroodpot-notop")));
             ItemStack hivetopStack = new(world.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-" + (hive.Variant["harvestable"]=="harvestable"?"harvestable":"empty"))));
@@ -88,7 +88,6 @@ namespace FromGoldenCombs.BlockEntities
 
             if(hive.Variant["top"] == "notop"){
                 Api.World.BlockAccessor.SetBlock(stack.Block.BlockId, Pos, stack);
-                BECeramicBroodPot beCBP = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(Pos);
             } 
             else
             {
@@ -102,7 +101,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
             double worldTime = Api.World.Calendar.TotalHours;
-            Block hive = Api.World.BlockAccessor.GetBlock(Pos);
+            Block hive = Api.World.BlockAccessor.GetBlock(Pos, 0);
             ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
             if (conds == null) return;
 
@@ -211,7 +210,7 @@ namespace FromGoldenCombs.BlockEntities
             Block claypothive3 = Api.World.GetBlock(new AssetLocation("claypothive-populated-harvestable-notop"));
             Block claypothive4 = Api.World.GetBlock(new AssetLocation("claypothive-populated-harvestable-withtop"));
 
-            Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, pos) =>
+            Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, posx, posy, posz) =>
             {
                 if (block.Id == 0) return;
 

@@ -4,12 +4,17 @@
   "storageFlags": 2,
   "maxstacksize": 1,
   "attributes": {
-        "handbookByType": {
-          "*-empty-*": {
-            "groupBy": ["*-langstrothbrood-empty-*"],
-            "extraSections": [ { title: "item-handbooktitle-langstrothbrood", text: "item-handbooktitle-langstrothbrood" } ]
-          },
-          "*-populated-*": { "exclude": true }
+        "handbook": {
+        "groupBy": ["langstrothbrood-empty-{primary}-{accent}-east"],
+        "groupedName": ["langstrothbrood-empty-ebony-baldcypress-east"],
+        "excludeFromListByType":{
+          "langstrothbrood-empty-ebony-baldcypress-east": false,
+          "langstrothbrood-*": true
+        },
+        "extraSections": [{
+              "title": "fromgoldencombs:block-handbooktitle-langstrothbrood",
+              "text": "fromgoldencombs:block-handbooktext-langstrothbrood"
+            }]
         }
   },
   "behaviors": [{
@@ -18,7 +23,7 @@
     },
     { "name": "Unstable" }
   ],
-  "creativeinventory": { "general": ["*-empty-*-*-east"] },
+  "creativeinventory": { "general": ["*-empty-ebony-baldcypress-east"] },
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
   "variantgroups": [ 

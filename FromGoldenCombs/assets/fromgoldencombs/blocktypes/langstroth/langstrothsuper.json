@@ -6,7 +6,21 @@
   "maxstacksize": 1,
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
-  "creativeinventory": { "general": ["*-closed-*-*-east"] },
+  "creativeinventory": { "general": ["langstrothsuper-closed-ebony-baldcypress-east"] },
+  "attributes": {
+        "handbook": {
+        "groupBy": ["langstrothsuper-closed-{primary}-*"],
+        "groupedName": ["langstrothsuper-closed-ebony-baldcypress-east"],
+        "excludeFromListByType":{
+          "langstrothsuper-closed-ebony-baldcypress-*": false,
+          "langstrothsuper-*": true
+        },
+        "extraSections": [{
+              "title": "fromgoldencombs:block-handbooktitle-langstrothsuper",
+              "text": "fromgoldencombs:block-handbooktext-langstrothsuper"
+            }]
+        }
+  },
   "behaviors": [
     { "name": "HorizontalOrientable", "properties": { "dropBlockFace": "east" }},
     { "name": "Unstable" }
@@ -18,8 +32,8 @@
     { "code": "side", "loadFromProperties": "abstract/horizontalorientation" }
   ],
   "textures": {		
-      "top": { "base": "game:block/wood/debarked/{primary}" },
-			"bottom": { "base": "game:block/wood/debarked/{accent}" }
+      "primary": { "base": "game:block/wood/debarked/{primary}" },
+			"accent": { "base": "game:block/wood/debarked/{accent}" }
 	},
   "shapeByType": {
   "*-north": {
