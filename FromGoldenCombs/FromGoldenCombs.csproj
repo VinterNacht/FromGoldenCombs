@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
@@ -83,6 +83,7 @@
     </Reference>
     <Reference Include="VSCreativeMod">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1170-rc4\Mods\VSCreativeMod.dll</HintPath>
+
       <Private>false</Private>
     </Reference>
     <Reference Include="VSEssentials">
@@ -91,6 +92,7 @@
     </Reference>
     <Reference Include="VSSurvivalMod">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1170-rc4\Mods\VSSurvivalMod.dll</HintPath>
+
       <Private>false</Private>
     </Reference>
   </ItemGroup>

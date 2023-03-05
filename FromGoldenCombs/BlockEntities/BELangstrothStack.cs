@@ -47,8 +47,6 @@ namespace FromGoldenCombs.BlockEntities
         public BELangstrothStack()
         {
             inv = new InventoryGeneric(3, "superslot-0", null, null);
-            meshes = new MeshData[3];
-
         }
 
         static BELangstrothStack()
@@ -585,59 +583,7 @@ namespace FromGoldenCombs.BlockEntities
         }
 
         //Rendering Processes
-        readonly Matrixf mat = new();
-
-        protected override MeshData genMesh(ItemStack stack)
-        {
-            MeshData mesh;
-
-            ICoreClientAPI capi = Api as ICoreClientAPI;
-            mesh = capi.TesselatorManager.GetDefaultBlockMesh(stack.Block).Clone();
-            nowTesselatingObj = stack.Collectible;
-            nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Block.Shape.Base);
-            mesh.RenderPassesAndExtraBits.Fill((short)EnumChunkRenderPass.BlendNoCull);
-
-            return mesh;
-        }
-
-        public override void updateMeshes()
-        {
-            for (int i = 0; i < this.meshes.Length; i++)
-            {
-                this.updateMesh(i);
-            }
-
-            base.updateMeshes();
-        }
-
-        protected override void updateMesh(int index)
-        {
-            if (this.Api == null || this.Api.Side == EnumAppSide.Server)
-            {
-                return;
-            }
-            if (this.Inventory[index].Empty)
-            {
-                this.meshes[index] = null;
-                return;
-            }
-            MeshData meshData = this.genMesh(this.Inventory[index].Itemstack);
-            this.TranslateMesh(meshData, index);
-            this.meshes[index] = meshData;
-        }
-
-        public override void TranslateMesh(MeshData mesh, int index)
-        {
-            float x = 0;
-            float y = .3333f * index;
-            float z = 0;
-            Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-            //This seems to work for rotating the actual appearance of the blocks in the itemslots.
-            mesh.Rotate(new Vec3f(0.5f, 0f, 0.5f), 0f, this.Block != null ? this.Block.Shape.rotateY * GameMath.DEG2RAD : 0f, 0f);
-            mesh.Translate(offset.XYZ);
-        }
-
-        
+        readonly Matrixf mat = new();        
 
         public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tessThreadTesselator)
         {
@@ -971,6 +917,31 @@ namespace FromGoldenCombs.BlockEntities
             {
                 bottomStack.GetBlockInfo(forPlayer, sb);
             }
+        }
+
+        protected ModelTransform genTransform(ItemStack stack, int index)
+        {
+
+            ModelTransform transform = new();
+            Vec3f offset = new Vec3f(0, .3333f * index, 0);
+            transform.WithRotation(new Vec3f(0f, this.Block.Shape.rotateY * GameMath.DEG2RAD, 0f));
+            return transform;
+        }
+
+
+        protected override float[][] genTransformationMatrices()
+        {
+            float[][] tfMatrices = new float[3][];
+            for (int index = 0; index < 3; index++)
+            {
+                ItemStack itemstack = this.Inventory[index].Itemstack;
+                if (itemstack != null)
+                {
+                    ModelTransform transform = genTransform(itemstack, index);
+                    tfMatrices[index] = new Matrixf().Set(genTransform(itemstack, index).AsMatrix).Values;
+                }
+            }
+            return tfMatrices;
         }
     }
 }

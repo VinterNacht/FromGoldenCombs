@@ -26,7 +26,6 @@ namespace FromGoldenCombs.BlockEntities
         public BELangstrothSuper()
         {
             inv = new InventoryGeneric(10, "frameslot-0", null, null);
-            meshes = new MeshData[10];
         }
 
         public override void Initialize(ICoreAPI api)
@@ -163,73 +162,30 @@ namespace FromGoldenCombs.BlockEntities
 
         readonly Matrixf mat = new();
 
-        public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tessThreadTesselator)
-        {
-            //mat.Identity();
-            //if (block.Variant["side"] == "north" || block.Variant["side"] == "south")
-            //{
-            //    mat.RotateYDeg(block.Shape.rotateY);
-            //}
-
-            return base.OnTesselation(mesher, tessThreadTesselator);
-        }
-
-        public override void updateMeshes()
-        {
-            for (int i = 0; i < this.meshes.Length; i++)
-            {
-                this.updateMesh(i);
-            }
-
-            base.updateMeshes();
-        }
-
-        protected override void updateMesh(int index)
-        {
-            if (this.Api == null || this.Api.Side == EnumAppSide.Server)
-            {
-                return;
-            }
-            if (this.Inventory[index].Empty)
-            {
-                this.meshes[index] = null;
-                return;
-            }
-            MeshData meshData = this.genMesh(this.Inventory[index].Itemstack);
-            this.TranslateMesh(meshData, index);
-            this.meshes[index] = meshData;
-        }
-
-        public override void TranslateMesh(MeshData mesh, int index)
+        public Vec3f getTranslation(Block block,int index)
         {
             float x = 0f;
             float y = 0.069f;
             float z = 0f;
-
+            Vec3f translation = new(0f, 0f, 0f);
             if (block.Variant["side"] == "north")
             {
-                x = .7253f + .0625f * index - 1;
-                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-                mesh.Translate(offset.XYZ);
+                translation.X = .7253f + .0625f * index - 1;    
             }
             else if (block.Variant["side"] == "south")
             {
-                x = 0.2747f - .0625f * index;
+                translation.X = x = 0.2747f - .0625f * index;
                 Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-                mesh.Translate(offset.XYZ);
             }
             else if (block.Variant["side"] == "west")
             {
-                z = 0.2747f - .0625f * index;
-                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-                mesh.Translate(offset.XYZ);
+                translation.Z = 0.2747f - .0625f * index;
             }
             else if (block.Variant["side"] == "east")
             {
-                z = 0.7253f + .0625f * index - 1;
-                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-                mesh.Translate(offset.XYZ);
+                translation.Z = 0.7253f + .0625f * index - 1;
             }
+            return translation;
         }
         protected override MeshData genMesh(ItemStack stack)
         {
@@ -250,10 +206,25 @@ namespace FromGoldenCombs.BlockEntities
             transform.Rotation.X = 0;
             transform.Rotation.Y = block.Shape.rotateY;
             transform.Rotation.Z = 0;
-            meshData.ModelTransform(transform);
-
-            return meshData;
+            transform.Translation = getTranslation(stack.Block, index);
+            return transform;
         }
+        
+
+        protected override float[][] genTransformationMatrices()
+        {
+            float[][] tfMatrices = new float[9][];
+            for (int index = 0; index < 1; index++)
+            {
+                ItemStack itemstack = this.Inventory[index].Itemstack;
+                if (itemstack != null)
+                {
+                    tfMatrices[index] = new Matrixf().Set(genTransform(itemstack, index).AsMatrix).Values;
+                }
+            }
+            return tfMatrices;
+        }
+
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {
             int index = forPlayer.CurrentBlockSelection.SelectionBoxIndex;
@@ -265,7 +236,8 @@ namespace FromGoldenCombs.BlockEntities
             {
 
                 return;
-            } else if (index == 10)
+            }
+            else if (index == 10)
             {
                 sb.AppendLine();
                 for (int i = 0; i < 10; i++)
