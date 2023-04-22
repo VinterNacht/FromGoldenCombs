@@ -1,4 +1,5 @@
-
+1.18-v1.4.16-rc.2
+	- Corrected errors involving the Langstroth BroodTop Item JSON and texture.
 
 1.18-v1.3.16-rc.2
 	- Troubleshooting Handbook
