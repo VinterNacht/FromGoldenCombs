@@ -202,7 +202,7 @@ namespace FromGoldenCombs.BlockEntities
                 return harvestableFrames;
          }
 
-            private int CountLinedFrames()
+        private int CountLinedFrames()
         {
 
             BELangstrothStack topStack = GetTopStack();
@@ -649,7 +649,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             if (isActiveHive && (Pos == GetBottomStack().Pos))
             {
-                int harvestBase = FromGoldenCombsConfig.Current.langstrothHiveHoursToHarvest;
+                float harvestBase = FromGoldenCombsConfig.Current.LangstrothDaysToHarvestIn30DayMonths;
                 double worldTime = Api.World.Calendar.TotalHours;
                 ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
                 if (conds == null) return;
@@ -674,7 +674,8 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 else if (!Harvestable && worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor && CountLinedFrames() > 0)
                 {
-                    GetTopStack().UpdateFrames(((int)hivePopSize));
+                    Random rand = new();
+                    GetTopStack().UpdateFrames(rand.Next(FromGoldenCombsConfig.Current.minFramePerCycle, FromGoldenCombsConfig.Current.maxFramePerCycle));
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                     MarkDirty(true);
                     CountHarvestable();
@@ -682,10 +683,11 @@ namespace FromGoldenCombs.BlockEntities
             }
         }
 
-        private double HarvestableTime(int i)
+        private double HarvestableTime(float i)
         {
+            i = (i * Api.World.Calendar.DaysPerMonth / 30f)*Api.World.Calendar.HoursPerDay;
             Random rand = new();
-            return (i * .75) + ((i * .5) * rand.NextDouble());
+            return (i * .75) + ((i * .2) * rand.NextDouble());
         }
 
 
@@ -780,47 +782,7 @@ namespace FromGoldenCombs.BlockEntities
             MarkDirty();
         }
 
-        //private String GetHoneyVarietal(String[] flowers, int n)
-        //{
-        //    // Sort the array
-        //    Array.Sort(flowers);
-
-        //    // find the max frequency using
-        //    // linear traversal
-        //    int max_count = 1;
-        //    String flowerSort = flowers[0];
-        //    int curr_count = 1;
-
-        //    for (int i = 1; i < n; i++)
-        //    {
-        //        if (flowers[i] == flowers[i - 1])
-        //            curr_count++;
-        //        else
-        //        {
-        //            if (curr_count > max_count)
-        //            {
-        //                max_count = curr_count;
-        //                flowerSort = flowers[i - 1];
-        //            }
-        //            curr_count = 1;
-        //        }
-        //    }
-
-        //    // If last element is most frequent
-        //    if (curr_count > quantityNearbyFlowers || max_count > quantityNearbyFlowers)
-        //    {
-        //        if (curr_count >= max_count)
-        //        {
-        //            flowerSort = flowers[n - 1];
-        //        }
-        //        return flowerSort;
-        //    }
-        //    return "blended";
-        //}
-
-
 //Misc Methods
-
         public override void ToTreeAttributes(ITreeAttribute tree)
         {
             base.ToTreeAttributes(tree);
@@ -835,7 +797,7 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetInt("scanQuantityNearbyFlowers", scanQuantityNearbyFlowers);
             tree.SetInt("scanQuantityNearbyHives", scanQuantityNearbyHives);
 
-            tree.SetInt("harvestable", Harvestable ? 1 : 0);
+            tree.SetBool("harvestable", Harvestable);
             tree.SetDouble("cooldownUntilTotalHours", cooldownUntilTotalHours);
             tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
             tree.SetInt("hiveHealth", (int)hivePopSize);
@@ -938,7 +900,7 @@ namespace FromGoldenCombs.BlockEntities
                 if (itemstack != null)
                 {
                     ModelTransform transform = genTransform(itemstack, index);
-                    tfMatrices[index] = new Matrixf().Set(genTransform(itemstack, index).AsMatrix).Values;
+                    tfMatrices[index] = new Matrixf().Translate(0, 0.3333f * index, 0).Values;
                 }
             }
             return tfMatrices;

@@ -1,0 +1,70 @@
+{
+  "code": "hivetop",
+  "class": "hivetop",
+  "heldTpIdleAnimation": "holdbothhands",
+  "tpHandTransform": {
+    "translation": { "x": -0.9, "y": -0.4, "z": -0.7 },
+    "rotation": { "x": 51, "y": 13, "z": -84 },
+    "origin": { "x": 0.5, "y": 0.2, "z": 0.5 },
+    "scale": 0.59
+  },
+  "attributes": {
+    "handbook": {
+      "extraSections": [
+        {
+          "title": "fromgoldencombs:block-handbooktitle-hivetop",
+          "text": "fromgoldencombs:block-handbooktext-hivetop"
+        }
+      ]
+    }
+  },
+  "variantgroups": [
+    { "code": "type", "states": [ "empty", "harvestable", "raw" ] }
+  ],
+  "behaviorsByType": {
+    "*-raw": [
+      { "name": "GroundStorable" },
+      {
+        "name": "Unplaceable",
+        "__comment": "The ground storable obsoletes this being a block. Should be an item, but is kept a block for backwards compatibility, must be used to permit pitkilning"
+      }
+    ],
+    "*": [ { "name": "RightClickPickup" } ]
+  },
+  "shapebytype": {
+    "*-empty": { "base": "block/hive/ceramic/hivetop-empty" },
+    "*-harvestable": { "base": "block/hive/ceramic/hivetop-harvestable" },
+    "*-raw": { "base": "block/hive/ceramic/hivetop-raw" }
+  },
+  "combustiblePropsByType": {
+    "*-raw": {
+      "meltingPoint": 600,
+      "meltingDuration": 45,
+      "smeltedRatio": 1,
+      "smeltingType": "fire",
+      "smeltedStack": {
+        "type": "block",
+        "code": "fromgoldencombs:hivetop-empty"
+      },
+      "requiresContainer": false
+    }
+  },
+  "creativeinventory":{ "general": ["*-empty","*-raw"], "flora": ["*-empty","*-raw"], "decorative": ["*-empty","*-raw"] },
+  "maxstacksize": 1,
+  "blockmaterial": "Ceramic",
+  "sideopaque": { "all": false },
+  "sidesolid": { "all": false },
+  "sounds": {
+    "place": "game:block/planks"
+  },
+  "collisionboxes": [
+    { "x1": 0.3125,  "y1": 0, "z1": 0.3125,  "x2": 0.6875,  "y2": 0.0625, "z2": 0.6875 },
+    { "x1": 0.25,  "y1": 0.0625, "z1": 0.25,  "x2": 0.75,  "y2": 0.3125, "z2": 0.75 },
+    { "x1": 0.3125,  "y1": 0.3125, "z1": 0.3125,  "x2": 0.6875,  "y2": 0.375, "z2": 0.6875 }
+    ],
+    "selectionboxes": [
+    { "x1": 0.3125,  "y1": 0, "z1": 0.3125,  "x2": 0.6875,  "y2": 0.0625, "z2": 0.6875 },
+    { "x1": 0.25,  "y1": 0.0625, "z1": 0.25,  "x2": 0.75,  "y2": 0.3125, "z2": 0.75 },
+    { "x1": 0.3125,  "y1": 0.3125, "z1": 0.3125,  "x2": 0.6875,  "y2": 0.375, "z2": 0.6875 }
+  ]
+}

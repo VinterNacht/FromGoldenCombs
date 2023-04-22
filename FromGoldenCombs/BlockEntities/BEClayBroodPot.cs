@@ -99,7 +99,7 @@ namespace FromGoldenCombs.BlockEntities
 
         private void TestHarvestable(float dt)
         {
-            int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
+            float harvestBase = (FromGoldenCombsConfig.Current.ClayPotDaysToHarvestIn30DayMonths) * Api.World.Calendar.DaysPerMonth / 30f;
             double worldTime = Api.World.Calendar.TotalHours;
             Block hive = Api.World.BlockAccessor.GetBlock(Pos, 0);
             ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
@@ -128,8 +128,9 @@ namespace FromGoldenCombs.BlockEntities
             }
         }
 
-        private double HarvestableTime(int i)
+        private double HarvestableTime(float i)
         {
+            i = (i * Api.World.Calendar.DaysPerMonth / 30f) * Api.World.Calendar.HoursPerDay;
             Random rand = new();
             return (i * .75) + ((i * .5) * rand.NextDouble());
         }

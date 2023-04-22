@@ -1,3 +1,35 @@
+
+
+1.18-v1.3.16-rc.2
+	- Troubleshooting Handbook
+
+
+1.18-v1.3.16-rc.1
+Added the following config values
+	-   "SkepDaysToHarvestIn30DayMonths": 7.0,
+	-	"ClayPotDaysToHarvestIn30DayMonths": 7.0,
+	-	"LangstrothDaysToHarvestIn30DayMonths": 3.5,
+	-	"MaxStackSize": 6,
+	-	"baseframedurability": 32,
+	-	"minFramePerCycle": 2,
+	-	"maxFramePerCycle": 4,
+	-	"showcombpoptime": true,
+	-	"ClayPotMinYield": 2,
+	-	"ClayPotMaxYield": 4,
+	-	"FrameMinYield": 2,
+	-	"FrameMaxYield": 5,
+	-	"SkepMinYield": 1,
+	-	"SkepMaxYield": 3
+- Changed check for "knife" to EnumTool.Knife for better compatibility
+
+1.18-v1.3.15-rc.1
+	- Corrected translation issue with BECeramicBroodPot so the honeycomb is now visible.
+	- Corrected error with wax.
+	- Handbook issues in progress.
+
+1.18-v.14
+	- Haphazardly updated to 1.18... Sent to Patrons for Real Destruction (TM)
+
 1.17-v1.3.15
 	- Fixed issue with empty hand interaction with the frame rack
 1.17-v1.3.7-rc.1

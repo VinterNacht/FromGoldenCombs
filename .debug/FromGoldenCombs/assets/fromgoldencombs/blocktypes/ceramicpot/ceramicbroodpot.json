@@ -1,0 +1,204 @@
+{
+	"code": "ceramicbroodpot",
+	"class": "ceramicbroodpot",
+	"entityClass": "beceramichive",
+	"storageFlags": 2,
+	"maxstacksize": 1,
+	"attributes": {
+    "handbook": {
+      "extraSections": [
+        {
+          "title": "fromgoldencombs:block-handbooktitle-ceramicbroodpot",
+          "text": "fromgoldencombs:block-handbooktext-ceramicbroodpot"
+        }
+      ]
+    }
+  },
+	"heldTpIdleAnimation": "holdbothhands",
+	"variantgroups": [{
+		"code": "top",
+		"states": ["withtop", "notop"]
+	}],
+	"behaviorsByType": {
+		"*-notop": [{
+			"name": "RightClickPickup"
+		}]
+	},
+	"creativeinventory": {
+		"general": ["*-notop"],
+		"flora": ["*-notop"],
+		"decorative": ["*-notop"]
+	},
+	"shapeByType": {
+		"*-notop": {
+			"base": "block/hive/ceramic/ceramicbroodpot-notop"
+		},
+		"*-withtop": {
+			"base": "block/hive/ceramic/ceramicbroodpot-withtop"
+		}
+	},
+	"collisionboxesByType": {
+		"*-notop": [{
+				"x1": 0.25,
+				"y1": 0,
+				"z1": 0.25,
+				"x2": 0.75,
+				"y2": 0.0625,
+				"z2": 0.75
+			},
+			{
+				"x1": 0.3125,
+				"y1": 0.625,
+				"z1": 0.3125,
+				"x2": 0.6875,
+				"y2": 0.6875,
+				"z2": 0.6875
+			},
+			{
+				"x1": 0.3125,
+				"y1": 0.625,
+				"z1": 0.3125,
+				"x2": 0.6875,
+				"y2": 0.6875,
+				"z2": 0.6875
+			},
+			{
+				"x1": 0.25,
+				"y1": 0.5625,
+				"z1": 0.25,
+				"x2": 0.75,
+				"y2": 0.625,
+				"z2": 0.75
+			}
+		],
+		"*-withtop": [{
+				"x1": 0.25,
+				"y1": 0,
+				"z1": 0.25,
+				"x2": 0.75,
+				"y2": 0.0625,
+				"z2": 0.75
+			},
+			{
+				"x1": 0.3125,
+				"y1": 0.625,
+				"z1": 0.3125,
+				"x2": 0.6875,
+				"y2": 0.6875,
+				"z2": 0.6875
+			},
+			{
+				"x1": 0.25,
+				"y1": 0.6875,
+				"z1": 0.25,
+				"x2": 0.75,
+				"y2": 0.875,
+				"z2": 0.75
+			},
+			{
+				"x1": 0.3125,
+				"y1": 0.625,
+				"z1": 0.3125,
+				"x2": 0.6875,
+				"y2": 0.6875,
+				"z2": 0.6875
+			},
+			{
+				"x1": 0.25,
+				"y1": 0.5625,
+				"z1": 0.25,
+				"x2": 0.75,
+				"y2": 0.625,
+				"z2": 0.75
+			},
+			{
+				"x1": 0.125,
+				"y1": 0.125,
+				"z1": 0.125,
+				"x2": 0.875,
+				"y2": 0.4375,
+				"z2": 0.875
+			},
+			{
+				"x1": 0.1875,
+				"y1": 0.4375,
+				"z1": 0.1875,
+				"x2": 0.8125,
+				"y2": 0.5625,
+				"z2": 0.8125
+			},
+			{
+				"x1": 0.1875,
+				"y1": 0.0625,
+				"z1": 0.1875,
+				"x2": 0.8125,
+				"y2": 0.125,
+				"z2": 0.8125
+			},
+			{
+				"x1": 0.25,
+				"y1": 0,
+				"z1": 0.25,
+				"x2": 0.75,
+				"y2": 0.0625,
+				"z2": 0.75
+			}
+		]
+	},
+	"selectionboxesByType": {
+		"*-notop": [{
+			"x1": 0.187,
+			"y1": 0.063,
+			"z1": 0.189,
+			"x2": 0.812,
+			"y2": 0.559,
+			"z2": 0.8115
+		}],
+		"*-withtop": [{
+				"x1": 0.3125,
+				"y1": 0.6187,
+				"z1": 0.3125,
+				"x2": 0.6875,
+				"y2": 0.9375,
+				"z2": 0.6812
+			},
+			{
+				"x1": 0.187,
+				"y1": 0.063,
+				"z1": 0.189,
+				"x2": 0.812,
+				"y2": 0.559,
+				"z2": 0.8115
+			}
+		]
+	},
+	"lightAbsorption": 0,
+	"sideopaque": {
+		"all": false
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"blockmaterial": "Ceramic",
+	"groundTransform": {
+		"scale": 2.01
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.9,
+			"y": -0.4,
+			"z": -0.7
+		},
+		"rotation": {
+			"x": 51,
+			"y": 13,
+			"z": -84
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.2,
+			"z": 0.5
+		},
+		"scale": 0.59
+	}
+}

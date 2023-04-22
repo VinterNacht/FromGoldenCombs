@@ -1,10 +1,8 @@
 {
   "profiles": {
-    "VinterMods.Mods.FromGoldenCombs": {
-      "commandName": "Executable",
-      "executablePath": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1170pre5\\Vintagestory.exe",
-      "commandLineArgs": "--addModPath=\"C:\\Users\\Owner\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\bin\\Debug\"  --addOrigin=\"C:\\Users\\Owner\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\assets\"",
-      "workingDirectory": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1170pre5\\",
+    "FromGoldenCombs": {
+      "commandName": "Project",
+      "commandLineArgs": "--addModPath=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\bin\\Debug\"  --addOrigin=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\assets\"",
       "sqlDebugging": false
     }
   }

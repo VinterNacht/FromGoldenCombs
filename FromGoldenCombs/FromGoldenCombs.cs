@@ -70,18 +70,14 @@ namespace FromGoldenCombs
             }
             finally
             {
-                if (FromGoldenCombsConfig.Current.hiveHoursToHarvest <= 0)
-                    FromGoldenCombsConfig.Current.hiveHoursToHarvest = 1488;
-                if (FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest <= 0)
-                    FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest = 1488;
+                if (FromGoldenCombsConfig.Current.SkepDaysToHarvestIn30DayMonths <= 0)
+                    FromGoldenCombsConfig.Current.SkepDaysToHarvestIn30DayMonths = 7;
+                if (FromGoldenCombsConfig.Current.ClayPotDaysToHarvestIn30DayMonths <= 0)
+                    FromGoldenCombsConfig.Current.ClayPotDaysToHarvestIn30DayMonths = 7;
+                if (FromGoldenCombsConfig.Current.LangstrothDaysToHarvestIn30DayMonths <= 0)
+                    FromGoldenCombsConfig.Current.LangstrothDaysToHarvestIn30DayMonths = 1.2f;
                 api.StoreModConfig(FromGoldenCombsConfig.Current, "fromgoldencombs.json");
             }
         }
-
-            //TODO: Project List
-            //Add Clay Honeypot For Pre-Bucket/Barrel storage
-            //Add Wax Blocks For placeable, stackable storage of wax
-            //Give Raccons the ability to knock the top off a hive, and then eat it.
-            //Give hivetops growth mechanics for volume.
-        }
+    }
 }
