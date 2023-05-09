@@ -1,3 +1,6 @@
+1.18-v1.4.17
+	- Corrected issue with hives not rendering properly.
+	- Fixed text misalignment on open supers
 1.18-v1.4.16-rc.2
 	- Corrected errors involving the Langstroth BroodTop Item JSON and texture.
 

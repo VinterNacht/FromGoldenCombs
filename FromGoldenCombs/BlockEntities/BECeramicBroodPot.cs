@@ -361,12 +361,6 @@ namespace FromGoldenCombs.BlockEntities
 
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
         {
-            if (Api.World.EntityDebugMode && forPlayer.WorldData.CurrentGameMode == EnumGameMode.Creative)
-            {
-                dsc.AppendLine(
-                    Lang.Get("Nearby flowers: {0}, Nearby Hives: {1}, Empty Hives: {2}, Pop after hours: {3}. harvest in {4}, repop cooldown: {5}",quantityNearbyFlowers, quantityNearbyHives, (harvestableAtTotalHours - Api.World.Calendar.TotalHours).ToString("#.##"), (cooldownUntilTotalHours - Api.World.Calendar.TotalHours).ToString("#.##"))
-                    + "\n" + Lang.Get("Population Size: " + hivePopSize));
-            }
             if (isActiveHive)
             {
                 double worldTime = Api.World.Calendar.TotalHours;
@@ -375,18 +369,25 @@ namespace FromGoldenCombs.BlockEntities
                 string hiveState = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", quantityNearbyFlowers, hivePopSize);
          
                 dsc.AppendLine(hiveState);
-                if ((harvestableAtTotalHours - worldTime / 24 > 0) && this.Block.Variant["top"] == "withtop")
+                if(Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + (roomness > 0 ? 5 : 0) <= 15)
+                {
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:toocold"));
+                }
+                else if ((harvestableAtTotalHours - worldTime / 24 > 0) && this.Block.Variant["top"] == "withtop")
                 {
                     string combPopTime;
                     if (FromGoldenCombsConfig.Current.showcombpoptime) {
-                        combPopTime = "Your bees will produce comb in " + (daysTillHarvest < 1 ? "less than one day" : daysTillHarvest + " days");
-                        dsc.AppendLine(combPopTime);
+                        dsc.AppendLine(Lang.Get("fromgoldencombs:timetillpop", daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : (daysTillHarvest + " days")));
                     } 
                 }
-                else if (isActiveHive && (this.Block.Variant["top"] == "notop" || inv[0]?.Itemstack?.Collectible.Variant["type"]=="harvestable"))
+                else if (isActiveHive && (this.Block.Variant["top"] == "notop"))
                 {
-                    dsc.AppendLine("Hive lacks a usable honey pot, will not produce comb.");
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:nopot"));
+                   
                 }
+                else if (inv[0]?.Itemstack?.Collectible.Variant["type"] == "harvestable"){
+                    
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:fulltop")); }
                 else if (quantityNearbyFlowers>0)
                 {
                     dsc.AppendLine("The bees are out gathering.");

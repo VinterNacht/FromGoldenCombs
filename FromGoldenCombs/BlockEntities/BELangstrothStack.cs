@@ -119,9 +119,10 @@ namespace FromGoldenCombs.BlockEntities
                     GetBottomStack().ResetHive();
                     MarkDirty(true);
                 }
-
+                MarkDirty(true);
                 return true; //This prevents TryPlaceBlock from passing if TryPut fails.
             }
+            MarkDirty(true);
             return false;
         }
 
@@ -248,7 +249,7 @@ namespace FromGoldenCombs.BlockEntities
             UpdateStackSize();
             updateMeshes();
             CountHarvestable();
-            MarkDirty(true);
+            //MarkDirty(true);
             return true;
 
         }
@@ -283,6 +284,7 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 inv[index].Itemstack = slot.TakeOutWhole();
                 updateMeshes();
+                //MarkDirty(true);
                 return true;
             }
             else if (IsLangstrothAt(Pos.UpCopy())) //Otherwise, check to see if the next block up is a Super or SuperStack
@@ -297,7 +299,6 @@ namespace FromGoldenCombs.BlockEntities
                     Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(this.Block))).BlockId, Pos.UpCopy());
                     BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy());
                     lStack.InitializePut(langstrothBlock, slot);
-                    MarkDirty(true);
                 }
             }
             else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0).BlockMaterial == EnumBlockMaterial.Air)
@@ -364,7 +365,7 @@ namespace FromGoldenCombs.BlockEntities
                     isSuccess = true; //isSuccess only equals true ONLY if the above if passes. All other cases its false.
                     //AssetLocation sound = stack.Block?.Sounds?.Place;
                     //Api.World.PlaySoundAt(sound ?? new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
-                    MarkDirty(true);
+                    //MarkDirty(true);
                 }
             }
             UpdateStackSize();
@@ -411,6 +412,7 @@ namespace FromGoldenCombs.BlockEntities
             //Receive a super from another source for placement.
             //Intended to function as a way for other stacks to send blocks to this stack.
             TryPut(slot);
+            //MarkDirty(true);
         }
 
         public bool RetrieveSuper(IPlayer byPlayer)
@@ -677,7 +679,6 @@ namespace FromGoldenCombs.BlockEntities
                     Random rand = new();
                     GetTopStack().UpdateFrames(rand.Next(FromGoldenCombsConfig.Current.minFramePerCycle, FromGoldenCombsConfig.Current.maxFramePerCycle));
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
-                    MarkDirty(true);
                     CountHarvestable();
                 }
             }
@@ -828,7 +829,7 @@ namespace FromGoldenCombs.BlockEntities
 
             if (Harvestable != wasHarvestable && Api != null)
             {
-                MarkDirty(true);
+                //MarkDirty(true);
             }
         }
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
@@ -899,11 +900,23 @@ namespace FromGoldenCombs.BlockEntities
                 ItemStack itemstack = this.Inventory[index].Itemstack;
                 if (itemstack != null)
                 {
-                    ModelTransform transform = genTransform(itemstack, index);
-                    tfMatrices[index] = new Matrixf().Translate(0, 0.3333f * index, 0).Values;
+                    float x = 0;
+                    float z = 0;
+                    switch (this.Block.LastCodePart())
+                    {
+                        case "south": x = 1; break;
+                        case "north": z = 1; break;
+                        case "east": z = 0; break;
+                        case "west": z = 1; x = 1; break;
+                    }
+                    
+                                        ModelTransform transform = genTransform(itemstack, index);
+                    tfMatrices[index] = new Matrixf().Translate(x, 0.3333f * index, z).Rotate(transform.Rotation).Values;
                 }
             }
             return tfMatrices;
         }
+
+        
     }
 }

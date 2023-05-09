@@ -290,7 +290,8 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (index == 10)
             {
-                sb.AppendLine();
+                
+                sb.AppendLine("");
                 for (int i = 0; i < 10; i++)
                 {
                     ItemSlot slot = inv[i];
@@ -300,6 +301,7 @@ namespace FromGoldenCombs.BlockEntities
                     }
                     else
                     {
+                        
                         sb.AppendLine(slot.Itemstack.GetName());
                     }
                 }
@@ -307,6 +309,7 @@ namespace FromGoldenCombs.BlockEntities
             else if (index < 10)
             {
                 ItemSlot slot = inv[index];
+                sb.AppendLine("");
                 if (slot.Empty)
                 {
                     sb.AppendLine(Lang.Get("Empty"));
