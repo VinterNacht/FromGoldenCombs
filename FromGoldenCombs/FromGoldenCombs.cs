@@ -5,6 +5,7 @@ using FromGoldenCombs.config;
 using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.Items;
 using VFromGoldenCombs.Blocks.Langstroth;
+using Vintagestory.API.Config;
 
 namespace FromGoldenCombs
 {
@@ -36,7 +37,6 @@ namespace FromGoldenCombs
 
             //Blocks
             api.RegisterBlockClass("ceramicbroodpot", typeof(CeramicBroodPot));
-            api.RegisterBlockClass("claypothive", typeof(ClayBroodPot));
             api.RegisterBlockClass("hivetop", typeof(ClayHiveTop));
             api.RegisterBlockClass("rawceramichive", typeof(RawBroodPot));
             api.RegisterBlockClass("langstrothsuper", typeof(LangstrothSuper));
@@ -54,19 +54,19 @@ namespace FromGoldenCombs
                 var Config = api.LoadModConfig<FromGoldenCombsConfig>("fromgoldencombs.json");
                 if (Config != null)
                 {
-                    api.Logger.Notification("Mod Config successfully loaded.");
+                    api.Logger.Notification(Lang.Get("modconfigload"));
                     FromGoldenCombsConfig.Current = Config;
                 }
                 else
                 {
-                    api.Logger.Notification("No Mod Config specified. Falling back to default settings");
+                    api.Logger.Notification(Lang.Get("nomodconfig"));
                     FromGoldenCombsConfig.Current = FromGoldenCombsConfig.GetDefault();
                 }
             }
             catch
             {
                 FromGoldenCombsConfig.Current = FromGoldenCombsConfig.GetDefault();
-                api.Logger.Error("Failed to load custom mod configuration. Falling back to default settings!");
+                api.Logger.Error(Lang.Get("defaultloaded"));
             }
             finally
             {

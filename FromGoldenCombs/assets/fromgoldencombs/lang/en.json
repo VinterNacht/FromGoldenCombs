@@ -1,11 +1,26 @@
 {
   "my-test-string": "From Golden Combs Initialized.",
+  //Appibuzian
   "hivewrongseason": "Hive will not swarm until Spring.",
   "notop": "Hive lacks a usable honey pot, will not produce comb.",
   "fullpot": "Honey pot is full, harvest it so bees can produce more comb",
   "toocold": "Weather is too cold for the bees to fly.",
   "timetillpop": "Your bees will produce comb in {0}.",
   "lessthanday": "less than a day.",
+  "busyhive": "The hive buzzes busily.",
+  "harvestableframes": "Harvestable Frames:",
+  "nearbyflowers": "Nearby Flowers: {0}\nPopulation Size: {1}",
+  "newframepop": "Your bees will fill new frames in ",
+  "days": "days.",
+  "outgathering": "The bees are out gathering",
+  "nofillableframes": "Hive lacks fillable frames.",
+  "findflowers": "The bees are out scouting for flowers.",
+  "nomodconfig": "No Mod Config specified. Falling back to default settings",
+  "modconfigload": "Mod Config successfully loaded.",
+  "defaultloaded": "Failed to load custom mod configuration. Falling back to default settings!",
+  "placeremovepot": "Place or Remove honey pot",
+  "emptybagslot": "Pick up in an empty backpack slot",
+
   //Blocks
   "block-claypothive": "Claypot Hive",
   "fromgoldencombs:handbooktitle-claypothive": "Used for:",

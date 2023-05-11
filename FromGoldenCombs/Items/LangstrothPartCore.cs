@@ -9,6 +9,12 @@ namespace FromGoldenCombs.Items
 {
     class LangstrothPartCore : Item
     {
+
+        /// <summary>Called by the inventory system when you hover over an item stack. This is the item stack name that is getting displayed.</summary>
+        /// <param name="itemStack"></param>
+        /// <returns>
+        ///   Computed string showing the materials the item is made from.
+        /// </returns>
         public override string GetHeldItemName(ItemStack itemStack)
         {
             

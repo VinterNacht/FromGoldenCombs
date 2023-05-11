@@ -15,16 +15,16 @@ namespace FromGoldenCombs.Blocks.Langstroth
         }
         public override void OnNeighbourBlockChange(IWorldAccessor world, BlockPos pos, BlockPos neibpos)
         {
-            if(world.BlockAccessor.GetBlock(pos.DownCopy(), 0).BlockMaterial == EnumBlockMaterial.Air)
+            if (world.BlockAccessor.GetBlock(pos.DownCopy(), 0).BlockMaterial == EnumBlockMaterial.Air)
             {
                 this.OnBlockBroken(world, pos, null);
                 if (world.BlockAccessor.GetBlock(pos.UpCopy(), 0) is LangstrothCore)
                 {
-                    world.BlockAccessor.GetBlock(pos.UpCopy(), 0).OnNeighbourBlockChange(world,pos.UpCopy(),neibpos);
+                    world.BlockAccessor.GetBlock(pos.UpCopy(), 0).OnNeighbourBlockChange(world, pos.UpCopy(), neibpos);
                 }
 
             }
-            base.OnNeighbourBlockChange(world, pos, neibpos); 
+            base.OnNeighbourBlockChange(world, pos, neibpos);
         }
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)

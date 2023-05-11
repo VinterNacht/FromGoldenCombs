@@ -844,13 +844,13 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (Pos == bottomStack.Pos)
             {
-                if (bottomStack.harvestableFrames != 0) { sb.AppendLine("Harvestable Frames: " + bottomStack.harvestableFrames); }
-                sb.AppendLine(bottomStack.isActiveHive ? "The hive buzzes busily." : "");
+                if (bottomStack.harvestableFrames != 0) { sb.AppendLine(Lang.Get("harvestableframes:") + bottomStack.harvestableFrames); }
+                sb.AppendLine(bottomStack.isActiveHive ? Lang.Get("populatedhive"): "");
 
                 double worldTime = Api.World.Calendar.TotalHours;
                 int daysTillHarvest = (int)Math.Round((bottomStack.harvestableAtTotalHours - worldTime) / 24);
                 daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
-                string hiveState = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", bottomStack.quantityNearbyFlowers, bottomStack.hivePopSize);
+                string hiveState = Lang.Get("nearbyflowers", bottomStack.quantityNearbyFlowers, bottomStack.hivePopSize);
                 if (bottomStack.isActiveHive)
                 {
                     sb.AppendLine(hiveState);
@@ -859,21 +859,21 @@ namespace FromGoldenCombs.BlockEntities
                         string combPopTime;
                         if (FromGoldenCombsConfig.Current.showcombpoptime)
                         {
-                            combPopTime = "Your bees will produce comb in " + (daysTillHarvest < 1 ? "less than one day" : daysTillHarvest + " days");
+                            combPopTime = Lang.Get("newframepop") + (daysTillHarvest < 1 ? Lang.Get("lessthanday") : daysTillHarvest + Lang.Get("days"));
                         }
                         else
                         {
-                            combPopTime = "The bees are out gathering";
+                            combPopTime = Lang.Get("outgathering");
                         }
                         sb.AppendLine(combPopTime);
                     }
                     else if (daysTillHarvest == 0 && CountLinedFrames() == 0)
                     {
-                        sb.AppendLine("Hive lacks fillable frames.");
+                        sb.AppendLine(Lang.Get("nofillableframes"));
                     }
                     else
                     {
-                        sb.AppendLine("The bees are out scouting for flowers.");
+                        sb.AppendLine(Lang.Get("findflowers"));
                     }
                 }
             } else
@@ -882,14 +882,14 @@ namespace FromGoldenCombs.BlockEntities
             }
         }
 
-        protected ModelTransform genTransform(ItemStack stack, int index)
-        {
+        //protected ModelTransform genTransform(ItemStack stack, int index)
+        //{
 
-            ModelTransform transform = new();
-            Vec3f offset = new Vec3f(0, .3333f * index, 0);
-            transform.WithRotation(new Vec3f(0f, this.Block.Shape.rotateY * GameMath.DEG2RAD, 0f));
-            return transform;
-        }
+        //    ModelTransform transform = new();
+        //    Vec3f offset = new Vec3f(0, .3333f * index, 0);
+        //    //transform.WithRotation(new Vec3f(0f, this.Block.Shape.rotateY * GameMath.DEG2RAD, 0f));
+        //    return transform;
+        //}
 
 
         protected override float[][] genTransformationMatrices()
@@ -899,19 +899,8 @@ namespace FromGoldenCombs.BlockEntities
             {
                 ItemStack itemstack = this.Inventory[index].Itemstack;
                 if (itemstack != null)
-                {
-                    float x = 0;
-                    float z = 0;
-                    switch (this.Block.LastCodePart())
-                    {
-                        case "south": x = 1; break;
-                        case "north": z = 1; break;
-                        case "east": z = 0; break;
-                        case "west": z = 1; x = 1; break;
-                    }
-                    
-                                        ModelTransform transform = genTransform(itemstack, index);
-                    tfMatrices[index] = new Matrixf().Translate(x, 0.3333f * index, z).Rotate(transform.Rotation).Values;
+                {                    
+                    tfMatrices[index] = new Matrixf().Translate(0, 0.3333f * index, 0).Values;
                 }
             }
             return tfMatrices;

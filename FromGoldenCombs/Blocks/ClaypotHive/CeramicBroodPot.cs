@@ -7,6 +7,7 @@ using Vintagestory.GameContent;
 using Vintagestory.API.Util;
 using System.Collections.Generic;
 using Vintagestory.API.Datastructures;
+using Vintagestory.API.Config;
 
 namespace FromGoldenCombs.Blocks
 {
@@ -14,19 +15,26 @@ namespace FromGoldenCombs.Blocks
     class CeramicBroodPot : BlockContainer
     {
 
-        public object ActionLangCode { get; private set; }
+        //public object ActionLangCode { get; private set; }
 
-        public override ItemStack OnPickBlock(IWorldAccessor world, BlockPos pos)
-        {
-            ItemStack stack = base.OnPickBlock(world, pos);
-            if (world.BlockAccessor.GetBlockEntity(pos) is BECeramicBroodPot)
-            {
-                BECeramicBroodPot bec = world.BlockAccessor.GetBlockEntity(pos) as BECeramicBroodPot;
-                stack.Attributes.SetBool("populated", bec.isActiveHive);
-            };
-            return stack;
-        }
+        //public override ItemStack OnPickBlock(IWorldAccessor world, BlockPos pos)
+        //{
+        //    ItemStack stack = base.OnPickBlock(world, pos);
+        //    if (world.BlockAccessor.GetBlockEntity(pos) is BECeramicBroodPot)
+        //    {
+        //        BECeramicBroodPot bec = world.BlockAccessor.GetBlockEntity(pos) as BECeramicBroodPot;
+        //        stack.Attributes.SetBool("populated", bec.isActiveHive);
+        //    };
+        //    return stack;
+        //}
 
+        /// <summary>
+        /// When a player does a right click while targeting this placed block. Should return true if the event is handled, so that other events can occur, e.g. eating a held item if the block is not interactable with.
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="byPlayer"></param>
+        /// <param name="blockSel"></param>
+        /// <returns>False if the interaction should be stopped. True if the interaction should continue. If you return false, the interaction will not be synced to the server.</returns>
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {                      
             BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);         
@@ -34,6 +42,10 @@ namespace FromGoldenCombs.Blocks
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
         }
 
+        /// <summary>Called when a block is initially placed.</summary>
+        /// <param name="world">The world.</param>
+        /// <param name="blockPos">The block position.</param>
+        /// <param name="stack">The stack.</param>
         public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack stack)
         {
             if (stack != null)
@@ -46,6 +58,11 @@ namespace FromGoldenCombs.Blocks
             }
         }
 
+        /// <summary>Called when a block is broken, and rolls chance of producing a beemob if populated.</summary>
+        /// <param name="world">The world.</param>
+        /// <param name="pos">The position.</param>
+        /// <param name="byPlayer">The by player.</param>
+        /// <param name="dropQuantityMultiplier">The drop quantity multiplier.</param>
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)
         {
             BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(pos);
@@ -67,9 +84,8 @@ namespace FromGoldenCombs.Blocks
                     world.SpawnEntity(entity);
                 }
             }
-            base.OnBlockBroken(world, pos, byPlayer, dropQuantityMultiplier);
+            base.OnBlockBroken(world, pos, byPlayer);
         }
-
 
         public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
         {
@@ -112,7 +128,7 @@ namespace FromGoldenCombs.Blocks
                         return new WorldInteraction[]
                         {
                           new WorldInteraction(){
-                                ActionLangCode = "Place or Remove honey pot",
+                                ActionLangCode = Lang.Get("placeremovepot"),
                                 MouseButton = EnumMouseButton.Right,
                                 Itemstacks = topList.ToArray()
                        }
@@ -127,7 +143,7 @@ namespace FromGoldenCombs.Blocks
                                 return new WorldInteraction[]
                                 {
                             new WorldInteraction(){
-                                ActionLangCode = "Pick up in empty bag slot",
+                                ActionLangCode = Lang.Get("emptybagslot"),
                                 MouseButton = EnumMouseButton.Right,
                                 Itemstacks = null
                             }
@@ -146,14 +162,15 @@ namespace FromGoldenCombs.Blocks
             return wi;
         }
 
-        public override BlockDropItemStack[] GetDropsForHandbook(ItemStack handbookStack, IPlayer forPlayer)
-        {
-            return GetHandbookDropsFromBreakDrops(handbookStack, forPlayer);
-        }
+        //TODO: Do these need to stay? Or was removing them a good choice
+        //public override BlockDropItemStack[] GetDropsForHandbook(ItemStack handbookStack, IPlayer forPlayer)
+        //{
+        //    return GetHandbookDropsFromBreakDrops(handbookStack, forPlayer);
+        //}
 
-        public override ItemStack[] GetDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)
-        {
-            return null;
-        }
+        //public override ItemStack[] GetDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)
+        //{
+        //    return null;
+        //}
     }
 }

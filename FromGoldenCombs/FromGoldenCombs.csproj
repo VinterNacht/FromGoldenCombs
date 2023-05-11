@@ -31,9 +31,6 @@
     <Compile Update="Blocks\ClaypotHive\RawBroodPot .cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="Blocks\WaxBlock.cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Compile>
     <Compile Update="FromGoldenCombs.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
