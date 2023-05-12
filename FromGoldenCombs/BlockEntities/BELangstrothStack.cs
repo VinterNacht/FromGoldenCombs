@@ -42,7 +42,7 @@ namespace FromGoldenCombs.BlockEntities
         public override string InventoryClassName => "langstrothstack";
         private bool isActiveHive = false;
 
-        
+
 
         public BELangstrothStack()
         {
@@ -76,8 +76,8 @@ namespace FromGoldenCombs.BlockEntities
             if (api.Side == EnumAppSide.Client)
             {
                 ICoreClientAPI capi = api as ICoreClientAPI;
-                Block ownBlock = block;
-                Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/hive/langstroth/langstrothstack.json")).ToObject<Shape>();
+                //Block ownBlock = block;
+                //Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/hive/langstroth/langstrothstack.json")).ToObject<Shape>();
 
                 if (api.Side == EnumAppSide.Client)
                 {
@@ -99,7 +99,7 @@ namespace FromGoldenCombs.BlockEntities
                                        //if there are multiple stacks on top of each other.
                                        //Or from the topmost occupied slot of this stack.
                 {
-                    
+
                     if (Api.World.BlockAccessor.GetBlock(Pos, 0) is LangstrothStack)
                     {
                         GetBottomStack().isActiveHive = GetBottomStack().IsValidHive();
@@ -121,6 +121,13 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 MarkDirty(true);
                 return true; //This prevents TryPlaceBlock from passing if TryPut fails.
+            }
+            if (slot.Itemstack?.Block is BlockSkep skep && skep.Variant["type"] == "populated")
+            {
+                //UpdateBroodBox(slot);
+                //UpdateStackSize();
+                //MarkDirty(true);
+                //return true;
             }
             MarkDirty(true);
             return false;
@@ -149,7 +156,7 @@ namespace FromGoldenCombs.BlockEntities
                             {
                                 if (stack.Collectible.Variant["harvestable"] == "lined")
                                 {
-                                    int durability = stack.Attributes.GetInt("durability")==0?FromGoldenCombsConfig.Current.baseframedurability:stack.Attributes.GetInt("durability");
+                                    int durability = stack.Attributes.GetInt("durability") == 0 ? FromGoldenCombsConfig.Current.baseframedurability : stack.Attributes.GetInt("durability");
                                     stack = new ItemStack(Api.World.GetItem(stack.Collectible.CodeWithVariant("harvestable", "harvestable")), 1);
                                     stack.Attributes.SetInt("durability", durability);
                                     fillframes--;
@@ -171,37 +178,37 @@ namespace FromGoldenCombs.BlockEntities
             BELangstrothStack topStack = GetTopStack();
             BELangstrothStack bottomStack = GetBottomStack();
             BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos);
-                bottomStack.harvestableFrames = 0;
+            bottomStack.harvestableFrames = 0;
 
-                while (curBE is BELangstrothStack)
+            while (curBE is BELangstrothStack)
+            {
+                for (int index = 2; index >= 0; index--)
                 {
-                    for (int index = 2; index >= 0; index--)
+
+                    if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Block is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
                     {
+                        ITreeAttribute contents = curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents");
+                        int contentsSize = contents.Count;
 
-                        if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Block is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
+                        for (int j = 0; j <= contentsSize; j++)
                         {
-                            ITreeAttribute contents = curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents");
-                            int contentsSize = contents.Count;
-
-                            for (int j = 0; j <= contentsSize; j++)
+                            ItemStack stack = contents.GetItemstack((j - 1).ToString());
+                            if (stack?.Collectible.FirstCodePart() == "beeframe")
                             {
-                                ItemStack stack = contents.GetItemstack((j - 1).ToString());
-                                if (stack?.Collectible.FirstCodePart() == "beeframe")
+                                if (stack.Collectible.Variant["harvestable"] == "harvestable")
                                 {
-                                    if (stack.Collectible.Variant["harvestable"] == "harvestable")
-                                    {
-                                        bottomStack.harvestableFrames++;
-                                    }
-
+                                    bottomStack.harvestableFrames++;
                                 }
-                                curBE.inv[index].MarkDirty();
+
                             }
+                            curBE.inv[index].MarkDirty();
                         }
                     }
-                    curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
                 }
-                return harvestableFrames;
-         }
+                curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
+            }
+            return harvestableFrames;
+        }
 
         private int CountLinedFrames()
         {
@@ -245,11 +252,11 @@ namespace FromGoldenCombs.BlockEntities
         public bool InitializePut(ItemStack first, ItemSlot slot)
         {
             inv[0].Itemstack = first;
-            inv[1].Itemstack = slot.TakeOutWhole();
-            UpdateStackSize();
+            MarkDirty(true);
             updateMeshes();
+            this.TryPut(slot);
+            UpdateStackSize();
             CountHarvestable();
-            //MarkDirty(true);
             return true;
 
         }
@@ -258,6 +265,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             int index = 0;
 
+            
             while (index < inv.Count - 1 && !inv[index].Empty) //Cycle through indices until reach an empty index, or the top index
             {
                 index++;
@@ -291,22 +299,24 @@ namespace FromGoldenCombs.BlockEntities
             {
                 if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0) is LangstrothStack) //If It's a SuperStack, Send To Next Stack
                 {
-                    (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).ReceiveSuper(slot);
+                    (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).TryPut(slot);
+
                 }
                 else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0) is LangstrothCore) //If It's a LangstrothCore, create a new LangstrothStack
                 {
                     ItemStack langstrothBlock = this.Block.OnPickBlock(Api.World, Pos.UpCopy());
                     Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(this.Block))).BlockId, Pos.UpCopy());
                     BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy());
-                    lStack.InitializePut(langstrothBlock, slot);
+                    //lStack.InitializePut(langstrothBlock, slot);
                 }
             }
             else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0).BlockMaterial == EnumBlockMaterial.Air)
             {
-                Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(this.Block))).BlockId, Pos.UpCopy());
+                Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + this.Block.Variant["side"])).BlockId, Pos.UpCopy());
                 TryPut(slot);
             }
-            UpdateStackSize();
+            updateMeshes();
+            MarkDirty();
             return true;
         }
 
@@ -328,11 +338,8 @@ namespace FromGoldenCombs.BlockEntities
             bool langstrothAbove = IsLangstrothAt(Pos.UpCopy());
             bool airAbove = Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0).BlockMaterial == EnumBlockMaterial.Air;
 
-            // If the index is empty, return isSuccess (False at this point)
-            if (inv[index].Empty) return isSuccess;
-
-            //If the block above isn't air, or another super, of if the target index is empty, return iSSuccess, Still False
-            if (isTopSlot && (!airAbove && !langstrothAbove) || inv[index].Empty)
+            //If the block above isn't air, of if the target index is empty, return iSSuccess, Still False
+            if (isTopSlot && (!airAbove && !langstrothAbove))
             {
                 return isSuccess;
             }
@@ -345,14 +352,14 @@ namespace FromGoldenCombs.BlockEntities
                 if (!(block is LangstrothStack) && block is LangstrothCore)
                 {
                     ItemStack stack = Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0).OnPickBlock(Api.World, Pos.UpCopy());
-                    
+
                     return byPlayer.InventoryManager.TryGiveItemstack(stack);
                 }
                 //If it is a stack, retrieve the block from the stack
                 else if (block is LangstrothStack)
                 {
                     BELangstrothStack BELangStack = Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack;
-                    
+
                     return BELangStack.RetrieveSuper(byPlayer);
                 }
 
@@ -372,6 +379,25 @@ namespace FromGoldenCombs.BlockEntities
             return isSuccess;
 
             //Summar"y": TryTake grabs the topmost index out of a stack of stacks. In a single stack, it takes the topmost index, or the targeted index if empty.
+        }
+
+        private void UpdateBroodBox(ItemSlot slot)
+        {
+        //    if (IsLangstrothAt(Pos.UpCopy()))
+        //    {
+        //        (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).UpdateBroodBox(slot);
+        //    }
+
+        //    int index = 0;
+        //    while (index < inv.Count - 1 && !inv[index + 1].Empty)
+        //    {
+        //        index++;
+        //    }
+
+        //    if (inv[index].Itemstack.Block is LangstrothBrood Brood && Brood.Variant["populated"] == "empty") {
+        //        inv[index].Itemstack = new ItemStack(Api.World.BlockAccessor.GetBlock(Brood.CodeWithVariant("populated", "populated")));
+        //    };
+            
         }
 
         private void UpdateStackSize()
@@ -882,30 +908,24 @@ namespace FromGoldenCombs.BlockEntities
             }
         }
 
-        //protected ModelTransform genTransform(ItemStack stack, int index)
-        //{
-
-        //    ModelTransform transform = new();
-        //    Vec3f offset = new Vec3f(0, .3333f * index, 0);
-        //    //transform.WithRotation(new Vec3f(0f, this.Block.Shape.rotateY * GameMath.DEG2RAD, 0f));
-        //    return transform;
-        //}
-
-
         protected override float[][] genTransformationMatrices()
         {
             float[][] tfMatrices = new float[3][];
             for (int index = 0; index < 3; index++)
             {
-                ItemStack itemstack = this.Inventory[index].Itemstack;
-                if (itemstack != null)
-                {                    
-                    tfMatrices[index] = new Matrixf().Translate(0, 0.3333f * index, 0).Values;
-                }
+                float x = 0;
+                float z = 0;
+                    switch (this.Block.Variant["side"])
+                    {
+                        case "east": x = 0; break;
+                        case "west": x = 1;  z = 1; break;
+                        case "north": z = 1; break;
+                        case "south": x = 1; break;
+                    }
+                    tfMatrices[index] = new Matrixf().Translate(x, 0.3333f * index, z).RotateYDeg(this.Block.Shape.rotateY).Values;
             }
             return tfMatrices;
         }
 
-        
     }
 }
