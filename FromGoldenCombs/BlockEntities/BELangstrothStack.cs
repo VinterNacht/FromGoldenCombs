@@ -919,13 +919,13 @@ namespace FromGoldenCombs.BlockEntities
             {
                 float x = 0;
                 float z = 0;
-                    switch (this.Block.Variant["side"])
-                    {
-                        case "east": x = 0; break;
-                        case "west": x = 1;  z = 1; break;
-                        case "north": z = 1; break;
-                        case "south": x = 1; break;
-                    }
+                    //switch (this.Block.Variant["side"])
+                    //{
+                    //    case "east": x = 0; break;
+                    //    case "west": x = 1;  z = 1; break;
+                    //    case "north": z = 1; break;
+                    //    case "south": x = 1; break;
+                    //}
                     tfMatrices[index] = new Matrixf().Translate(x, 0.3333f * index, z).RotateYDeg(this.Block.Shape.rotateY).Values;
             }
             return tfMatrices;
