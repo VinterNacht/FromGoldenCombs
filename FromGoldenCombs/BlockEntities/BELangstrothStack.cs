@@ -124,10 +124,9 @@ namespace FromGoldenCombs.BlockEntities
             }
             if (slot.Itemstack?.Block is BlockSkep skep && skep.Variant["type"] == "populated")
             {
-                //UpdateBroodBox(slot);
-                //UpdateStackSize();
-                //MarkDirty(true);
-                //return true;
+                UpdateBroodBox(slot);
+                MarkDirty(true);
+                return true;
             }
             MarkDirty(true);
             return false;
@@ -383,21 +382,25 @@ namespace FromGoldenCombs.BlockEntities
 
         private void UpdateBroodBox(ItemSlot slot)
         {
-        //    if (IsLangstrothAt(Pos.UpCopy()))
-        //    {
-        //        (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).UpdateBroodBox(slot);
-        //    }
+            if (IsLangstrothAt(Pos.UpCopy()))
+            {
+                (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).UpdateBroodBox(slot);
+            }
 
-        //    int index = 0;
-        //    while (index < inv.Count - 1 && !inv[index + 1].Empty)
-        //    {
-        //        index++;
-        //    }
+            int index = 0;
+            while (index < inv.Count - 1 && !inv[index + 1].Empty)
+            {
+                index++;
+            }
 
-        //    if (inv[index].Itemstack.Block is LangstrothBrood Brood && Brood.Variant["populated"] == "empty") {
-        //        inv[index].Itemstack = new ItemStack(Api.World.BlockAccessor.GetBlock(Brood.CodeWithVariant("populated", "populated")));
-        //    };
-            
+            if (inv[index].Itemstack.Block is LangstrothBrood Brood && Brood.Variant["populated"] == "empty")
+            {
+                slot.Itemstack = null;
+                inv[index].Itemstack = new ItemStack(Api.World.BlockAccessor.GetBlock(Brood.CodeWithVariant("populated", "populated")));
+                GetBottomStack().isActiveHive = GetBottomStack().IsValidHive();
+                GetBottomStack().ResetHive();
+            };
+
         }
 
         private void UpdateStackSize()
@@ -533,12 +536,13 @@ namespace FromGoldenCombs.BlockEntities
                     downCount++;
                     curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos.DownCopy(downCount));
                 }
-            } else if ((topStack.inv[2].Itemstack.Block is LangstrothBrood && topStack.inv[2].Itemstack.Block.Variant["populated"] == "populated")
+            } 
+            else if ((topStack.inv[2].Itemstack?.Block is LangstrothBrood && topStack.inv[2].Itemstack.Block.Variant["populated"] == "populated")
                         && topStack.inv[0].Itemstack.Block is LangstrothBase)
             {
                 return true;
             }
-            return true;
+            return false;
         }
 
 
@@ -870,13 +874,13 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (Pos == bottomStack.Pos)
             {
-                if (bottomStack.harvestableFrames != 0) { sb.AppendLine(Lang.Get("harvestableframes:") + bottomStack.harvestableFrames); }
-                sb.AppendLine(bottomStack.isActiveHive ? Lang.Get("populatedhive"): "");
+                if (bottomStack.harvestableFrames != 0) { sb.AppendLine(Lang.Get("fromgoldencombs:harvestableframes") + bottomStack.harvestableFrames); }
+                sb.AppendLine(bottomStack.isActiveHive ? Lang.Get("fromgoldencombs:populatedhive") : "");
 
                 double worldTime = Api.World.Calendar.TotalHours;
                 int daysTillHarvest = (int)Math.Round((bottomStack.harvestableAtTotalHours - worldTime) / 24);
                 daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
-                string hiveState = Lang.Get("nearbyflowers", bottomStack.quantityNearbyFlowers, bottomStack.hivePopSize);
+                string hiveState = Lang.Get("fromgoldencombs:nearbyflowers", bottomStack.quantityNearbyFlowers, bottomStack.hivePopSize);
                 if (bottomStack.isActiveHive)
                 {
                     sb.AppendLine(hiveState);
@@ -885,21 +889,21 @@ namespace FromGoldenCombs.BlockEntities
                         string combPopTime;
                         if (FromGoldenCombsConfig.Current.showcombpoptime)
                         {
-                            combPopTime = Lang.Get("newframepop") + (daysTillHarvest < 1 ? Lang.Get("lessthanday") : daysTillHarvest + Lang.Get("days"));
+                            combPopTime = Lang.Get("fromgoldencombs:newframepop") + (daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : daysTillHarvest + Lang.Get("fromgoldencombs:days"));
                         }
                         else
                         {
-                            combPopTime = Lang.Get("outgathering");
+                            combPopTime = Lang.Get("fromgoldencombs:outgathering");
                         }
                         sb.AppendLine(combPopTime);
                     }
                     else if (daysTillHarvest == 0 && CountLinedFrames() == 0)
                     {
-                        sb.AppendLine(Lang.Get("nofillableframes"));
+                        sb.AppendLine(Lang.Get("fromgoldencombs:nofillableframes"));
                     }
                     else
                     {
-                        sb.AppendLine(Lang.Get("findflowers"));
+                        sb.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
                     }
                 }
             } else

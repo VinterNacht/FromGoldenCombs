@@ -18,7 +18,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
             
             if (slot.Empty)
             {
-                ItemStack stack = new(api.World.BlockAccessor.GetBlock(blockSel.Position, 0));
+                ItemStack stack = OnPickBlock(world, blockSel.Position);
                 if (byPlayer.InventoryManager.TryGiveItemstack(stack))
                 {
                     api.World.BlockAccessor.SetBlock(0, blockSel.Position);

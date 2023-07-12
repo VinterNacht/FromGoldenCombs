@@ -36,10 +36,6 @@
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="AnimatedGif">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\AnimatedGif.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="cairo-sharp">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\cairo-sharp.dll</HintPath>
       <Private>False</Private>
@@ -65,12 +61,20 @@
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\Tavis.JsonPatch.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Vintagestory">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Vintagestory.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="VintagestoryAPI">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\VintagestoryAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VintagestoryLib">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\VintagestoryLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VintagestoryServer">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\VintagestoryServer.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VSCreativeMod">
