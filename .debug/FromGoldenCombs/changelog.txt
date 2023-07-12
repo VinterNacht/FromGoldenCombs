@@ -2,7 +2,8 @@
 	- Corrected issue with hives not rendering properly.
 	- Fixed text misalignment on open supers.
 	- Updated lang greferences to be more translation friendly.
-	- 
+	- Corrected extra space in harvestable count text
+	- Made frame production in Langstroth Hives responsive to Hive Population Size
 
 1.18-v1.4.16-rc.2
 	- Corrected errors involving the Langstroth BroodTop Item JSON and texture.

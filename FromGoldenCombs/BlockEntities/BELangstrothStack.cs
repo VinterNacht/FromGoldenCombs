@@ -34,6 +34,7 @@ namespace FromGoldenCombs.BlockEntities
         EnumHivePopSize hivePopSize;
         int harvestableFrames = 0;
         int linedFrames = 0;
+        bool topIsPopBrood = false;
         //string honeyVarietal;
         //List<String> honeyTypeCount = new();
         public readonly InventoryGeneric inv;
@@ -123,10 +124,11 @@ namespace FromGoldenCombs.BlockEntities
             if (slot.Itemstack?.Block is BlockSkep skep && skep.Variant["type"] == "populated")
             {
                 UpdateBroodBox(slot);
+                updateMeshes();
                 MarkDirty(true);
                 return true;
             }
-            MarkDirty(true);
+            //MarkDirty(true);
             return false;
         }
 
@@ -297,7 +299,7 @@ namespace FromGoldenCombs.BlockEntities
                     return true;
                 }
                 inv[index].Itemstack = slot.TakeOutWhole();
-                updateMeshes();
+                //updateMeshes();
                 MarkDirty(true);
                 return true;
             }
@@ -322,7 +324,7 @@ namespace FromGoldenCombs.BlockEntities
                 TryPut(slot);
             }
             updateMeshes();
-            MarkDirty();
+            //MarkDirty();
             return true;
         }
 
@@ -505,7 +507,7 @@ namespace FromGoldenCombs.BlockEntities
 
         //Check topStack's top Index for populated brood box
             Block topBlock = topStack?.inv[topStack.StackSize() - 1].Itemstack.Block;
-            if (!(topBlock is LangstrothBrood && topBlock.Variant["populated"] == "populated")){
+            if (!(topBlock is LangstrothBrood) && topBlock.Variant["populated"] == "empty"){
                 ResetHive();
                 return false;
             }
@@ -518,31 +520,38 @@ namespace FromGoldenCombs.BlockEntities
         {
             BELangstrothStack topStack = GetTopStack();
             BELangstrothStack bottomStack = GetBottomStack();
-            BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(GetTopStack().Pos.DownCopy());
+            BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(GetTopStack().Pos/*.DownCopy()*/);
             int downCount = 1;
 
-            if (topStack.Pos != bottomStack.Pos)
+            if (topStack.Pos != bottomStack.Pos && bottomStack.inv[0].Itemstack.Block is LangstrothBase)
             {
-                for (int i = topStack.StackSize() - 2; i >= 0; i--)
-                {
-                    if (!(topStack.inv[i].Itemstack.Block is LangstrothSuper)) {
-                        ResetHive(); ;
-                    return false;
-                    }
-                }
-
+                bottomStack.topIsPopBrood = false;
                 while (curBE is BELangstrothStack)
                 {
-                    for (int index = 2; index >= 0 && !(curBE.Pos == bottomStack.Pos && index == 0); index--)
+                    for (int index = curBE.inv.Count - 1; index >= 0; index--)
                     {
-                        if (!(curBE.inv[index].Itemstack.Block is LangstrothSuper)) {
-                            ResetHive();
-                            return false;
+                        if (!(curBE.inv[index].Empty) && curBE.inv[index].Itemstack.Block is LangstrothCore)
+                        {
+                            //If the top block in the stack is a populated brood, set topIsPopBrood to true and continue loop.
+                            if (!bottomStack.topIsPopBrood && curBE.inv[index].Itemstack.Block is LangstrothBrood && curBE.inv[index].Itemstack.Block.Variant["populated"] == "populated")
+                            {
+                                bottomStack.topIsPopBrood = true; continue;
+                            }
+                            else if (!bottomStack.topIsPopBrood) //Else if topIsPopBrood is false, return false.
+                            {
+                                return bottomStack.topIsPopBrood;
+                            }
+
+                            if(!bottomStack.topIsPopBrood || (curBE.inv[index] == bottomStack.inv[0] && !(curBE.inv[index].Itemstack.Block is LangstrothSuper)))
+                            {
+                                return false;
+                            } 
                         }
                     }
-                    downCount++;
+                        downCount++;
                     curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos.DownCopy(downCount));
                 }
+                return bottomStack.topIsPopBrood;
             } 
             else if ((topStack.inv[2].Itemstack?.Block is LangstrothBrood && topStack.inv[2].Itemstack.Block.Variant["populated"] == "populated")
                         && topStack.inv[0].Itemstack.Block is LangstrothBase)
@@ -582,16 +591,19 @@ namespace FromGoldenCombs.BlockEntities
         //Return total number of Supers in the Stack
         public int TotalStackSize()
         {
-
-            int totalStackSize = GetTopStack().StackSize();
-            BlockPos TopStack = GetTopStack().Pos;
-            int downCount = 1;
-            while (Api.World.BlockAccessor.GetBlockEntity(TopStack.DownCopy(downCount)) is BELangstrothStack i)
+            if (GetTopStack() != null)
             {
-                totalStackSize += i.StackSize();
-                downCount++;
+                int totalStackSize = GetTopStack().StackSize();
+                BlockPos TopStack = GetTopStack().Pos;
+                int downCount = 1;
+                while (Api.World.BlockAccessor.GetBlockEntity(TopStack.DownCopy(downCount)) is BELangstrothStack i)
+                {
+                    totalStackSize += i.StackSize();
+                    downCount++;
+                }
+                return totalStackSize;
             }
-            return totalStackSize;
+            return 1;
         }
 
         //Return Top Stack of Stack
@@ -707,7 +719,7 @@ namespace FromGoldenCombs.BlockEntities
                 else if (!Harvestable && worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor && CountLinedFrames() > 0)
                 {
                     Random rand = new();
-                    GetTopStack().UpdateFrames(rand.Next(FromGoldenCombsConfig.Current.minFramePerCycle, FromGoldenCombsConfig.Current.maxFramePerCycle));
+                    GetTopStack().UpdateFrames(Math.Max(1,rand.Next(FromGoldenCombsConfig.Current.minFramePerCycle, FromGoldenCombsConfig.Current.maxFramePerCycle)*((int)this.hivePopSize/3)));
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                     CountHarvestable();
                 }
@@ -868,7 +880,6 @@ namespace FromGoldenCombs.BlockEntities
             if (forPlayer.CurrentBlockSelection == null)
             {
 
-
                 base.GetBlockInfo(forPlayer, sb);
 
             }
@@ -889,7 +900,7 @@ namespace FromGoldenCombs.BlockEntities
                         string combPopTime;
                         if (FromGoldenCombsConfig.Current.showcombpoptime)
                         {
-                            combPopTime = Lang.Get("fromgoldencombs:newframepop") + (daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : daysTillHarvest + Lang.Get("fromgoldencombs:days"));
+                            combPopTime = Lang.Get("fromgoldencombs:newframepop") + (daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : daysTillHarvest + " " + Lang.Get("fromgoldencombs:days"));
                         }
                         else
                         {
@@ -923,15 +934,16 @@ namespace FromGoldenCombs.BlockEntities
 
         protected override float[][] genTransformationMatrices()
         {
-            float[][] tfMatrices = new float[3][];
-            for (int index = 0; index < 3; index++)
-            {
-                float x = 0;
-                float z = 0;
+            
+                float[][] tfMatrices = new float[3][];
+                for (int index = GetBottomStack()?.Pos != this.Pos?0:1; index <= 2; index++)
+                {
+                    float x = 0;
+                    float z = 0;
                     switch (this.Block.Variant["side"])
                     {
                         case "east": x = 0; break;
-                        case "west": x = 1;  z = 1; break;
+                        case "west": x = 1; z = 1; break;
                         case "north": z = 1; break;
                         case "south": x = 1; break;
                     }
