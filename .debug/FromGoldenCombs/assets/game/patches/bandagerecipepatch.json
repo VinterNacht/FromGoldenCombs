@@ -1,0 +1,12 @@
+[
+  {
+    "op": "replace",
+    "path": "/2/ingredients/H",
+    "value": {
+        "type": "block",
+        "code": "game:linen-*",
+        "quantity": 1 ,
+        "allowedVariants":["diamond-down", "normal-down", "offset-down", "square-down"]},
+    "file": "game:recipes/grid/bandage.json"
+  }
+]

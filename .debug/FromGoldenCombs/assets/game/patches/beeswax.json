@@ -1,0 +1,26 @@
+[
+{
+"op": "add",
+"path": "/attributes/barrelMoveToLiquidSlot",
+"value": true,
+"file": "itemtypes/resource/beeswax.json"
+},
+{
+"op": "add",
+"path": "/attributes/inContainerTexture",
+"value": {
+"base": "fromgoldencombs:block/beehive/beeswax"
+},
+"file": "itemtypes/resource/beeswax.json"
+},
+{
+	"op": "add",
+	"path":  "/attributes/inContainerTextureByType",
+	"value": {
+		"linen-waxed-*": { "base": "fromgoldencombs:block/cloth/linen/waxedlinen"},
+		"linen-*": { "base": "block/cloth/linen/{pattern}1"}
+
+	},
+  "file": "blocktypes/cloth/linen.json"
+}
+]

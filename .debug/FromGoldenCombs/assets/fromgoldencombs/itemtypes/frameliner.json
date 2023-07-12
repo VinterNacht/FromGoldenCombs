@@ -1,0 +1,40 @@
+{
+	"code": "frameliner",
+	"shape": { "base": "fromgoldencombs:item/langstroth/langstrothpart-side" },
+		"textures": {
+		"primary": { "base": "fromgoldencombs:block/cloth/linen/waxedlinen" }
+	},
+	"creativeinventory": { "general": ["*"] },
+	"attributes": {
+		"handbook": {
+		"extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-frameliner", 
+												 "text": "fromgoldencombs:item-handbooktext-frameliner" } ]
+		},
+		"clothingRepairStrength": 0.1
+	},
+	"maxstacksize": 32,
+		"materialDensity": 210,
+		"guiTransform": {
+		"rotation": { "x": -79, "y": -11, "z": -11 },
+		"origin": { "x": 0.5, "y": 0.1, "z": 0.5 },
+		"scale": 1.99
+	},
+		"fpHandTransform": {
+		"translation": { "x": -0.45, "y": 0.6, "z": 0.4 },
+		"rotation": { "x": 79, "y": 89, "z": -42 },
+		"origin": { "x": 0.8, "y": 0.2, "z": 0.6 },
+		"scale": 1.48
+	},
+		"tpHandTransform": {
+		"translation": { "x": -1.3, "y": -1, "z": -1.3 },
+		"rotation": { "x": -93, "y": -3, "z": -5 },
+		"origin": { "x": 0.5, "y": 0.5, "z": 0.46 },
+		"scale": 0.51
+	},
+		"groundTransform": {
+		"translation": { "x": 0, "y": 0, "z": 0 },
+		"rotation": { "x": 180, "y": 0, "z": 0 },
+		"origin": { "x": 0.5, "y": 0.2, "z": 0.5299 },
+		"scale": 2.62
+	}
+}

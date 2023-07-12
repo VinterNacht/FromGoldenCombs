@@ -1,0 +1,54 @@
+{
+	"code": "langstrothside",
+	"class": "langstrothpartcore",
+	"variantgroups": [
+		{ "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" }
+	],
+	"maxstacksize": 64,
+	"shape": { "base": "item/langstroth/langstrothpart-side" },
+	"textures": {
+		"primary": { "base": "game:block/wood/planks/{primary}1" }
+	},
+  "creativeinventory": { "general": ["langstrothside-*"] },
+	"attributes": {
+    "handbook": {
+      "groupBy": ["langstrothside-ebony"],
+			"groupedName": ["langstrothside-ebony"],
+			"extraSections": [
+        {
+					"title": "fromgoldencombs:item-handbooktitle-langstrothside",
+          "text": "fromgoldencombs:item-handbooktext-langstrothside"
+        }
+      ]
+    }
+  },
+	"combustibleProps": {
+		"burnTemperature": 700,
+		"burnDuration": 6
+	},
+	"materialDensity": 700,
+		"guiTransform": {
+		"translation": { "x": 0, "y": 2, "z": 0 },
+		"rotation": { "x": -41, "y": 15, "z": 31 },
+		"origin": { "x": 0.5, "y": 0, "z": 0.45 },
+		"scale": 2.33
+	},
+		"fpHandTransform": {
+		"translation": { "x": 0.1, "y": 0.3, "z": 0.2 },
+		"rotation": { "x": -67, "y": -10, "z": 80 },
+		"origin": { "x": 0.5, "y": 0, "z": 0.5 },
+		"scale": 1.98
+	},
+		"tpHandTransform": {
+		"translation": { "x": -0.8, "y": -0.26, "z": -0.54 },
+		"rotation": { "x": 96, "y": -2, "z": -2 },
+		"origin": { "x": 0.5, "y": 0.1, "z": 0.5 },
+		"scale": 0.86
+	},
+		"groundTransform": {
+		"translation": { "x": 0, "y": 0, "z": 0 },
+		"rotation": { "x": 0, "y": 0, "z": 0 },
+		"origin": { "x": 0.5, "y": 0, "z": 0.5 },
+		"scale": 3.25
+	}
+}

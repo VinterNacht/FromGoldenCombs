@@ -1,0 +1,86 @@
+{
+  "code": "langstrothbrood",
+  "class": "langstrothbrood",
+  "storageFlags": 2,
+  "maxstacksize": 1,
+  "attributes": {
+        "handbook": {
+        groupBy: ["langstgrothbase-ebony-baldcypress-east"],
+        "excludeByType": {
+				    "*-ebony-baldcypress-east": false,
+				    "*": true
+			  },
+        "extraSections": [{
+              "title": "fromgoldencombs:block-handbooktitle-langstrothbrood",
+              "text": "fromgoldencombs:block-handbooktext-langstrothbrood"
+            }]
+        }
+  },
+  "creativeinventory": { "general": ["langstrothbrood-empty-*-east"] },
+  "behaviors": [{
+        "name": "HorizontalOrientable",
+        "properties": { "dropBlockFace": "east" }
+    },
+    { "name": "Unstable" }
+  ],
+  "heldTpIdleAnimation": "holdbothhandslarge",
+  "heldTpUseAnimation": "twohandplaceblock",
+  "variantgroups": [ 
+    { "code": "populated", "states": ["empty","populated"]},
+    { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
+    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
+    { "code": "side", "loadFromProperties": "abstract/horizontalorientation" }
+  ],
+  "textures": {		
+      "primary": {"base": "game:block/wood/debarked/{primary}" },
+			"accent": {"base": "game:block/wood/debarked/{accent}" }
+	},
+  "shapeByType": {
+  "*-north": {
+     "base": "block/hive/langstroth/langstrothbrood",
+     "rotateY": 0
+     },
+     "*-east": {
+     "base": "block/hive/langstroth/langstrothbrood",
+     "rotateY": 270
+     },
+     "*-south": {
+        "base": "block/hive/langstroth/langstrothbrood",
+        "rotateY": 180
+     },
+     "*-west": {
+     "base": "block/hive/langstroth/langstrothbrood",
+     "rotateY": 90
+     }
+  },
+  "lightAbsorption": 0,
+  "sideopaque": { "all": false },
+  "sidesolid": { "all": false },
+  "blockmaterial": "Ceramic",
+  "sounds": {
+      "place": "game:block/planks"
+    },
+  "groundTransform": {
+      "scale": 4
+    },
+  	"fpHandTransform": {
+		"translation": { "x": 0,"y": 0.85,"z": 0 },
+		"rotation": { "x": 26,"y": -136,"z": -1 },
+		"origin": { "x": 0.1,"y": 0.2,"z": -0.1 },
+		"scale": 3.04
+	},
+
+  "collisionboxesByType": {
+      "*": [
+        { "x1": 0.062, "y1": 0.0126, "z1": 0.156, "x2": 0.9254, "y2": 0.3624, "z2": 0.845, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west*": 90}}
+      ]
+    },
+  "selectionboxesByType": {
+      "*": [
+        { "x1": 0.062, "y1": 0.0126, "z1": 0.156, "x2": 0.9254, "y2": 0.3624, "z2": 0.845, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west*": 90}}
+        ]
+    }
+
+}
+
+	

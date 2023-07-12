@@ -1,0 +1,58 @@
+{
+  "code": "beeframe",
+  "maxstacksize": 10,
+  "variantgroups": [
+    { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
+    { "code": "harvestable", "states": [ "empty", "lined", "harvestable" ]}
+  ],
+  "textures": {		
+			"cap": { "base": "game:block/wood/debarked/{primary}" }
+	},
+  "shape": { "base": "item/langstroth/beeframe-{harvestable}" },  
+  "creativeinventory": { "general": ["beeframe-*"] },
+  "attributes": {
+        "handbook": {
+        "groupBy": ["beeframe-ebony-empty"],
+        "excludeByType": {
+          "*-ebony-empty": false,
+          "*-ebony-lined": false,
+          "*-ebony-harvestable": false,
+          "*": true
+        },
+        "extraSectionsByType": {
+          "*-empty": [ { "title": "fromgoldencombs:item-handbooktitle-emptybeeframe", "text": "fromgoldencombs:item-handbooktext-emptybeeframe" } ],
+          "*-lined": [ { "title": "fromgoldencombs:item-handbooktitle-linedbeeframe", "text": "fromgoldencombs:item-handbooktext-linedbeeframe" } ],
+          "*-harvestable": [{ "title": "fromgoldencombs:item-handbooktitle-harvestablebeeframe", "text": "fromgoldencombs:item-handbooktext-harvestablebeeframe" }]
+        }
+    },
+  },
+  "durabilityByType":{
+    "*-empty": 0,
+    "*-harvestable": 32,
+    "*-lined": 32
+  },
+  "guiTransform": {
+    "translation": { "x": 5, "y": 3, "z": 0},
+    "rotation": { "x": -33, "y": -46, "z": 180},
+    "origin": { "x": 0.5, "y": 0.05, "z": 0.5},
+    "scale": 3
+  },
+		"fpHandTransform": {
+		"translation": { "x": 0.65, "y": 0.2, "z": 0.7 },
+		"rotation": { "x": 21, "y": 1, "z": 5 },
+		"origin": { "x": 5.4, "y": 0.3, "z": 2 },
+		"scale": 2.35
+	},
+  	"tpHandTransform": {
+		"translation": { "x": -1, "y": -0.2, "z": 0.5 },
+		"rotation": { "x": 0, "y": 90, "z": 0 },
+		"origin": { "x": 1, "y": 0, "z": 0 },
+		"scale": 0.77
+	},
+	  "groundTransform": {
+		"translation": { "x": 0, "y": 0, "z": 0 },
+		"rotation": { "x": 7, "y": -118, "z": 87 },
+		"origin": { "x": 0.47, "y": 0, "z": 0.5299 },
+		"scale": 4.37
+	}
+}

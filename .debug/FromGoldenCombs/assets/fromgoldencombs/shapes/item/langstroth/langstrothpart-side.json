@@ -1,0 +1,29 @@
+{
+	"editor": {
+		"allAngles": false,
+		"entityTextureMode": false
+	},
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textureSizes": {
+	},
+	"textures": {
+		"primary": "game:block/wood/planks/maple1"
+	},
+	"elements": [
+		{
+			"name": "Super-NorthFace",
+			"from": [ 3.0, 0.0, 6.0 ], 
+			"to": [ 13.0, 1.0, 10.3 ], 
+			"rotationOrigin": [ 8.0, 28.0, 11.0 ],
+			"faces": {
+				"north": { "texture": "#primary", "uv": [ 0.0, 0.0, 10.0, 1.0 ] },
+				"east": { "texture": "#primary", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+				"south": { "texture": "#primary", "uv": [ 0.0, 0.0, 10.0, 1.0 ] },
+				"west": { "texture": "#primary", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+				"up": { "texture": "#primary", "uv": [ 0.0, 0.0, 10.0, 4.0 ] },
+				"down": { "texture": "#primary", "uv": [ 0.0, 0.0, 10.0, 4.0 ] }
+			}
+		}
+	]
+}

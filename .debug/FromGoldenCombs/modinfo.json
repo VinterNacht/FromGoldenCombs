@@ -1,0 +1,11 @@
+{
+  "type": "code",
+  "modid": "fromgoldencombs",
+  "name": "From Golden Combs",
+  "author": ["Vinter Nacht"],
+  "description": "Adding depth, variety, and complexity to Vintage Apiculture",
+  "version": "1.4.17",
+  "dependencies": {
+    "game": ""
+  }
+}

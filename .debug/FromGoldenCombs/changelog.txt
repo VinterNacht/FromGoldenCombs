@@ -1,0 +1,98 @@
+1.18-v1.4.17
+	- Corrected issue with hives not rendering properly.
+	- Fixed text misalignment on open supers.
+	- Updated lang greferences to be more translation friendly.
+	- 
+
+1.18-v1.4.16-rc.2
+	- Corrected errors involving the Langstroth BroodTop Item JSON and texture.
+
+1.18-v1.3.16-rc.2
+	- Troubleshooting Handbook
+
+
+1.18-v1.3.16-rc.1
+Added the following config values
+	-   "SkepDaysToHarvestIn30DayMonths": 7.0,
+	-	"ClayPotDaysToHarvestIn30DayMonths": 7.0,
+	-	"LangstrothDaysToHarvestIn30DayMonths": 3.5,
+	-	"MaxStackSize": 6,
+	-	"baseframedurability": 32,
+	-	"minFramePerCycle": 2,
+	-	"maxFramePerCycle": 4,
+	-	"showcombpoptime": true,
+	-	"ClayPotMinYield": 2,
+	-	"ClayPotMaxYield": 4,
+	-	"FrameMinYield": 2,
+	-	"FrameMaxYield": 5,
+	-	"SkepMinYield": 1,
+	-	"SkepMaxYield": 3
+- Changed check for "knife" to EnumTool.Knife for better compatibility
+
+1.18-v1.3.15-rc.1
+	- Corrected translation issue with BECeramicBroodPot so the honeycomb is now visible.
+	- Corrected error with wax.
+	- Handbook issues in progress.
+
+1.18-v.14
+	- Haphazardly updated to 1.18... Sent to Patrons for Real Destruction (TM)
+
+1.17-v1.3.15
+	- Fixed issue with empty hand interaction with the frame rack
+1.17-v1.3.7-rc.1
+	-Updated to 1.17-rc.4
+
+1.16.4-v1.3.6-rc.7
+	- Ancient Tools compatibility fixed
+	- Linen will now show in barrels
+
+1.16.4-v1.3.8
+	- Removed patch involving doors that was accidentally left in.
+  
+1.16.4-v1.3.7
+	- Eliminated error where placing a ceramic hive caused everyone on a server to crash BUT the one with the hive.
+
+1.16.4-v.1.3.6-rc.6
+	- Updated rendering for both frame racks and supers so they render the appropriate direction
+	- Eliminated error when interacting with ceramic hive that caused a crash (Crouching+right-clicking hive produced a crash)
+
+1.16.3-v.1.3.6.-rc.5
+	- Corrected error with ceramic hives not correctly carrying over colony
+	- Corrected NPE when interacting with Ceramic Hives
+	- Corrected inability to place honey pots on Ceramic Hives.
+
+1.16.0-v.1.3.6-rc.4
+	- Fixed issues with barrel recipes preventing waxed linen from being made. Now working with any linen.
+	- Fixed waxed twine not being able to be made.
+	- Patch bandage recipe to not use waxed linen, frame liners can be made again.
+
+1.16.0-v.1.3.6-rc.2
+	- Removed waxed linen from recipe for bandages to permit making frame liners
+1.16.0-v.1.3.6-rc.1	
+	- Added Updated Russian Translations
+
+1.16.0-v.1.3.5-rc.2
+	- Corrected logic error where right-clicking a ceramic brood pot with no place to put it would still remove the pot.
+
+1.16.0-v1.3.5-rc.1
+    - updated to be compatible with 1.16.0-pre.3+
+    
+1.15.7-v1.3.5-rc.4
+	- Ensured langstroth stack references bottom stack when reporting OnBlockInfo
+	- Fixed Ceramic Hive killing colony when picking up brood pot with active colony (again)
+	- Fixed bees taking excessive amount of time to settle in to a Ceramic Hive (again)
+	- Modified hive feedback in OnBlockInfo for Ceramic and Langstroth Hives
+	- Corrected issue with harvestable skeps breaking into skep blocks. Now break properly. 
+	- Claypot Hives now properly convert to Ceramic Hives
+
+1.15.6-v1.1.1
+  - Add Config File to control Wildhive and Skep hivepop times.
+  - Set skeps and wild hives to only swarm in spring
+
+1.15.6-v1.2.1
+  - Langstroth Hive
+	- Add Langstroth Super
+	- Add Langstroth Brood Box
+	- Add Langstroth Base
+
+

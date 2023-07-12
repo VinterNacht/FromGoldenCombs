@@ -1,0 +1,46 @@
+[
+  {
+    "op": "remove",
+    "path": "/textures",
+    "file": "blocktypes/cloth/linen.json"
+  },
+  {
+    "op": "add",
+    "path": "/texturesByType",
+    "value": {
+      "*-waxed-*": {
+        "all": {
+          "base": "fromgoldencombs:block/cloth/linen/waxedlinen"
+        }
+      },
+      "*": {
+        "all": {
+          "base": "block/cloth/linen/{pattern}1"
+        }
+      }
+    },
+    "file": "blocktypes/cloth/linen.json"
+  },
+  {
+    "op": "add",
+    "path": "/variantgroups/0/states/4",
+    "value": "waxed",
+    "file": "blocktypes/cloth/linen.json"
+  },
+  {
+    "op": "add",
+    "path": "/block-linen-waxed-*",
+    "value": "Linen (Waxed)",
+    "file": "lang/en.json"
+  },
+  {
+	  "op": "add",
+	  "path":  "/attributes/inContainerTextureByType",
+	  "value": {
+		  "linen-waxed-*": { "base": "fromgoldencombs:block/cloth/linen/waxedlinen"},
+		  "linen-*": { "base": "block/cloth/linen/{pattern}1"}
+
+	  },
+     "file": "blocktypes/cloth/linen.json"
+  }
+]
