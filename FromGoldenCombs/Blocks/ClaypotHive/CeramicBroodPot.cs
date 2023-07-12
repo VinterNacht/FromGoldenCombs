@@ -8,25 +8,13 @@ using Vintagestory.API.Util;
 using System.Collections.Generic;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.Config;
+using static OpenTK.Graphics.OpenGL.GL;
 
 namespace FromGoldenCombs.Blocks
 {
 
     class CeramicBroodPot : BlockContainer
     {
-
-        //public object ActionLangCode { get; private set; }
-
-        //public override ItemStack OnPickBlock(IWorldAccessor world, BlockPos pos)
-        //{
-        //    ItemStack stack = base.OnPickBlock(world, pos);
-        //    if (world.BlockAccessor.GetBlockEntity(pos) is BECeramicBroodPot)
-        //    {
-        //        BECeramicBroodPot bec = world.BlockAccessor.GetBlockEntity(pos) as BECeramicBroodPot;
-        //        stack.Attributes.SetBool("populated", bec.isActiveHive);
-        //    };
-        //    return stack;
-        //}
 
         /// <summary>
         /// When a player does a right click while targeting this placed block. Should return true if the event is handled, so that other events can occur, e.g. eating a held item if the block is not interactable with.
@@ -84,7 +72,7 @@ namespace FromGoldenCombs.Blocks
                     world.SpawnEntity(entity);
                 }
             }
-            base.OnBlockBroken(world, pos, byPlayer);
+            base.OnBlockBroken(world, pos, byPlayer, dropQuantityMultiplier);
         }
 
         public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
