@@ -921,26 +921,21 @@ namespace FromGoldenCombs.BlockEntities
         //    return base.OnTesselation(mesher, tessThreadTesselator);
         //}
 
-        protected Vec4f genTransform(ItemStack stack, int index)
-        {
-
-            
-            Vec3f offset = new Vec3f(0, .3333f * index, 0);
-            Vec4f transform = offset.ToVec4f(1);
-            return transform;
-        }
-
-
         protected override float[][] genTransformationMatrices()
         {
             float[][] tfMatrices = new float[3][];
             for (int index = 0; index < 3; index++)
             {
-                ItemStack itemstack = this.Inventory[index].Itemstack;
-                if (itemstack != null)
-                {
-                    tfMatrices[index] = new Matrixf().TransformVector(genTransform(itemstack, index)).Values;
-                }
+                float x = 0;
+                float z = 0;
+                    switch (this.Block.Variant["side"])
+                    {
+                        case "east": x = 0; break;
+                        case "west": x = 1;  z = 1; break;
+                        case "north": z = 1; break;
+                        case "south": x = 1; break;
+                    }
+                    tfMatrices[index] = new Matrixf().Translate(x, 0.3333f * index, z).RotateYDeg(this.Block.Shape.rotateY).Values;
             }
             return tfMatrices;
         }
