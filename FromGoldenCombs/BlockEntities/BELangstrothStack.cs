@@ -91,7 +91,7 @@ namespace FromGoldenCombs.BlockEntities
             CollectibleObject colObj = slot.Itemstack?.Collectible;
             bool isLangstroth = colObj is LangstrothCore;
             if ((int)slot.StorageType != 2) return false;
-
+            BlockPos bottomStackPos = GetBottomStack().Pos;
             if (slot.Empty)
             {
                 if (TryTake(byPlayer)) //Attempt to take a super from the topmost stack
@@ -99,7 +99,7 @@ namespace FromGoldenCombs.BlockEntities
                                        //Or from the topmost occupied slot of this stack.
                 {
 
-                    if (Api.World.BlockAccessor.GetBlock(Pos, 0) is LangstrothStack)
+                    if (Api.World.BlockAccessor.GetBlock(bottomStackPos, 0) is LangstrothStack)
                     {
                         GetBottomStack().isActiveHive = GetBottomStack().IsValidHive();
                         GetBottomStack().ResetHive();
@@ -177,8 +177,8 @@ namespace FromGoldenCombs.BlockEntities
             BELangstrothStack topStack = GetTopStack();
             BELangstrothStack bottomStack = GetBottomStack();
             BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos);
-            bottomStack.harvestableFrames = 0;
 
+            bottomStack.harvestableFrames = 0;
             while (curBE is BELangstrothStack)
             {
                 for (int index = 2; index >= 0; index--)
@@ -207,15 +207,15 @@ namespace FromGoldenCombs.BlockEntities
                 if(Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy()) is BELangstrothStack)
                 {
                     curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
-                    return harvestableFrames;
+                    //return bottomStack.harvestableFrames;
                 }
                 else
                 {
                     System.Diagnostics.Debug.WriteLine("Trying to access BE at POS " + Pos);
-                    return harvestableFrames;
+                    return bottomStack.harvestableFrames;
                 }
             }
-            return harvestableFrames;
+            return bottomStack.harvestableFrames;
         }
 
         private int CountLinedFrames()
@@ -719,7 +719,7 @@ namespace FromGoldenCombs.BlockEntities
                 else if (!Harvestable && worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor && CountLinedFrames() > 0)
                 {
                     Random rand = new();
-                    GetTopStack().UpdateFrames(Math.Max(1,rand.Next(FromGoldenCombsConfig.Current.minFramePerCycle, FromGoldenCombsConfig.Current.maxFramePerCycle)*((int)this.hivePopSize/3)));
+                    GetTopStack().UpdateFrames(Math.Max(1,rand.Next(FromGoldenCombsConfig.Current.minFramePerCycle, FromGoldenCombsConfig.Current.maxFramePerCycle)*((int)this.hivePopSize/2)));
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                     CountHarvestable();
                 }
