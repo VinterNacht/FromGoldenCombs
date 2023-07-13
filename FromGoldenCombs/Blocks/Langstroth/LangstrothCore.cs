@@ -12,6 +12,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
 {
     class LangstrothCore : BlockContainer
     {
+
         //Enable selectionbox interaction
         public override bool DoParticalSelection(IWorldAccessor world, BlockPos pos)
         {
@@ -23,16 +24,17 @@ namespace FromGoldenCombs.Blocks.Langstroth
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             Block block = api.World.BlockAccessor.GetBlock(blockSel.Position, 0);
             if (!slot.Empty &&
-                IsValidLangstroth(block))
+            IsValidLangstroth(block))
             {
-                ItemStack super = this.OnPickBlock(api.World, blockSel.Position);
+                ItemStack langstrothblock = new(api.World.BlockAccessor.GetBlock(blockSel.Position));
                 api.World.BlockAccessor.SetBlock(api.World.GetBlock(
-                new AssetLocation("fromgoldencombs", "langstrothstack-two-" + block.LastCodePart())).BlockId, blockSel.Position);
+                new AssetLocation("fromgoldencombs", "langstrothstack-two-" + block.Variant["side"])).BlockId, blockSel.Position);
                 BELangstrothStack lStack = (BELangstrothStack)api.World.BlockAccessor.GetBlockEntity(blockSel.Position);
-                lStack.InitializePut(super, slot);
+                lStack.InitializePut(langstrothblock, slot);
             }
             return true;
         }
+
         public bool IsValidLangstroth(Block block)
         {
             if (block is LangstrothCore && !(block is LangstrothBrood))

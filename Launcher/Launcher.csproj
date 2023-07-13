@@ -34,28 +34,18 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\0Harmony.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="AnimatedGif">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\AnimatedGif.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="cairo-sharp">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\cairo-sharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\OpenTK.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="protobuf-net">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\protobuf-net.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -65,31 +55,40 @@
     <Reference Include="System.Xml" />
     <Reference Include="Tavis.JsonPatch">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\Tavis.JsonPatch.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="VintagestoryAPI">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\VintagestoryAPI.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="VintagestoryLib">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\VintagestoryLib.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="VSCreativeMod">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Mods\VSCreativeMod.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="VSEssentials">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Mods\VSEssentials.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="VSSurvivalMod">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Mods\VSSurvivalMod.dll</HintPath>
-      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>if $(Configuration) == Debug (
+
+:: Clean the debug mod directory. ::
+del /f /s /q $(SolutionDir).debug\$(ProjectName) &gt; NUL
+rmdir /s /q $(SolutionDir).debug\$(ProjectName)
+
+:: Rebuild the necessary folders. ::
+if not exist $(SolutionDir).debug\$(ProjectName)\ mkdir $(SolutionDir).debug\$(ProjectName)\
+
+:: Copy all relevant files to debug directory. ::
+xcopy "$(TargetDir)" "$(SolutionDir).debug\$(ProjectName)" /y /e /s
+
+)</PreBuildEvent>
+  </PropertyGroup>
 </Project>

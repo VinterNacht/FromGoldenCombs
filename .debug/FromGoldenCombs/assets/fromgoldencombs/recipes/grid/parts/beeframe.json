@@ -1,0 +1,13 @@
+[
+{
+	"ingredientPattern": "B,R,S",
+	"ingredients": {
+		"B": { "type": "item", "code": "fromgoldencombs:langstrothside-*", "name": "wood", "states": ["aged"], "loadFromProperties": "block/wood"},
+		"R": { "type": "item", "code": "game:stick",  "quantity": "3"},
+		"S": { "type": "item", "code": "game:resin"}
+		},
+		"width": 1,
+		"height": 3,
+		"output": {	"type": "item", "code": "fromgoldencombs:beeframe-{wood}-empty", "quantity": 1 }
+}
+]

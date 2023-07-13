@@ -1,10 +1,7 @@
-﻿using FromGoldenCombs.Blocks;
-using FromGoldenCombs.config;
-using FromGoldenCombs.Items;
+﻿using FromGoldenCombs.config;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
-using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
@@ -13,9 +10,6 @@ using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.BlockEntities
 {
-    //TODO: Consider adding a lid object, or adding an animation showing the lid being slid off (This sounds neat). 
-    //TODO: Find out how to get animation functioning
-    //TODO: Fix selection box issue
     
     class BEFrameRack : BlockEntityDisplay
     {
@@ -48,7 +42,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             CollectibleObject colObj = slot.Itemstack?.Collectible;
-            bool isBeeframe = colObj.FirstCodePart() == "beeframe";
+            bool isBeeframe = colObj?.FirstCodePart() == "beeframe";
             BlockContainer block = Api.World.BlockAccessor.GetBlock(blockSel.Position, 0) as BlockContainer;
             int index = blockSel.SelectionBoxIndex;
             block.SetContents(new(block), this.GetContentStacks());
@@ -60,7 +54,7 @@ namespace FromGoldenCombs.BlockEntities
                     return true;
                 }
             }
-            else if (slot.Itemstack?.Item?.FirstCodePart() == "knife" && index < 10 && !inv[index].Empty && inv[index].Itemstack.Collectible.Variant["harvestable"] == "harvestable")
+            else if (slot.Itemstack?.Item?.Tool != null && slot.Itemstack?.Item?.Tool == EnumTool.Knife && index < 10 && !inv[index].Empty && inv[index].Itemstack.Collectible.Variant["harvestable"] == "harvestable")
             {
                 if (TryHarvest(Api.World, byPlayer, inv[index]))
                 {
@@ -155,8 +149,7 @@ namespace FromGoldenCombs.BlockEntities
         private bool TryHarvest(IWorldAccessor world, IPlayer player, ItemSlot rackStack)
         {
             ThreadSafeRandom rnd = new();
-            int minYield = FromGoldenCombsConfig.Current.minFrameYield;
-            int maxYield = FromGoldenCombsConfig.Current.maxFrameYield;
+            
             ItemStack stackHandler;
             int durability;
 
@@ -174,7 +167,7 @@ namespace FromGoldenCombs.BlockEntities
                 rackStack.Itemstack.Attributes.SetInt("durability", durability);
 
             }
-            Api.World.SpawnItemEntity(new ItemStack(Api.World.GetItem(new AssetLocation("game", "honeycomb")), rnd.Next(minYield, maxYield)), Pos.ToVec3d());
+            Api.World.SpawnItemEntity(new ItemStack(Api.World.GetItem(new AssetLocation("game", "honeycomb")), rnd.Next(FromGoldenCombsConfig.Current.FrameMinYield, FromGoldenCombsConfig.Current.FrameMaxYield)), Pos.ToVec3d());
             return true;
         }
 
@@ -207,7 +200,6 @@ namespace FromGoldenCombs.BlockEntities
             else if (block.Variant["side"] == "south")
             {
                 translation.X = x = 0.2747f - .0625f * index;
-                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
             }
             else if (block.Variant["side"] == "west")
             {
@@ -215,46 +207,96 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (block.Variant["side"] == "east")
             {
-                z = 0.7253f + .0625f * index - 1;
-                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-                mesh.Translate(offset.XYZ);
+                translation.Z = 0.7253f + .0625f * index - 1;
             }
+            return translation;
         }
-        protected override MeshData genMesh(ItemStack stack)
+        protected override MeshData getOrCreateMesh(ItemStack stack, int index)
         {
-
-            MeshData meshData;
-            if (stack.Collectible as IContainedMeshSource != null)
+            MeshData mesh = this.getMesh(stack);
+            if (mesh != null)
             {
-                meshData = (stack.Collectible as IContainedMeshSource).GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
-                meshData.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 0f, base.Block.Shape.rotateY * 0.017453292f, 0f);
+                return mesh;
+            }
+            IContainedMeshSource meshSource = stack.Collectible as IContainedMeshSource;
+            if (meshSource != null)
+            {
+                mesh = meshSource.GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
+                mesh.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 0f, base.Block.Shape.rotateY * 0.017453292f, 0f);
             }
             else
             {
-                this.nowTesselatingObj = stack.Collectible;
-                this.nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Item.Shape.Base);
-                capi.Tesselator.TesselateItem(stack.Item, out meshData, this);
+                ICoreClientAPI capi = this.Api as ICoreClientAPI;
+                if (stack.Class == EnumItemClass.Block)
+                {
+                    mesh = capi.TesselatorManager.GetDefaultBlockMesh(stack.Block).Clone();
+                }
+                else
+                {
+                    this.nowTesselatingObj = stack.Collectible;
+                    this.nowTesselatingShape = null;
+                    CompositeShape shape = stack.Item.Shape;
+                    if (((shape != null) ? shape.Base : null) != null)
+                    {
+                        this.nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Item.Shape.Base);
+                    }
+                    capi.Tesselator.TesselateItem(stack.Item, out mesh, this);
+                    mesh.RenderPassesAndExtraBits.Fill((short)2);
+                }
             }
-            ModelTransform transform = stack.Collectible.Attributes.AsObject<ModelTransform>();
-            transform.EnsureDefaultValues();
-            transform.Rotation.X = 0;
-            transform.Rotation.Y = block.Shape.rotateY;
-            transform.Rotation.Z = 0;
-            transform.Translation = getTranslation(stack.Block, index);
-            return transform;
+            JsonObject attributes = stack.Collectible.Attributes;
+            if (attributes != null && attributes[this.AttributeTransformCode].Exists)
+            {
+                JsonObject attributes2 = stack.Collectible.Attributes;
+                ModelTransform transform = (attributes2 != null) ? attributes2[this.AttributeTransformCode].AsObject<ModelTransform>(null) : null;
+                transform.EnsureDefaultValues();
+                mesh.ModelTransform(transform);
+            }
+            if (stack.Class == EnumItemClass.Item && (stack.Item.Shape == null || stack.Item.Shape.VoxelizeTexture))
+            {
+                mesh.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 1.5707964f, 0f, 0f);
+                mesh.Scale(new Vec3f(0.5f, 0.5f, 0.5f), 0.33f, 0.33f, 0.33f);
+                mesh.Translate(getTranslation(block, index));
+            }
+            string key = this.getMeshCacheKey(stack);
+            this.MeshCache[key] = mesh;
+            return mesh;
         }
 
 
         protected override float[][] genTransformationMatrices()
         {
+            float x = 0f;
+            float y = 0.069f;
+            float z = 0f;
             float[][] tfMatrices = new float[10][];
-            for (int index = 0; index < 1; index++)
+            for (int index = 0; index < 10; index++)
             {
-                ItemStack itemstack = this.Inventory[index].Itemstack;
-                if (itemstack != null)
+
+                Vec3f translation = new(0f, 0.069f, 0f);
+
+                if (block.Variant["side"] == "north")
                 {
-                    tfMatrices[index] = new Matrixf().Set(genTransform(itemstack, index).AsMatrix).Values;
+                    translation.X = .7253f + .0625f * index - 1;
+                    tfMatrices[index] = new Matrixf().Translate(translation.X, translation.Y, translation.Z).Values;
                 }
+                else if (block.Variant["side"] == "south")
+                {
+                    translation.X = 0.2747f - .0625f * index;
+                    tfMatrices[index] = new Matrixf().Translate(translation.X, translation.Y, translation.Z).Values;
+                }
+                else if (block.Variant["side"] == "west")
+                {
+                    translation.Z = 0.2747f - .0625f * index + 1;
+                    tfMatrices[index] = new Matrixf().Translate(translation.X, translation.Y, translation.Z).RotateYDeg(90).Values;
+                }
+                else if (block.Variant["side"] == "east")
+                {
+
+                    translation.Z = 0.7253f + .0625f * index;
+                    tfMatrices[index] = new Matrixf().Translate(translation.X, translation.Y, translation.Z).RotateYDeg(90).Values;
+                }
+
             }
             return tfMatrices;
         }

@@ -4,7 +4,9 @@ using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
+using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
+using Vintagestory.API.Util;
 using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.BlockEntities
@@ -159,9 +161,6 @@ namespace FromGoldenCombs.BlockEntities
             return false;
         }
 
-
-        readonly Matrixf mat = new();
-
         public Vec3f getTranslation(Block block,int index)
         {
             float x = 0f;
@@ -175,7 +174,6 @@ namespace FromGoldenCombs.BlockEntities
             else if (block.Variant["side"] == "south")
             {
                 translation.X = x = 0.2747f - .0625f * index;
-                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
             }
             else if (block.Variant["side"] == "west")
             {
@@ -187,40 +185,93 @@ namespace FromGoldenCombs.BlockEntities
             }
             return translation;
         }
-        protected override MeshData genMesh(ItemStack stack)
-        {
 
-            MeshData meshData;
-            if (stack.Collectible as IContainedMeshSource != null)
+        protected override MeshData getOrCreateMesh(ItemStack stack, int index)
+        {
+            MeshData mesh = this.getMesh(stack);
+            if (mesh != null)
             {
-                meshData = (stack.Collectible as IContainedMeshSource).GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
-                meshData.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 0f, base.Block.Shape.rotateY * 0.017453292f, 0f);
-            } else
-            {
-                this.nowTesselatingObj = stack.Collectible;
-                this.nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Item.Shape.Base);
-                capi.Tesselator.TesselateItem(stack.Item, out meshData, this);
+                return mesh;
             }
-            ModelTransform transform = stack.Collectible.Attributes.AsObject<ModelTransform>();
-            transform.EnsureDefaultValues();
-            transform.Rotation.X = 0;
-            transform.Rotation.Y = block.Shape.rotateY;
-            transform.Rotation.Z = 0;
-            transform.Translation = getTranslation(stack.Block, index);
-            return transform;
+            IContainedMeshSource meshSource = stack.Collectible as IContainedMeshSource;
+            if (meshSource != null)
+            {
+                mesh = meshSource.GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
+                mesh.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 0f, base.Block.Shape.rotateY * 0.017453292f, 0f);
+            }
+            else
+            {
+                ICoreClientAPI capi = this.Api as ICoreClientAPI;
+                if (stack.Class == EnumItemClass.Block)
+                {
+                    mesh = capi.TesselatorManager.GetDefaultBlockMesh(stack.Block).Clone();
+                }
+                else
+                {
+                    this.nowTesselatingObj = stack.Collectible;
+                    this.nowTesselatingShape = null;
+                    CompositeShape shape = stack.Item.Shape;
+                    if (((shape != null) ? shape.Base : null) != null)
+                    {
+                        this.nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Item.Shape.Base);
+                    }
+                    capi.Tesselator.TesselateItem(stack.Item, out mesh, this);
+                    mesh.RenderPassesAndExtraBits.Fill((short)2);
+                }
+            }
+            JsonObject attributes = stack.Collectible.Attributes;
+            if (attributes != null && attributes[this.AttributeTransformCode].Exists)
+            {
+                JsonObject attributes2 = stack.Collectible.Attributes;
+                ModelTransform transform = (attributes2 != null) ? attributes2[this.AttributeTransformCode].AsObject<ModelTransform>(null) : null;
+                transform.EnsureDefaultValues();
+                mesh.ModelTransform(transform);
+            }
+            if (stack.Class == EnumItemClass.Item && (stack.Item.Shape == null || stack.Item.Shape.VoxelizeTexture))
+            {
+                mesh.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 1.5707964f, 0f, 0f);
+                mesh.Scale(new Vec3f(0.5f, 0.5f, 0.5f), 0.33f, 0.33f, 0.33f);
+                mesh.Translate(getTranslation(block,index));
+            }
+            string key = this.getMeshCacheKey(stack);
+            this.MeshCache[key] = mesh;
+            return mesh;
         }
-        
+
 
         protected override float[][] genTransformationMatrices()
         {
-            float[][] tfMatrices = new float[9][];
-            for (int index = 0; index < 1; index++)
+            float x = 0f;
+            float y = 0.069f;
+            float z = 0f;
+            float[][] tfMatrices = new float[10][];
+            for (int index = 0; index < 10; index++)
             {
-                ItemStack itemstack = this.Inventory[index].Itemstack;
-                if (itemstack != null)
+                
+                Vec3f translation = new(0f, 0.069f, 0f);
+                
+                if (block.Variant["side"] == "north")
                 {
-                    tfMatrices[index] = new Matrixf().Set(genTransform(itemstack, index).AsMatrix).Values;
+                    translation.X = .7253f + .0625f * index - 1;
+                    tfMatrices[index] = new Matrixf().Translate(translation.X, translation.Y, translation.Z).Values;
                 }
+                else if (block.Variant["side"] == "south")
+                {
+                    translation.X = 0.2747f - .0625f * index;
+                    tfMatrices[index] = new Matrixf().Translate(translation.X, translation.Y, translation.Z).Values;
+                }
+                else if (block.Variant["side"] == "west")
+                {
+                    translation.Z = 0.2747f - .0625f * index +1;
+                    tfMatrices[index] = new Matrixf().Translate(translation.X, translation.Y, translation.Z).RotateYDeg(90).Values;
+                }
+                else if (block.Variant["side"] == "east")
+                {
+
+                    translation.Z = 0.7253f + .0625f * index;
+                    tfMatrices[index] = new Matrixf().Translate(translation.X, translation.Y, translation.Z).RotateYDeg(90).Values;
+                }
+                
             }
             return tfMatrices;
         }
@@ -239,7 +290,8 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (index == 10)
             {
-                sb.AppendLine();
+                
+                sb.AppendLine("");
                 for (int i = 0; i < 10; i++)
                 {
                     ItemSlot slot = inv[i];
@@ -249,6 +301,7 @@ namespace FromGoldenCombs.BlockEntities
                     }
                     else
                     {
+                        
                         sb.AppendLine(slot.Itemstack.GetName());
                     }
                 }
@@ -256,6 +309,7 @@ namespace FromGoldenCombs.BlockEntities
             else if (index < 10)
             {
                 ItemSlot slot = inv[index];
+                sb.AppendLine("");
                 if (slot.Empty)
                 {
                     sb.AppendLine(Lang.Get("Empty"));

@@ -6,7 +6,6 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
-using Vintagestory.API.Util;
 using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.BlockEntities
@@ -27,7 +26,7 @@ namespace FromGoldenCombs.BlockEntities
         public bool isActiveHive = false;
         //public bool isActiveHive { get; set; } = false;
         EnumHivePopSize hivePopSize;
-        int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
+        float harvestBase = FromGoldenCombsConfig.Current.ClayPotDaysToHarvestIn30DayMonths;
 
         public readonly InventoryGeneric inv;
         public override InventoryBase Inventory => inv;
@@ -218,10 +217,11 @@ namespace FromGoldenCombs.BlockEntities
             }
         }
 
-        private double HarvestableTime(int i)
+        private double HarvestableTime(float i)
         {
+            i = i = (i * Api.World.Calendar.DaysPerMonth / 30f) * Api.World.Calendar.HoursPerDay;
             Random rand = new();
-            return (i * .75) + ((i * .5) * rand.NextDouble());
+            return (i * .75) + ((i * .25) * rand.NextDouble());
         }
 
         readonly Vec3d startPos = new();
@@ -360,12 +360,6 @@ namespace FromGoldenCombs.BlockEntities
 
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
         {
-            if (Api.World.EntityDebugMode && forPlayer.WorldData.CurrentGameMode == EnumGameMode.Creative)
-            {
-                dsc.AppendLine(
-                    Lang.Get("Nearby flowers: {0}, Nearby Hives: {1}, Empty Hives: {2}, Pop after hours: {3}. harvest in {4}, repop cooldown: {5}",quantityNearbyFlowers, quantityNearbyHives, (harvestableAtTotalHours - Api.World.Calendar.TotalHours).ToString("#.##"), (cooldownUntilTotalHours - Api.World.Calendar.TotalHours).ToString("#.##"))
-                    + "\n" + Lang.Get("Population Size: " + hivePopSize));
-            }
             if (isActiveHive)
             {
                 double worldTime = Api.World.Calendar.TotalHours;
@@ -374,18 +368,25 @@ namespace FromGoldenCombs.BlockEntities
                 string hiveState = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", quantityNearbyFlowers, hivePopSize);
          
                 dsc.AppendLine(hiveState);
-                if ((harvestableAtTotalHours - worldTime / 24 > 0) && this.Block.Variant["top"] == "withtop")
+                if(Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + (roomness > 0 ? 5 : 0) <= 15)
+                {
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:toocold"));
+                }
+                else if ((harvestableAtTotalHours - worldTime / 24 > 0) && this.Block.Variant["top"] == "withtop")
                 {
                     string combPopTime;
                     if (FromGoldenCombsConfig.Current.showcombpoptime) {
-                        combPopTime = "Your bees will produce comb in " + (daysTillHarvest < 1 ? "less than one day" : daysTillHarvest + " days");
-                        dsc.AppendLine(combPopTime);
+                        dsc.AppendLine(Lang.Get("fromgoldencombs:timetillpop", daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : (daysTillHarvest + " days")));
                     } 
                 }
-                else if (isActiveHive && (this.Block.Variant["top"] == "notop" || inv[0]?.Itemstack?.Collectible.Variant["type"]=="harvestable"))
+                else if (isActiveHive && (this.Block.Variant["top"] == "notop"))
                 {
-                    dsc.AppendLine("Hive lacks a usable honey pot, will not produce comb.");
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:nopot"));
+                   
                 }
+                else if (inv[0]?.Itemstack?.Collectible.Variant["type"] == "harvestable"){
+                    
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:fulltop")); }
                 else if (quantityNearbyFlowers>0)
                 {
                     dsc.AppendLine("The bees are out gathering.");
@@ -444,10 +445,10 @@ namespace FromGoldenCombs.BlockEntities
         {
 
             ModelTransform transform = new();
-            Vec3f offset = new Vec3f(0, .3333f * index, 0);
-            transform.Origin = new Vec3f(0.5f, 0f, 0.5f);
-            transform.WithRotation(new Vec3f(0f, this.Block.Shape.rotateY * GameMath.DEG2RAD, 0f));
-            transform.Translation.Y = offset.Y;
+            //Vec3f offset = new Vec3f(0, .1f, 0);
+            //transform.Origin = new Vec3f(0.5f, 0.0f, 0.5f);
+            //transform.WithRotation(new Vec3f(0f, this.Block.Shape.rotateY * GameMath.DEG2RAD, 0f));
+            //transform.Translation = offset;
             return transform;
         }
 
@@ -459,7 +460,7 @@ namespace FromGoldenCombs.BlockEntities
                 ItemStack itemstack = this.Inventory[index].Itemstack;
                 if (itemstack != null)
                 {
-                    tfMatrices[index] = new Matrixf().Set(genTransform(itemstack, index).AsMatrix).Values;
+                    tfMatrices[index] = new Matrixf().Translate(0, 1.018f, 1).RotateXDeg(180f).Values;
                 }
             }
             return tfMatrices;

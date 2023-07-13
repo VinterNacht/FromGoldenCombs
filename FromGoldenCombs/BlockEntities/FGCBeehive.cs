@@ -33,7 +33,7 @@ namespace FromGoldenCombs.BlockEntities
             float popHiveAfterHours;
             double cooldownUntilTotalHours;
             double harvestableAtTotalHours;
-            int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
+            float harvestBase = FromGoldenCombsConfig.Current.SkepDaysToHarvestIn30DayMonths;
             
             // Current scan values
             int scanQuantityNearbyFlowers;
@@ -179,7 +179,7 @@ namespace FromGoldenCombs.BlockEntities
                 // Reset timers during winter
                 if (temp <= -10)
                 {
-                harvestableAtTotalHours = Api.World.Calendar.TotalHours + (FromGoldenCombsConfig.Current.hiveHoursToHarvest * (.2 * Api.World.Rand.NextDouble()));
+                harvestableAtTotalHours = Api.World.Calendar.TotalHours + ((harvestBase * Api.World.Calendar.DaysPerMonth / 30f) * Api.World.Calendar.HoursPerDay);
                 cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 4 / 2 * 24;
                 }
 

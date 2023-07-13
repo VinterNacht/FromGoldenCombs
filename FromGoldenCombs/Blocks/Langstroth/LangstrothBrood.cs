@@ -11,19 +11,21 @@ namespace FromGoldenCombs.Blocks.Langstroth
 {
     class LangstrothBrood : LangstrothCore
     {
+        /// <summary>Call when the player right clicks the block.</summary>
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
+            
             if (slot.Empty)
             {
-                ItemStack stack = api.World.BlockAccessor.GetBlock(blockSel.Position, 0).OnPickBlock(api.World, blockSel.Position);
+                ItemStack stack = OnPickBlock(world, blockSel.Position);
                 if (byPlayer.InventoryManager.TryGiveItemstack(stack))
                 {
                     api.World.BlockAccessor.SetBlock(0, blockSel.Position);
                     return true;
                 }
 
-            } else if (slot.Itemstack?.Collectible.FirstCodePart() == "skep" && slot.Itemstack.Collectible.Variant["type"] == "populated"  && Variant["populated"] == "empty")
+            } else if (slot.Itemstack?.Collectible.FirstCodePart() == "skep" && slot.Itemstack.Collectible.Variant["type"] == "populated"  && this.Variant["populated"] == "empty")
             {
                 api.World.BlockAccessor.SetBlock(api.World.BlockAccessor.GetBlock(this.CodeWithVariant("populated","populated")).BlockId, blockSel.Position);
                 byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();

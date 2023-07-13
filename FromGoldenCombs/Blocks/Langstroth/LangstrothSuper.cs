@@ -11,25 +11,6 @@ namespace FromGoldenCombs.Blocks
     class LangstrothSuper : LangstrothCore
     {
 
-        public override void OnLoaded(ICoreAPI api)
-        {
-            base.OnLoaded(api);
-        }
-
-        //Picks up block while retaining its contents
-        public override ItemStack OnPickBlock(IWorldAccessor world, BlockPos pos)
-        {
-            ItemStack stack = base.OnPickBlock(world, pos);
-
-            BELangstrothSuper bed = world.BlockAccessor.GetBlockEntity(pos) as BELangstrothSuper;
-            if (bed is BELangstrothSuper)
-            {
-                SetContents(stack, bed.GetContentStacks());
-            }
-
-            return stack;
-        }
-
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
             if (!(byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack?.Block is LangstrothCore))
@@ -112,23 +93,6 @@ namespace FromGoldenCombs.Blocks
                             }
                     };
                 });
-
-                //wx = ObjectCacheUtil.GetOrCreate(api, "superInteractions5", () =>
-                //{
-                //    List<ItemStack> partlist = new();
-
-                //    partlist.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothsuper-closed-maple-oak-east")),1));
-                //    partlist.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothbrood-maple-oak-east")), 1));
-                //    partlist.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothbase-maple-oak-east")), 1));
-
-                //    return new WorldInteraction[] {
-                //            new WorldInteraction() {
-                //                    ActionLangCode = "fromgoldencombs:blockhelp-langstrothsuper-createstack",
-                //                    MouseButton = EnumMouseButton.Right,
-                //                    Itemstacks = partlist.ToArray()
-                //            }
-                //    };
-                //});
             }
             if (wi2 == null || wi3 == null)
             {
