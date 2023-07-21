@@ -22,9 +22,6 @@
 	
 
   <ItemGroup>
-    <Compile Update="BlockEntities\BEClayBroodPot.cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Compile>
     <Compile Update="Blocks\ClaypotHive\ClayHiveTop.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>

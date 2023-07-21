@@ -15,7 +15,6 @@
 1.18-v1.3.16-rc.2
 	- Troubleshooting Handbook
 
-
 1.18-v1.3.16-rc.1
 Added the following config values
 	-   "SkepDaysToHarvestIn30DayMonths": 7.0,

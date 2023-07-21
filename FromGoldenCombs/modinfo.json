@@ -3,6 +3,7 @@
   "modid": "fromgoldencombs",
   "name": "From Golden Combs",
   "author": ["Vinter Nacht"],
+  "contributors": ["CakesTwix"],
   "description": "Adding depth, variety, and complexity to Vintage Apiculture",
   "version": "1.4.18",
   "dependencies": {

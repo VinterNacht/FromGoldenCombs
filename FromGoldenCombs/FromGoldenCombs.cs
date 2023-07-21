@@ -29,7 +29,6 @@ namespace FromGoldenCombs
 
             //BlockEntities
             api.RegisterBlockEntityClass("fgcbeehive", typeof(FGCBeehive));
-            api.RegisterBlockEntityClass("beclaypothive", typeof(BEClayBroodPot));
             api.RegisterBlockEntityClass("beceramichive", typeof(BECeramicBroodPot));
             api.RegisterBlockEntityClass("belangstrothsuper", typeof(BELangstrothSuper));
             api.RegisterBlockEntityClass("belangstrothstack", typeof(BELangstrothStack));
