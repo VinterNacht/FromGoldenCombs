@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <LangVersion>10</LangVersion>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
@@ -46,6 +46,7 @@
 	<Compile Remove="Blocks\BlockClaypotHive.cs" />
 	<Compile Remove="Blocks\BlockHiveTop.cs" />
 	<Compile Remove="Blocks\BlockRawClaypotHive .cs" />
+	<None Remove="assets\fromgoldencombs\lang\fr.json" />
 	<None Remove="modinfo.json" />
 	<Content Include="modinfo.json">
 	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>

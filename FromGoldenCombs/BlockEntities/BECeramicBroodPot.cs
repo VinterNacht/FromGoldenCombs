@@ -358,45 +358,6 @@ namespace FromGoldenCombs.BlockEntities
         }
 
 
-        public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
-        {
-            if (isActiveHive)
-            {
-                double worldTime = Api.World.Calendar.TotalHours;
-                int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / 24);
-                daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
-                string hiveState = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", quantityNearbyFlowers, hivePopSize);
-         
-                dsc.AppendLine(hiveState);
-                if(Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + (roomness > 0 ? 5 : 0) <= 15)
-                {
-                    dsc.AppendLine(Lang.Get("fromgoldencombs:toocold"));
-                }
-                else if ((harvestableAtTotalHours - worldTime / 24 > 0) && this.Block.Variant["top"] == "withtop")
-                {
-                    string combPopTime;
-                    if (FromGoldenCombsConfig.Current.showcombpoptime) {
-                        dsc.AppendLine(Lang.Get("fromgoldencombs:timetillpop", daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : (daysTillHarvest + " days")));
-                    } 
-                }
-                else if (isActiveHive && (this.Block.Variant["top"] == "notop"))
-                {
-                    dsc.AppendLine(Lang.Get("fromgoldencombs:nopot"));
-                   
-                }
-                else if (inv[0]?.Itemstack?.Collectible.Variant["type"] == "harvestable"){
-                    
-                    dsc.AppendLine(Lang.Get("fromgoldencombs:fulltop")); }
-                else if (quantityNearbyFlowers>0)
-                {
-                    dsc.AppendLine("The bees are out gathering.");
-                } else
-                {
-                    dsc.AppendLine("The bees are scouting for flowers.");
-                }
-
-            }
-        }
 
         public override void ToTreeAttributes(ITreeAttribute tree)
         {
@@ -450,6 +411,51 @@ namespace FromGoldenCombs.BlockEntities
             //transform.WithRotation(new Vec3f(0f, this.Block.Shape.rotateY * GameMath.DEG2RAD, 0f));
             //transform.Translation = offset;
             return transform;
+        }
+
+
+        public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
+        {
+            if (isActiveHive)
+            {
+                double worldTime = Api.World.Calendar.TotalHours;
+                int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / 24);
+                daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
+                string hiveState = Lang.Get("fromgoldencombs:nearbyflowers", quantityNearbyFlowers, hivePopSize);
+
+                dsc.AppendLine(hiveState);
+                if (Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + (roomness > 0 ? 5 : 0) <= 15)
+                {
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:toocold"));
+                }
+                else if ((harvestableAtTotalHours - worldTime / 24 > 0) && this.Block.Variant["top"] == "withtop")
+                {
+                    string combPopTime;
+                    if (FromGoldenCombsConfig.Current.showcombpoptime)
+                    {
+                        dsc.AppendLine(Lang.Get("fromgoldencombs:timetillpop", daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : (daysTillHarvest + " days")));
+                    }
+                }
+                else if (isActiveHive && (this.Block.Variant["top"] == "notop"))
+                {
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:nopot"));
+
+                }
+                else if (inv[0]?.Itemstack?.Collectible.Variant["type"] == "harvestable")
+                {
+
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:fulltop"));
+                }
+                else if (quantityNearbyFlowers > 0)
+                {
+                    dsc.AppendLine("The bees are out gathering.");
+                }
+                else
+                {
+                    dsc.AppendLine("The bees are scouting for flowers.");
+                }
+
+            }
         }
 
         protected override float[][] genTransformationMatrices()
