@@ -36,13 +36,15 @@ namespace FromGoldenCombs.Blocks
         /// <param name="stack">The stack.</param>
         public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack stack)
         {
-            if (stack != null)
+            if (stack != null && stack.Attributes != null)
             {
-                bool isHiveActive = stack.Attributes.GetBool("populated", false);
+                bool isHiveActive = stack.Attributes.GetBool("isactivehive", false);
                 base.OnBlockPlaced(world, blockPos);
                 BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockPos);
                 if (beCeramicBroodPot == null) return;
                 beCeramicBroodPot.isActiveHive = isHiveActive;
+                beCeramicBroodPot.SetHiveSize(stack.Attributes.GetAsInt("hiveHealth"));
+                beCeramicBroodPot.TestHarvestable(0);
             }
         }
 
@@ -54,25 +56,24 @@ namespace FromGoldenCombs.Blocks
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)
         {
             BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(pos);
-            //If the hive is broken, and is populated, potentially spawn bee mob.
-            if (beCeramicBroodPot.isActiveHive && world.Rand.NextDouble() < 0.4)
+
+            if (world.Side == EnumAppSide.Server && (byPlayer == null || byPlayer.WorldData.CurrentGameMode != EnumGameMode.Creative))
             {
-                EntityProperties type = world.GetEntityType(new AssetLocation("beemob"));
-                Entity entity = world.ClassRegistry.CreateEntity(type);
+                
+                ItemStack stack = this.OnPickBlock(world, pos);
+                beCeramicBroodPot.SetAttributes(stack);
 
-                if (entity != null)
-                {
-                    entity.ServerPos.X = pos.X + 0.5f;
-                    entity.ServerPos.Y = pos.Y + 0.5f;
-                    entity.ServerPos.Z = pos.Z + 0.5f;
-                    entity.ServerPos.Yaw = (float)world.Rand.NextDouble() * 2 * GameMath.PI;
-                    entity.Pos.SetFrom(entity.ServerPos);
+                world.SpawnItemEntity(stack, new Vec3d((double)pos.X + 0.5, (double)pos.Y + 0.5, (double)pos.Z + 0.5));
 
-                    entity.Attributes.SetString("origin", "brokenbeehive");
-                    world.SpawnEntity(entity);
-                }
+                world.PlaySoundAt(Sounds.GetBreakSound(byPlayer), pos.X, pos.Y, pos.Z, byPlayer);
             }
-            base.OnBlockBroken(world, pos, byPlayer, dropQuantityMultiplier);
+
+            if (EntityClass != null)
+            {
+                world.BlockAccessor.GetBlockEntity(pos)?.OnBlockBroken();
+            }
+
+            world.BlockAccessor.SetBlock(0, pos);
         }
 
         public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)

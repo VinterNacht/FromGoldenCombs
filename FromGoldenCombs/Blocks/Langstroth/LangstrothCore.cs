@@ -26,7 +26,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
             if (!slot.Empty &&
             IsValidLangstroth(block))
             {
-                ItemStack langstrothblock = new(api.World.BlockAccessor.GetBlock(blockSel.Position));
+                ItemStack langstrothblock = api.World.BlockAccessor.GetBlock(blockSel.Position).OnPickBlock(world, blockSel.Position);
                 api.World.BlockAccessor.SetBlock(api.World.GetBlock(
                 new AssetLocation("fromgoldencombs", "langstrothstack-two-" + block.Variant["side"])).BlockId, blockSel.Position);
                 BELangstrothStack lStack = (BELangstrothStack)api.World.BlockAccessor.GetBlockEntity(blockSel.Position);

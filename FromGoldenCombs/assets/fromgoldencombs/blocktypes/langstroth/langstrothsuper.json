@@ -9,11 +9,7 @@
   "creativeinventory": { "general": ["langstrothsuper-closed-*-east"] },
   "attributes": {
         "handbook": {
-        "groupBy": ["langstgrothbase-ebony-baldcypress-east"],
-        "excludeByType": {
-          "*-closed-baldcypress-ebony-east": false,
-          "*": true
-        },
+        "groupBy": ["langstrothsuper-closed-*-east"],
         "extraSections": [{
               "title": "fromgoldencombs:block-handbooktitle-langstrothsuper",
               "text": "fromgoldencombs:block-handbooktext-langstrothsuper"

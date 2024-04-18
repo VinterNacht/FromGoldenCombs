@@ -8,11 +8,7 @@
   "heldTpUseAnimation": "twohandplaceblock",
   "attributes": {
         handbook: {
-			    groupBy: ["framerack-*"],
-			    excludeByType: {
-				    "*-ebony-baldcypress-east": false,
-				    "*": true
-			  },
+			  groupBy: ["framerack-*"],
         "extraSections": [{
               "title": "fromgoldencombs:block-handbooktitle-framerack",
               "text": "fromgoldencombs:block-handbooktext-framerack"

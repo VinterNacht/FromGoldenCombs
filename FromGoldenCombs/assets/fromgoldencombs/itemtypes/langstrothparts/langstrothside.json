@@ -13,7 +13,6 @@
 	"attributes": {
     "handbook": {
       "groupBy": ["langstrothside-ebony"],
-			"groupedName": ["langstrothside-ebony"],
 			"extraSections": [
         {
 					"title": "fromgoldencombs:item-handbooktitle-langstrothside",

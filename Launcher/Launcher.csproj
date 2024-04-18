@@ -1,94 +1,87 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FDA53982-3284-45FE-A039-77EC1C42755F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Launcher</RootNamespace>
-    <AssemblyName>Launcher</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\0Harmony.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="AnimatedGif">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\AnimatedGif.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="cairo-sharp">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\cairo-sharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\OpenTK.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenTK.Core">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\OpenTK.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenTK.Graphics">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\OpenTK.Graphics.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="protobuf-net">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\protobuf-net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="Tavis.JsonPatch">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Lib\Tavis.JsonPatch.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Vintagestory">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Vintagestory.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VintagestoryAPI">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\VintagestoryAPI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VintagestoryLib">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\VintagestoryLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VintagestoryServer">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\VintagestoryServer.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VSCreativeMod">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Mods\VSCreativeMod.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VSEssentials">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Mods\VSEssentials.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VSSurvivalMod">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.18\Mods\VSSurvivalMod.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>if $(Configuration) == Debug (
 
-:: Clean the debug mod directory. ::
-del /f /s /q $(SolutionDir).debug\$(ProjectName) &gt; NUL
-rmdir /s /q $(SolutionDir).debug\$(ProjectName)
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 
-:: Rebuild the necessary folders. ::
-if not exist $(SolutionDir).debug\$(ProjectName)\ mkdir $(SolutionDir).debug\$(ProjectName)\
-
-:: Copy all relevant files to debug directory. ::
-xcopy "$(TargetDir)" "$(SolutionDir).debug\$(ProjectName)" /y /e /s
-
-)</PreBuildEvent>
-  </PropertyGroup>
 </Project>

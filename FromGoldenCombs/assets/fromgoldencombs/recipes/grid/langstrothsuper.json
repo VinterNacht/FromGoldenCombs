@@ -2,9 +2,10 @@
 {
 	"ingredientPattern": "_H_,PAP",
 	"ingredients": {
-		"A": {"type": "item", "code": "langstrothside-aged", "quantity": "1",  "states": ["aged"],  "loadFromProperties": "block/wood" },
+		
 		"H": {"type": "item", "code": "game:hammer-*", "isTool": true },
-		"P": {"type": "item", "code": "langstrothside-*",	"name":	"primary", "quantity": "1", "states": ["aged"], "loadFromProperties": "block/wood" }		
+		"P": {"type": "item", "code": "langstrothside-*",	"name":	"primary", "quantity": "2", "states": ["aged"], "loadFromProperties": "block/wood" },
+		"A": {"type": "item", "code": "langstrothside-aged", "quantity": "2",  "states": ["aged"],  "loadFromProperties": "block/wood" },		
 	},
 	"width": 3,
 	"height": 2,

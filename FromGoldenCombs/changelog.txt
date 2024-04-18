@@ -1,5 +1,24 @@
-1.18-V1.4.18
+1-18-V1.4.25
+	- Handbook entries cleaned up and made to function properly.
+	- Readded variant entries to handbook to remove confusion regarding materials available to make Langstroth parts.
+
+1-18-V1.4.24
+	- Corrected error where frames would disappear from supers when they were the bottom piece of a LangstrothStack.
+
+1-18-V1.4.23
+	- Ceramic Hives no longer lose colony when broken.
+
+1-18-V1.4.22
+	- Fixed Ceramic Hives losing their colony when picked up while populated.
+	- Crash with breaking a Ceramic Hive base fixed.
+
+1-18-V1.4.21
+	- Corrected error with Apiculture Handbook Guide
+
+1.18-V1.4.20
 	- Ukranian Translation Added
+	- French Translation by Jay added
+	- Net 7 Update
 
 1.18-V1.4.18
 	- Refixed the *expletive deleted* wax issue after I fixed it and broke it again.

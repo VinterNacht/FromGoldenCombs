@@ -5,18 +5,13 @@
   "maxstacksize": 1,
   "attributes": {
     handbook: {
-			groupBy: ["langstgrothbase-ebony-baldcypress-east"],
-      "excludeByType": {
-				    "*-ebony-baldcypress-east": false,
-				    "*": true
-			},
+			groupBy: ["langstrothbase-*-east"],
       "extraSections": [
         {
           "title": "fromgoldencombs:block-handbooktitle-langstrothbase",
           "text": "fromgoldencombs:block-handbooktext-langstrothbase"
         }
-      ],
-      "groupedName": ["langstrothbase-aged-aged-east" ]
+      ]
     }
   },
   "creativeinventory": { "general": ["langstrothbase-*-east"] },

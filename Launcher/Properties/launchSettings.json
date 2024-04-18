@@ -1,10 +1,11 @@
 {
   "profiles": {
-    "Profile 1": {
+    "Launcher": {
       "commandName": "Executable",
       "executablePath": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.18\\Vintagestory.exe",
       "commandLineArgs": "--addModPath=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\bin\\Debug\"  --addOrigin=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\assets\"",
-      "workingDirectory": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.18"
+      "workingDirectory": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.18",
+      "remoteDebugEnabled": false
     }
   }
 }

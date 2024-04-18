@@ -72,6 +72,10 @@ namespace FromGoldenCombs.BlockEntities
             }
         }
 
+        public void SetHiveSize(int size)
+        {
+            hivePopSize = (EnumHivePopSize)size;
+        }
         public bool OnInteract(IPlayer byPlayer)
         {
             Block hive = Api.World.BlockAccessor.GetBlock(Pos,0);
@@ -103,6 +107,7 @@ namespace FromGoldenCombs.BlockEntities
 
         private bool TryTake(IPlayer player)
         {
+            BlockContainer blockContainer = this.Api.World.BlockAccessor.GetBlock(Pos, 0) as BlockContainer;
             int index = 0;
             if (!inv[index].Empty)
             {
@@ -112,9 +117,13 @@ namespace FromGoldenCombs.BlockEntities
             }
             else
             {
-                ItemStack stack = this.Block.OnPickBlock(Api.World, Pos);
+                ItemStack stack = blockContainer.OnPickBlock(this.Api.World, Pos);
+                SetAttributes(stack);
+
                 if (player.InventoryManager.TryGiveItemstack(stack))
                 {
+                    
+
                     Api.World.BlockAccessor.SetBlock(0, Pos);
                     return true;
                 }
@@ -149,6 +158,21 @@ namespace FromGoldenCombs.BlockEntities
             return false;
         }
 
+        public virtual void SetAttributes(ItemStack hiveStack)
+        {
+            
+            hiveStack.Attributes.SetInt("scanIteration", scanIteration);
+            hiveStack.Attributes.SetInt("quantityNearbyFlowers", 0);
+            hiveStack.Attributes.SetInt("quantityNearbyHives", 0);
+            hiveStack.Attributes.SetInt("scanQuantityNearbyFlowers", 0);
+            hiveStack.Attributes.SetInt("scanQuantityNearbyHives", 0);
+            hiveStack.Attributes.SetBool("isactivehive", isActiveHive);
+            hiveStack.Attributes.SetDouble("cooldownUntilTotalHours", 0);
+            hiveStack.Attributes.SetDouble("harvestableAtTotalHours", 0);
+            hiveStack.Attributes.SetInt("hiveHealth", (int)hivePopSize);
+            hiveStack.Attributes.SetFloat("roomness", 0.0f);
+
+        }
         //Rendering Processes
         readonly Matrixf mat = new();
 
@@ -167,7 +191,7 @@ namespace FromGoldenCombs.BlockEntities
 
         }
 
-        private void TestHarvestable(float dt)
+        public void TestHarvestable(float dt)
         {
             double worldTime = Api.World.Calendar.TotalHours;
             ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);

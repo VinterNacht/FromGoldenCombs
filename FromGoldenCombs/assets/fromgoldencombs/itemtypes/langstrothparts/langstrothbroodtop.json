@@ -8,11 +8,7 @@
   "creativeinventory": { "general": ["langstrothbroodtop-*"] },
   "attributes": {
     "handbook": {
-			groupBy: ["langstgrothbrood-ebony-baldcypress"],
-      "excludeByType": {
-				"*-ebony-baldcypress": false,
-				"*": true
-      },
+			groupBy: ["langstrothbrood-*"],
 			"extraSections": [
         {
           "title": "fromgoldencombs:item-handbooktitle-langstrothbroodtop",

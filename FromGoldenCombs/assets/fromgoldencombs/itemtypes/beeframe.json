@@ -12,13 +12,7 @@
   "creativeinventory": { "general": ["beeframe-*"] },
   "attributes": {
         "handbook": {
-        "groupBy": ["beeframe-ebony-empty"],
-        "excludeByType": {
-          "*-ebony-empty": false,
-          "*-ebony-lined": false,
-          "*-ebony-harvestable": false,
-          "*": true
-        },
+        "groupBy": ["beeframe-*aaaaaaaaaaaa"],
         "extraSectionsByType": {
           "*-empty": [ { "title": "fromgoldencombs:item-handbooktitle-emptybeeframe", "text": "fromgoldencombs:item-handbooktext-emptybeeframe" } ],
           "*-lined": [ { "title": "fromgoldencombs:item-handbooktitle-linedbeeframe", "text": "fromgoldencombs:item-handbooktext-linedbeeframe" } ],
