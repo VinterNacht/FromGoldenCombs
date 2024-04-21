@@ -935,11 +935,10 @@ namespace FromGoldenCombs.BlockEntities
         {
             
                 float[][] tfMatrices = new float[3][];
-                for (int index = /*GetBottomStack()?.Pos != this.Pos?0:1;*/0; index <= 2; index++)
+                for (int index = 0; index <= 2; index++)
                 {
                     float x = 0;
                     float z = 0;
-                System.Diagnostics.Debug.WriteLine("Block at index " + index + " has side " + this.Block.Variant["side"] + ".");
                     switch (this.Block.Variant["side"])
                     {
                         case "east": x = 0; break;
