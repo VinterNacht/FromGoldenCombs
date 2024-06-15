@@ -111,6 +111,7 @@ namespace FromGoldenCombs.BlockEntities
                 if (base.Block.Variant["open"] == "closed")
                 {
                     this.Api.World.BlockAccessor.ExchangeBlock(this.Api.World.GetBlock(blockContainer.CodeWithVariant("open", "open")).BlockId, blockSel.Position);
+                    //updateMeshes();
                     base.MarkDirty(true, null);
                     return true;
                 }
@@ -154,7 +155,7 @@ namespace FromGoldenCombs.BlockEntities
                     Api.World.SpawnItemEntity(stack, Pos.ToVec3d().Add(0.5, 0.5, 0.5));
                 }
 
-                updateMeshes();
+                //updateMeshes();
                 return true;
             }
 
@@ -164,8 +165,8 @@ namespace FromGoldenCombs.BlockEntities
         public Vec3f getTranslation(Block block,int index)
         {
             float x = 0f;
-            float y = 0.069f;
-            float z = 0f;
+            //float y = 0.069f;
+            //float z = 0f;
             Vec3f translation = new(0f, 0f, 0f);
             if (block.Variant["side"] == "north")
             {
@@ -241,9 +242,9 @@ namespace FromGoldenCombs.BlockEntities
 
         protected override float[][] genTransformationMatrices()
         {
-            float x = 0f;
-            float y = 0.069f;
-            float z = 0f;
+            //float x = 0f;
+            //float y = 0.069f;
+            //float z = 0f;
             float[][] tfMatrices = new float[10][];
             for (int index = 0; index < 10; index++)
             {

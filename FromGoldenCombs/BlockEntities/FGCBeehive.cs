@@ -245,7 +245,7 @@ namespace FromGoldenCombs.BlockEntities
 
                     if (block == emptySkepN || block == emptySkepE || block == emptySkepS || block == emptySkepW)
                     {
-                        scanEmptySkeps.Add(new BlockPos(posx, posy, posz));
+                        scanEmptySkeps.Add(new BlockPos(posx, posy, posz,0));
                     }
                     if (block == fullSkepN || block == fullSkepE || block == fullSkepS || block == fullSkepW || block == wildhive1 || block == wildhive2)
                     {
@@ -328,7 +328,7 @@ namespace FromGoldenCombs.BlockEntities
                     beginPopStartTotalHours = Api.World.Calendar.TotalHours;
 
                     float mindistance = 999;
-                    BlockPos closestPos = new();
+                    BlockPos closestPos = new(0);
                     foreach (BlockPos pos in emptySkeps)
                     {
                         float dist = pos.DistanceTo(this.Pos);
@@ -432,7 +432,8 @@ namespace FromGoldenCombs.BlockEntities
                     emptySkeps.Add(new BlockPos(
                         emptySkepTree.GetInt("posX-" + i),
                         emptySkepTree.GetInt("posY-" + i),
-                        emptySkepTree.GetInt("posZ-" + i)
+                        emptySkepTree.GetInt("posZ-" + i),
+                        0
                     ));
                 }
 
@@ -446,7 +447,8 @@ namespace FromGoldenCombs.BlockEntities
                     scanEmptySkeps.Add(new BlockPos(
                         scanEmptySkepTree.GetInt("posX-" + i),
                         scanEmptySkepTree.GetInt("posY-" + i),
-                        scanEmptySkepTree.GetInt("posZ-" + i)
+                        scanEmptySkepTree.GetInt("posZ-" + i),
+                        0
                     ));
                 }
 
@@ -458,7 +460,7 @@ namespace FromGoldenCombs.BlockEntities
                 int z = tree.GetInt("skepToPopZ");
                 if (x != 0 || y != 0 || z != 0)
                 {
-                    skepToPop = new BlockPos(x, y, z);
+                    skepToPop = new BlockPos(x, y, z, 0);
                 }
                 else skepToPop = null;
 

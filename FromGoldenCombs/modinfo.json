@@ -5,7 +5,7 @@
   "author": ["Vinter Nacht"],
   "contributors": ["CakesTwix"],
   "description": "Adding depth, variety, and complexity to Vintage Apiculture",
-  "version": "1.4.25",
+  "version": "1.4.31",
   "dependencies": {
     "game": ""
   }

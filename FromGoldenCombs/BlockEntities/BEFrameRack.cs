@@ -190,8 +190,8 @@ namespace FromGoldenCombs.BlockEntities
         public Vec3f getTranslation(Block block, int index)
         {
             float x = 0f;
-            float y = 0.069f;
-            float z = 0f;
+            //float y = 0.069f;
+            //float z = 0f;
             Vec3f translation = new(0f, 0f, 0f);
             if (block.Variant["side"] == "north")
             {
@@ -266,9 +266,9 @@ namespace FromGoldenCombs.BlockEntities
 
         protected override float[][] genTransformationMatrices()
         {
-            float x = 0f;
-            float y = 0.069f;
-            float z = 0f;
+            //float x = 0f;
+            //float y = 0.069f;
+            //float z = 0f;
             float[][] tfMatrices = new float[10][];
             for (int index = 0; index < 10; index++)
             {

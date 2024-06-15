@@ -23,8 +23,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             Block block = api.World.BlockAccessor.GetBlock(blockSel.Position, 0);
-            if (!slot.Empty &&
-            IsValidLangstroth(block))
+            if (!slot.Empty && slot.Itemstack.Collectible is Block && IsValidLangstroth(slot.Itemstack.Block))
             {
                 ItemStack langstrothblock = api.World.BlockAccessor.GetBlock(blockSel.Position).OnPickBlock(world, blockSel.Position);
                 api.World.BlockAccessor.SetBlock(api.World.GetBlock(

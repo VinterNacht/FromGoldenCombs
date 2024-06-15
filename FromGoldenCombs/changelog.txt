@@ -1,3 +1,27 @@
+1-19-V1.4.31
+	- Fixed Harvestable Frames Not Rendering After Being Filled In Hive
+
+1-19-V1.4.30
+	- Fixed Frames not rendering in Super when opened
+	- Fixed Ceramic Hives not getting wax ring when harvestable
+	- Fixed langstroth not updating meshes during interactions involving adding a populated skep/two tier hive.
+	- Added pt-br lang files.
+
+1-19-V1.4.29
+	- Updated Ceramic Hive Rendering
+	- Corrected positioning error with Langstroth Bases.
+
+1-19-V1.4.28
+	- Completed updating rendering issues.
+
+1-19-V1.4.27
+	- Rendering issue fixed (?)
+
+1-19-V1.4.26
+	- Updated rendering processes for 1.19
+	- Some minor rendering issues persist (Frames not appearing in frame rack after harvesting, but frames still existing in the rack)
+	- Basic functions in place
+
 1-18-V1.4.25
 	- Handbook entries cleaned up and made to function properly.
 	- Readded variant entries to handbook to remove confusion regarding materials available to make Langstroth parts.

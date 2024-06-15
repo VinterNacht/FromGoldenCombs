@@ -124,11 +124,13 @@ namespace FromGoldenCombs.BlockEntities
             if (slot.Itemstack?.Block is BlockSkep skep && skep.Variant["type"] == "populated")
             {
                 UpdateBroodBox(slot);
-                updateMeshes();
+                IsValidHive();
+                this.GetTopStack().updateMeshes();
                 MarkDirty(true);
                 return true;
             }
-            //MarkDirty(true);
+            updateMeshes();
+            MarkDirty(true);
             return false;
         }
 
@@ -168,6 +170,7 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
             }
+            updateMeshes();
 
         }
 
@@ -176,45 +179,49 @@ namespace FromGoldenCombs.BlockEntities
 
             BELangstrothStack topStack = GetTopStack();
             BELangstrothStack bottomStack = GetBottomStack();
-            BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos);
-
-            bottomStack.harvestableFrames = 0;
-            while (curBE is BELangstrothStack)
+            if ((BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(Pos) != null)
             {
-                for (int index = 2; index >= 0; index--)
+                BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos);
+
+                bottomStack.harvestableFrames = 0;
+                while (curBE is BELangstrothStack)
                 {
-
-                    if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Block is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
+                    for (int index = 2; index >= 0; index--)
                     {
-                        ITreeAttribute contents = curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents");
-                        int contentsSize = contents.Count;
 
-                        for (int j = 0; j <= contentsSize; j++)
+                        if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Block is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
                         {
-                            ItemStack stack = contents.GetItemstack((j - 1).ToString());
-                            if (stack?.Collectible.FirstCodePart() == "beeframe")
-                            {
-                                if (stack.Collectible.Variant["harvestable"] == "harvestable")
-                                {
-                                    bottomStack.harvestableFrames++;
-                                }
+                            ITreeAttribute contents = curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents");
+                            int contentsSize = contents.Count;
 
+                            for (int j = 0; j <= contentsSize; j++)
+                            {
+                                ItemStack stack = contents.GetItemstack((j - 1).ToString());
+                                if (stack?.Collectible.FirstCodePart() == "beeframe")
+                                {
+                                    if (stack.Collectible.Variant["harvestable"] == "harvestable")
+                                    {
+                                        bottomStack.harvestableFrames++;
+                                    }
+
+                                }
+                                curBE.inv[index].MarkDirty();
                             }
-                            curBE.inv[index].MarkDirty();
                         }
                     }
+                    if (Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy()) is BELangstrothStack)
+                    {
+                        curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
+                        //return bottomStack.harvestableFrames;
+                    }
+                    else
+                    {
+                        return bottomStack.harvestableFrames;
+                    }
                 }
-                if(Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy()) is BELangstrothStack)
-                {
-                    curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
-                    //return bottomStack.harvestableFrames;
-                }
-                else
-                {
-                    return bottomStack.harvestableFrames;
-                }
+                return bottomStack.harvestableFrames;
             }
-            return bottomStack.harvestableFrames;
+            return 0;
         }
 
         private int CountLinedFrames()
@@ -277,7 +284,6 @@ namespace FromGoldenCombs.BlockEntities
             {
                 index++;
             }
-            //TODO: Add check to determine if the index under the current one is a brood box, and fail TryPut() if it is.
 
             if (inv[index].Empty) //If the new target index is empty, place a super
             {
@@ -298,7 +304,7 @@ namespace FromGoldenCombs.BlockEntities
                     return true;
                 }
                 inv[index].Itemstack = slot.TakeOutWhole();
-                //updateMeshes();
+                updateMeshes();
                 MarkDirty(true);
                 return true;
             }
@@ -314,7 +320,6 @@ namespace FromGoldenCombs.BlockEntities
                     ItemStack langstrothBlock = this.Block.OnPickBlock(Api.World, Pos.UpCopy());
                     Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(this.Block))).BlockId, Pos.UpCopy());
                     BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy());
-                    //lStack.InitializePut(langstrothBlock, slot);
                 }
             }
             else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0).BlockMaterial == EnumBlockMaterial.Air)
@@ -323,14 +328,13 @@ namespace FromGoldenCombs.BlockEntities
                 TryPut(slot);
             }
             updateMeshes();
-            //MarkDirty();
+            MarkDirty();
             return true;
         }
 
         //TryTake attemps to retrieve the contents of an Inventory Slot in the stack
         private bool TryTake(IPlayer byPlayer)
         {
-            //TODO: Restructure code to take top super in any stack, or top index from top stack in a stack of stacks.
             bool isSuccess = false;
             int index = 0;
 
@@ -500,6 +504,8 @@ namespace FromGoldenCombs.BlockEntities
             CountHarvestable();
            //Check bottomStack's bottom index for a LangstrothBase
             if (!(bottomStack.inv[0].Itemstack.Block is LangstrothBase)) {
+                topStack.updateMeshes();
+                bottomStack.updateMeshes();
                 ResetHive();
                 return false;
             }     
@@ -507,6 +513,8 @@ namespace FromGoldenCombs.BlockEntities
         //Check topStack's top Index for populated brood box
             Block topBlock = topStack?.inv[topStack.StackSize() - 1].Itemstack.Block;
             if (!(topBlock is LangstrothBrood) && topBlock.Variant["populated"] == "empty"){
+                topStack.updateMeshes();
+                bottomStack.updateMeshes();
                 ResetHive();
                 return false;
             }
@@ -703,7 +711,6 @@ namespace FromGoldenCombs.BlockEntities
                 // Reset timers during winter
                 if (temp <= -10)
                 {
-                    //TODO: Readdress harvestAtTotalHours math to ensure it works for all ranges of growth time.
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                     cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
                 }

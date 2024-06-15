@@ -85,6 +85,7 @@ namespace FromGoldenCombs.BlockEntities
                 if (TryTake(byPlayer))
                 {
                     MarkDirty(true);
+                    updateMeshes();
                     return true;
                 }
             } else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-populated-*")) && !isActiveHive)
@@ -92,6 +93,7 @@ namespace FromGoldenCombs.BlockEntities
                 byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();
 
                 isActiveHive = true;
+                updateMeshes();
                 return true;
             }
             else if (TryPut(slot) ) {
@@ -99,6 +101,7 @@ namespace FromGoldenCombs.BlockEntities
                     Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(hive.CodeWithVariant("top", "withtop")).BlockId, Pos);
                     MarkDirty(true);
                 }
+                updateMeshes();
                 return true; //This prevents TryPlaceBlock from passing if TryPut fails.
             }
             return false;
@@ -204,7 +207,6 @@ namespace FromGoldenCombs.BlockEntities
             // Reset timers during winter
             if (temp <= -10)
             {
-                //TODO: Readdress harvestAtTotalHours math to ensure it works for all ranges of growth time.
                 harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                 cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
             }
@@ -454,7 +456,6 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 else if ((harvestableAtTotalHours - worldTime / 24 > 0) && this.Block.Variant["top"] == "withtop")
                 {
-                    string combPopTime;
                     if (FromGoldenCombsConfig.Current.showcombpoptime)
                     {
                         dsc.AppendLine(Lang.Get("fromgoldencombs:timetillpop", daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : (daysTillHarvest + " days")));

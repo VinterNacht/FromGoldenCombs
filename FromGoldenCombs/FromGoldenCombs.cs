@@ -6,6 +6,7 @@ using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.Items;
 using VFromGoldenCombs.Blocks.Langstroth;
 using Vintagestory.API.Config;
+using Vintagestory.GameContent;
 
 namespace FromGoldenCombs
 {
