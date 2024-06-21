@@ -151,15 +151,5 @@ namespace FromGoldenCombs.Blocks
             return wi;
         }
 
-        //TODO: Do these need to stay? Or was removing them a good choice
-        //public override BlockDropItemStack[] GetDropsForHandbook(ItemStack handbookStack, IPlayer forPlayer)
-        //{
-        //    return GetHandbookDropsFromBreakDrops(handbookStack, forPlayer);
-        //}
-
-        //public override ItemStack[] GetDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)
-        //{
-        //    return null;
-        //}
     }
 }
