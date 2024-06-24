@@ -1,5 +1,10 @@
+1.19-v1.4.32
+	- Changed all Langstroth Blocks Material Types to Wood (You're Welcome L33tman)
+	- Fixed Ceramic Hive Top disappearing when becomign Harvestable.
+
 1-19-V1.4.31
 	- Fixed Harvestable Frames Not Rendering After Being Filled In Hive
+	
 
 1-19-V1.4.30
 	- Fixed Frames not rendering in Super when opened
