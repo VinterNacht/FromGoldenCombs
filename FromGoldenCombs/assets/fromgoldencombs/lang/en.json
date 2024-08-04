@@ -6,6 +6,7 @@
   "notop": "Hive lacks a usable honey pot, will not produce comb.",
   "fullpot": "Honey pot is full, harvest it so bees can produce more comb",
   "toocold": "Weather is too cold for the bees to fly.",
+  "toohot": "Weather is too hot for the bees to fly.",
   "timetillpop": "Your bees will produce comb in {0}.",
   "lessthanday": "less than a day.",
   "busyhive": "The hive buzzes busily.",
@@ -115,7 +116,7 @@
   "item-handbooktitle-frameliner": "Frame Liner",
   "item-handbooktext-frameliner": "Frame liners are created using <a href=\"handbook://block-linen-waxed-down\">waxed linen</a>, and a knife. They are then used to line <a href=\"handbook://item-fromgoldencombs:beeframe-ebony-empty\">empty frames</a> in a <a href=\"handbook://block-fromgoldencombs:framerack-ebony-baldcypress-east\">frame rack</a>.",
   "item-handbooktitle-waxedflaxtwine": "Waxed Flaxen Twine",
-  "item-handbooktext-waxedlfaxtwine": "This twine is used for repairing <a href=\"handbook://item-fromgoldencombs:beeframe-ebony-lined\">lined frame</a> in a <a href=\"handbook://block-fromgoldencombs:framerack-ebony-baldcypress-east\">frame rack</a>.",
+  "item-handbooktext-waxedflaxtwine": "This twine is used for repairing <a href=\"handbook://item-fromgoldencombs:beeframe-ebony-lined\">lined frame</a> in a <a href=\"handbook://block-fromgoldencombs:framerack-ebony-baldcypress-east\">frame rack</a>.",
   "fromgoldencombs:nonemptysuper": "The super must be empty to convert to a brood box."
 
   //Handbook Text - Items

@@ -1,3 +1,18 @@
+1.19-v1.6.0
+	- Fixed issue with harvesttime not being properly updated from server to client.
+	- Made adjustments to time calculations, including setting harvestbase during block initialization.
+	- Properly implemented harvestbase being influenced by daysPerMonth.
+	- Implemented network system to ensure clientside respects serverside config settings.
+
+1.19-v1.5.1
+	- Removed debug message <oops>
+
+1.19-v1.5.0
+	- Properly implemented minimum and maximum fly temperatures for bees. (Configurable, delete your config files)
+	- Fixed rendering issues with Langstroth Hive
+	- Reduced cost of making Langstroth Planks/Parts to 1 wax per 4 boards
+	- Added German translation by dr4co.
+
 1.19-v1.4.32
 	- Changed all Langstroth Blocks Material Types to Wood (You're Welcome L33tman)
 	- Fixed Ceramic Hive Top disappearing when becomign Harvestable.

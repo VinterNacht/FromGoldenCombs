@@ -39,6 +39,7 @@
     <Compile Remove="Blocks\BlockClaypotHive.cs" />
     <Compile Remove="Blocks\BlockHiveTop.cs" />
     <Compile Remove="Blocks\BlockRawClaypotHive .cs" />
+    <None Remove="assets\fromgoldencombs\lang\de.json" />
     <None Remove="assets\fromgoldencombs\lang\fr.json" />
     <None Remove="modinfo.json" />
     <Content Include="modinfo.json">
@@ -63,6 +64,9 @@
     <Reference Include="OpenTK.Graphics">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Lib\OpenTK.Graphics.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Lib\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="Vintagestory">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Vintagestory.dll</HintPath>
@@ -91,6 +95,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Update="assets\fromgoldencombs\config\handbook\08-fromgoldencombsguide.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="assets\fromgoldencombs\lang\de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="assets\fromgoldencombs\lang\en.json">

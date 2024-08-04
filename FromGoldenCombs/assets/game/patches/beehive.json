@@ -4,17 +4,17 @@
     "path": "/entityClassByType/*-populated-*",
     "value": "fgcbeehive",
     "file": "blocktypes/wax/skep.json"
-  },
-  {
-    "op": "replace",
-    "path": "/entityClass",
-    "value": "fgcbeehive",
-    "file": "blocktypes/wax/wildbeehive.json"
-  },
-  {
-    "op": "replace",
-    "path": "/entityClass",
-    "value": "fgcbeehive",
-    "file": "blocktypes/wax/wildbeehive-inlog.json"
   }
+  //{
+  //  "op": "replace",
+  //  "path": "/entityClass",
+  //  "value": "fgcbeehive",
+  //  "file": "blocktypes/wax/wildbeehive.json"
+  //},
+  //{
+  //  "op": "replace",
+  //  "path": "/entityClass",
+  //  "value": "fgcbeehive",
+  //  "file": "blocktypes/wax/wildbeehive-inlog.json"
+  //}
 ]

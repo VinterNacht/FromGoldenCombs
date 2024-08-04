@@ -5,13 +5,15 @@ using FromGoldenCombs.config;
 using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.Items;
 using VFromGoldenCombs.Blocks.Langstroth;
-using Vintagestory.API.Config;
-using Vintagestory.GameContent;
+using Vintagestory.API.Client;
+using Vintagestory.API.Server;
 
 namespace FromGoldenCombs
 {
     class FromGoldenCombs : ModSystem
     {
+        NetworkHandler networkHandler;
+
         enum EnumHivePopSize
         {
             Poor = 0,
@@ -24,10 +26,23 @@ namespace FromGoldenCombs
             return true;
         }
 
+        #region Client
+        public override void StartClientSide(ICoreClientAPI api)
+        {
+            networkHandler.InitializeClientSideNetworkHandler(api);
+        }
+        #endregion
+
+        #region server
+        public override void StartServerSide(ICoreServerAPI api)
+        {
+            networkHandler.InitializeServerSideNetworkHandler(api);
+        }
+        #endregion
         public override void Start(ICoreAPI api)
         {
             base.Start(api);
-
+            networkHandler = new NetworkHandler();
             //BlockEntities
             api.RegisterBlockEntityClass("fgcbeehive", typeof(FGCBeehive));
             api.RegisterBlockEntityClass("beceramichive", typeof(BECeramicBroodPot));
@@ -48,36 +63,8 @@ namespace FromGoldenCombs
             //Items
             api.RegisterItemClass("langstrothpartcore", typeof(LangstrothPartCore));
 
-
-            try
-            {
-                var Config = api.LoadModConfig<FromGoldenCombsConfig>("fromgoldencombs.json");
-                if (Config != null)
-                {
-                    api.Logger.Notification(Lang.Get("modconfigload"));
-                    FromGoldenCombsConfig.Current = Config;
-                }
-                else
-                {
-                    api.Logger.Notification(Lang.Get("nomodconfig"));
-                    FromGoldenCombsConfig.Current = FromGoldenCombsConfig.GetDefault();
-                }
-            }
-            catch
-            {
-                FromGoldenCombsConfig.Current = FromGoldenCombsConfig.GetDefault();
-                api.Logger.Error(Lang.Get("defaultloaded"));
-            }
-            finally
-            {
-                if (FromGoldenCombsConfig.Current.SkepDaysToHarvestIn30DayMonths <= 0)
-                    FromGoldenCombsConfig.Current.SkepDaysToHarvestIn30DayMonths = 7;
-                if (FromGoldenCombsConfig.Current.ClayPotDaysToHarvestIn30DayMonths <= 0)
-                    FromGoldenCombsConfig.Current.ClayPotDaysToHarvestIn30DayMonths = 7;
-                if (FromGoldenCombsConfig.Current.LangstrothDaysToHarvestIn30DayMonths <= 0)
-                    FromGoldenCombsConfig.Current.LangstrothDaysToHarvestIn30DayMonths = 1.2f;
-                api.StoreModConfig(FromGoldenCombsConfig.Current, "fromgoldencombs.json");
-            }
+            networkHandler.RegisterMessages(api);
+            FromGoldenCombsConfig.createConfig(api);
         }
     }
 }
