@@ -1,3 +1,20 @@
+
+1.19-v1.6.3
+	- Fixed Ceramic Pots disappearing when picked up with all bag slots full.
+	- Ceramic Pots are now "unstable" and can't be stacked or placed on unstable surfaces.
+	  - Don't worry, you can still put them on fences. XD
+
+1.19-v1.6.2
+	- Changed time of day for three day average temp to 0.66f, or 4pm-ish.
+	- Corrected frames not showing in super, again... 
+	- Fixed Ceramic Hives producing comb FAR too quickly
+	- Added missing fields to Network Handler and Config
+
+
+1.19-v1.6.1
+	- Reduced default mintemp for all hives to 10c from 15c.
+	- Corrected (?) Again (?) Ceramic Hive Top disappearing when becoming harvestable.
+
 1.19-v1.6.0
 	- Fixed issue with harvesttime not being properly updated from server to client.
 	- Made adjustments to time calculations, including setting harvestbase during block initialization.

@@ -11,11 +11,10 @@ namespace FromGoldenCombs.config
         internal void RegisterMessages(ICoreAPI api)
         {
             api.Network
-                .RegisterChannel("networkapitest")
-                .RegisterMessageType(typeof(NetworkApiTestMessage))
-                .RegisterMessageType(typeof(NetworkApiTestResponse))
+                .RegisterChannel("fromgoldencombschannel")
                 .RegisterMessageType(typeof(FGCConfigFromServerMessage))
                 .RegisterMessageType(typeof(OnPlayerLoginMessage));
+
             ;
         }
 
@@ -26,8 +25,7 @@ namespace FromGoldenCombs.config
         {
             clientApi = capi;
 
-            clientChannel = capi.Network.GetChannel("networkapitest")
-                .SetMessageHandler<NetworkApiTestMessage>(OnServerMessage)
+            clientChannel = capi.Network.GetChannel("fromgoldencombschannel")
                 .SetMessageHandler<FGCConfigFromServerMessage>(RecieveFGCConfigAction);
             ;
 
@@ -57,16 +55,6 @@ namespace FromGoldenCombs.config
 
         }
 
-        private void OnServerMessage(NetworkApiTestMessage networkMessage)
-        {
-            clientApi.ShowChatMessage("Received following message from server: " + networkMessage.message);
-            clientApi.ShowChatMessage("Sending response.");
-            clientChannel.SendPacket(new NetworkApiTestResponse()
-            {
-                response = "RE: Hello World!"
-            });
-        }
-
         #endregion
 
         #region server
@@ -79,14 +67,8 @@ namespace FromGoldenCombs.config
             //Listen for player join events
             api.Event.PlayerJoin += OnPlayerJoin;
 
-            serverChannel = api.Network.GetChannel("networkapitest")
-                .SetMessageHandler<NetworkApiTestResponse>(OnClientMessage)
+            serverChannel = api.Network.GetChannel("fromgoldencombschannel")
                 .SetMessageHandler<OnPlayerLoginMessage>(OnPlayerJoin);
-
-            api.ChatCommands.Create("nwtest")
-                .WithDescription("Send a Test Network Message")
-                .RequiresPrivilege(Privilege.controlserver)
-                .HandleWith(new OnCommandDelegate(OnNewTestCmd));
         }
 
         private void OnPlayerJoin(IServerPlayer player)
@@ -94,7 +76,7 @@ namespace FromGoldenCombs.config
             OnPlayerJoin(player, new OnPlayerLoginMessage());
         }
 
-        //Send a packet on the client channel containing a new instance of ToolConfigFromServerMessage
+        //Send a packet on the client channel containing a new instance of FGCConfigFromServerMessage
         //Which is pre-loaded on creation with all the values for Tool Config.
         private void OnPlayerJoin(IServerPlayer fromPlayer, OnPlayerLoginMessage packet)
         {
@@ -102,42 +84,8 @@ namespace FromGoldenCombs.config
         }
 
 
-
-        private void OnClientMessage(IPlayer fromPlayer, NetworkApiTestResponse networkMessage)
-        {
-            serverApi.SendMessageToGroup(
-                GlobalConstants.GeneralChatGroup,
-                "Received following response from " + fromPlayer.PlayerName + ": " + networkMessage.response,
-                EnumChatType.Notification
-            );
-
-        }
-
-        private TextCommandResult OnNewTestCmd(TextCommandCallingArgs args)
-        {
-
-            serverChannel.BroadcastPacket(new NetworkApiTestMessage()
-            {
-                message = "Hello World!",
-            });
-            return TextCommandResult.Success();
-        }
-
         #endregion
 
-        [ProtoContract]
-        class NetworkApiTestMessage
-        {
-            [ProtoMember(1)]
-            public string message;
-        }
-
-        [ProtoContract]
-        class NetworkApiTestResponse
-        {
-            [ProtoMember(1)]
-            public string response;
-        }
         
         [ProtoContract]
         class FGCConfigFromServerMessage
@@ -171,12 +119,16 @@ namespace FromGoldenCombs.config
             [ProtoMember(14)]
             public int SkepMaxYield = FromGoldenCombsConfig.Current.SkepMaxYield;
             [ProtoMember(15)]
-            public float CeramicHiveMinTemp = FromGoldenCombsConfig.Current.CeramicHiveMinTemp;
+            public float SkepHiveMinTemp = FromGoldenCombsConfig.Current.SkepHiveMinTemp;
             [ProtoMember(16)]
-            public float CeramicHiveMaxTemp = FromGoldenCombsConfig.Current.CeramicHiveMaxTemp;
+            public float SkepHiveMaxTemp = FromGoldenCombsConfig.Current.SkepHiveMaxTemp;
             [ProtoMember(17)]
-            public float LangstrothHiveMinTemp = FromGoldenCombsConfig.Current.LangstrothHiveMinTemp;
+            public float CeramicHiveMinTemp = FromGoldenCombsConfig.Current.CeramicHiveMinTemp;
             [ProtoMember(18)]
+            public float CeramicHiveMaxTemp = FromGoldenCombsConfig.Current.CeramicHiveMaxTemp;
+            [ProtoMember(19)]
+            public float LangstrothHiveMinTemp = FromGoldenCombsConfig.Current.LangstrothHiveMinTemp;
+            [ProtoMember(20)]
             public float LangstrothHiveMaxTemp = FromGoldenCombsConfig.Current.LangstrothHiveMaxTemp;
         }
 
@@ -184,7 +136,7 @@ namespace FromGoldenCombs.config
         class OnPlayerLoginMessage
         {
             [ProtoMember(1)]
-            IPlayer[] player;
+            IPlayer[] fromPlayer;
         }
     }
 }

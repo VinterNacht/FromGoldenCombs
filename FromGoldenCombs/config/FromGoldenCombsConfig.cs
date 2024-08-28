@@ -74,18 +74,18 @@ namespace FromGoldenCombs.config
         /// <summary>Set the minimum temperature at which Ceramic Hive Bees will fly.</summary>
         /// <value>The minimum temperature in C as a float</value>
         [ProtoMember(15)]
-        public float SkepHiveMinTemp { get; set; } = 15f;
+        public float SkepHiveMinTemp { get; set; } = 10f;
         [ProtoMember(16)]
         public float SkepHiveMaxTemp { get; set; } = 37f;
         [ProtoMember(17)]
-        public float CeramicHiveMinTemp { get; set; } = 15f;
+        public float CeramicHiveMinTemp { get; set; } = 10f;
         [ProtoMember(18)]       
         public float CeramicHiveMaxTemp { get; set; } = 37f;
 
         /// <summary>Set the minimum temperature at which Langstroth Hive Bees will fly.</summary>
         /// <value>The minimum temperature in C as a float</value>
         [ProtoMember(19)]
-        public float LangstrothHiveMinTemp { get; set; } = 15f;
+        public float LangstrothHiveMinTemp { get; set; } = 10f;
 
         [ProtoMember(20)]
         public float LangstrothHiveMaxTemp { get; set; } = 37f;
@@ -116,8 +116,12 @@ namespace FromGoldenCombs.config
             defaultConfig.minFramePerCycle = 2;
             defaultConfig.maxFramePerCycle = 4;
             defaultConfig.showcombpoptime = true;
-            defaultConfig.CeramicHiveMinTemp = 15f;
-            defaultConfig.LangstrothHiveMinTemp = 15f;
+            defaultConfig.SkepHiveMinTemp = 10f;
+            defaultConfig.SkepHiveMaxTemp = 37f;
+            defaultConfig.CeramicHiveMinTemp = 10f;
+            defaultConfig.CeramicHiveMaxTemp = 37f;
+            defaultConfig.LangstrothHiveMinTemp = 10f;
+            defaultConfig.LangstrothHiveMaxTemp = 37f;
 
             return defaultConfig;
         }

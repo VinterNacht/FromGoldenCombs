@@ -711,9 +711,9 @@ namespace FromGoldenCombs.BlockEntities
 
                 double worldTime = Api.World.Calendar.TotalHours;
                 ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
-                float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays))+0.5f).Temperature;
-                float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1))+0.5f).Temperature;
-                float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2))+0.5f).Temperature;
+                float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays))+0.66f).Temperature;
+                float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1))+0.66f).Temperature;
+                float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2))+0.66f).Temperature;
                 if (conds == null) return;
 
                 float threeDayTemp = (todayNoonTemp*2+yesterdayNoonTemp+ twoDayAgoNoonTemp)/4 + (roomness > 0 ? 5 : 0);
@@ -897,10 +897,7 @@ namespace FromGoldenCombs.BlockEntities
             hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");
             roomness = tree.GetFloat("roomness");
 
-            if (Harvestable != wasHarvestable && Api != null)
-            {
-                //MarkDirty(true);
-            }
+            updateMeshes();
         }
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {

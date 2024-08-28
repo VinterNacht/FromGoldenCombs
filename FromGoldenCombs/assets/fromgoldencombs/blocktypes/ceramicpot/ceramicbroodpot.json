@@ -20,9 +20,9 @@
 		"states": ["withtop", "notop"]
 	}],
 	"behaviorsByType": {
-		"*-notop": [{
-			"name": "RightClickPickup"
-		}]
+		"*": [{ "name": "Unstable" }],    
+		"*-notop": [{ "name": "Unstable" },
+								{	"name": "RightClickPickup"}]
 	},
 	"creativeinventory": {
 		"general": ["*-notop"],

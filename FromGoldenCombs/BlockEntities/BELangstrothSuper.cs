@@ -105,13 +105,14 @@ namespace FromGoldenCombs.BlockEntities
                 if (base.Block.Variant["open"] == "open" && !byPlayer.Entity.Controls.Sneak)
                 {
                     this.Api.World.BlockAccessor.ExchangeBlock(this.Api.World.GetBlock(blockContainer.CodeWithVariant("open", "closed")).BlockId, blockSel.Position);
+                    updateMeshes();
                     base.MarkDirty(true, null);
                     return true;
                 }
                 if (base.Block.Variant["open"] == "closed")
                 {
                     this.Api.World.BlockAccessor.ExchangeBlock(this.Api.World.GetBlock(blockContainer.CodeWithVariant("open", "open")).BlockId, blockSel.Position);
-                    //updateMeshes();
+                    updateMeshes();
                     base.MarkDirty(true, null);
                     return true;
                 }

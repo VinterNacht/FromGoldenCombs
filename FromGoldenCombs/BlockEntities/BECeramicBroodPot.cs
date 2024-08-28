@@ -111,6 +111,7 @@ namespace FromGoldenCombs.BlockEntities
 
         private bool TryTake(IPlayer player)
         {
+            ItemSlot activeHotbarSlot = player.InventoryManager.ActiveHotbarSlot;
             BlockContainer blockContainer = this.Api.World.BlockAccessor.GetBlock(Pos, 0) as BlockContainer;
             int index = 0;
             if (!inv[index].Empty)
@@ -119,7 +120,7 @@ namespace FromGoldenCombs.BlockEntities
                 player.InventoryManager.TryGiveItemstack(inv[0].TakeOutWhole());
                 return true;
             }
-            else
+            else if (activeHotbarSlot.Itemstack == null && activeHotbarSlot.StorageType == EnumItemStorageFlags.Backpack)
             {
                 ItemStack stack = blockContainer.OnPickBlock(this.Api.World, Pos);
                 SetAttributes(stack);
@@ -203,9 +204,9 @@ namespace FromGoldenCombs.BlockEntities
             float maxTemp = FromGoldenCombsConfig.Current.CeramicHiveMaxTemp == 0 ? 37f : FromGoldenCombsConfig.Current.CeramicHiveMaxTemp;
             double worldTime = Api.World.Calendar.TotalHours;
             ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
-            float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.5f).Temperature;
-            float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.5f).Temperature;
-            float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.5f).Temperature;
+            float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
+            float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
+            float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
             if (conds == null) return;
 
             float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
@@ -374,12 +375,13 @@ namespace FromGoldenCombs.BlockEntities
                     }
                 });
                 scanIteration++;
+                System.Diagnostics.Debug.WriteLine("Scan Iteration is " + scanIteration);
                 if (scanIteration == 4)
                 {
                     scanIteration = 0;
                     OnScanComplete();
                 }
-                MarkDirty();
+                MarkDirty(true);
 
             }
         }
@@ -431,8 +433,7 @@ namespace FromGoldenCombs.BlockEntities
             harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
             hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");
             roomness = tree.GetFloat("roomness");
-
-            MarkDirty(true);
+            updateMeshes();
 
         }
 
