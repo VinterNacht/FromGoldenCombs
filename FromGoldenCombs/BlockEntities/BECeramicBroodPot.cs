@@ -25,6 +25,7 @@ namespace FromGoldenCombs.BlockEntities
         int scanIteration;
         public bool isActiveHive = false;
         float harvestBase;
+
         //public bool isActiveHive { get; set; } = false;
         EnumHivePopSize hivePopSize;
 
@@ -496,7 +497,16 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     dsc.AppendLine("The bees are scouting for flowers.");
                 }
-
+            }
+            if (forPlayer.Entity.Controls.ShiftKey)
+            {
+                ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
+                float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
+                float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
+                float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
+                if (conds == null) return;
+                float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+                dsc.AppendLine("3 Day Temp is " + (threeDayTemp > maxTemp ? "too hot." : threeDayTemp < minTemp ? "too cold." : "perfect."));
             }
         }
 

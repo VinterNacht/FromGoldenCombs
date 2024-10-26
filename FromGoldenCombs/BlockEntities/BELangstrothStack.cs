@@ -3,6 +3,7 @@ using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.config;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using VFromGoldenCombs.Blocks.Langstroth;
 using Vintagestory.API.Client;
@@ -903,6 +904,8 @@ namespace FromGoldenCombs.BlockEntities
         {
             ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
             BELangstrothStack bottomStack = GetBottomStack();
+            float minTemp = FromGoldenCombsConfig.Current.LangstrothHiveMinTemp;
+            float maxTemp = FromGoldenCombsConfig.Current.LangstrothHiveMaxTemp == 0 ? 37f : FromGoldenCombsConfig.Current.LangstrothHiveMaxTemp;
             if (forPlayer.CurrentBlockSelection == null)
             {
 
@@ -911,8 +914,7 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (Pos == bottomStack.Pos)
             {
-                float minTemp = FromGoldenCombsConfig.Current.LangstrothHiveMinTemp;
-                float maxTemp = FromGoldenCombsConfig.Current.LangstrothHiveMaxTemp == 0 ? 37f : FromGoldenCombsConfig.Current.LangstrothHiveMaxTemp;
+                
                 if (bottomStack.harvestableFrames != 0) { sb.AppendLine(Lang.Get("fromgoldencombs:harvestableframes") + bottomStack.harvestableFrames); }
                 sb.AppendLine(bottomStack.isActiveHive ? Lang.Get("fromgoldencombs:populatedhive") : "");
                 double worldTime = Api.World.Calendar.TotalHours;
@@ -952,10 +954,30 @@ namespace FromGoldenCombs.BlockEntities
                     {
                         sb.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
                     }
+                    if (forPlayer.Entity.Controls.ShiftKey)
+                    {
+                        ClimateCondition conds1 = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
+                        float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
+                        float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
+                        float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
+                        if (conds == null) return;
+                        float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+                        sb.AppendLine("3 Day Temp is " + (threeDayTemp > maxTemp ? "too hot." : threeDayTemp < minTemp ? "too cold." : "perfect."));
+                    }
                 }
             } else
             {
                 bottomStack.GetBlockInfo(forPlayer, sb);
+                if (forPlayer.Entity.Controls.ShiftKey)
+                {
+                    ClimateCondition conds2 = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
+                    float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
+                    float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
+                    float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
+                    if (conds == null) return;
+                    float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+                    sb.AppendLine("3 Day Temp is " + (threeDayTemp > maxTemp ? "too hot." : threeDayTemp < minTemp ? "too cold." : "perfect."));
+                }
             }
         }
 

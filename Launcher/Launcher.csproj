@@ -8,59 +8,59 @@
 
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Lib\0Harmony.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AnimatedGif">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Lib\AnimatedGif.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="cairo-sharp">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Lib\cairo-sharp.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\cairo-sharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Lib\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="OpenTK.Core">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Lib\OpenTK.Core.dll</HintPath>
+    <Reference Include="Open.Nat">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\Open.Nat.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="OpenTK.Graphics">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Lib\OpenTK.Graphics.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\OpenTK.Graphics.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="protobuf-net">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Lib\protobuf-net.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\protobuf-net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Tavis.JsonPatch">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Lib\Tavis.JsonPatch.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\Tavis.JsonPatch.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Vintagestory">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Vintagestory.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Vintagestory.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VintagestoryAPI">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\VintagestoryAPI.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\VintagestoryAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VintagestoryLib">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\VintagestoryLib.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\VintagestoryLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VintagestoryServer">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\VintagestoryServer.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VSCreativeMod">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Mods\VSCreativeMod.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Mods\VSCreativeMod.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VSEssentials">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Mods\VSEssentials.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Mods\VSEssentials.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VSSurvivalMod">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.19\Mods\VSSurvivalMod.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Mods\VSSurvivalMod.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

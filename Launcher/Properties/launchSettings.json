@@ -2,9 +2,9 @@
   "profiles": {
     "Launcher": {
       "commandName": "Executable",
-      "executablePath": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.19\\Vintagestory.exe",
+      "executablePath": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.20\\Vintagestory.exe",
       "commandLineArgs": "--dataPath \"%appdata%/VintagestoryData_Modding\" --addModPath=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\bin\\Debug\"  --addOrigin=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\assets\"",
-      "workingDirectory": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.19",
+      "workingDirectory": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.20",
       "remoteDebugEnabled": false
     }
   }
