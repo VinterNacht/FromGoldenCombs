@@ -728,7 +728,7 @@ namespace FromGoldenCombs.BlockEntities
                 //Reset timers during winter - Vanilla Settings
                 //if (temp <= -10)
                 //Reset timers when temp drops below 15c - FGC Settings
-                if (threeDayTemp < minTemp|| threeDayTemp > maxTemp)
+                if (threeDayTemp < minTemp|| threeDayTemp > maxTemp && quantityNearbyFlowers != 0)
                 {
                     //harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
@@ -764,7 +764,8 @@ namespace FromGoldenCombs.BlockEntities
 
         private void OnScanForFlowers(float dt)
         {
-            if (isActiveHive && (Pos == GetBottomStack().Pos))
+            BlockPos bottomStackPos = GetBottomStack().Pos;
+            if (isActiveHive && (Pos == bottomStackPos))
             {
                 //Scan to get number of nearby flowers and active hives
                 Room room = roomreg?.GetRoomForPosition(Pos);
@@ -946,7 +947,7 @@ namespace FromGoldenCombs.BlockEntities
                         }
                         sb.AppendLine(combPopTime);
                     }
-                    else if (daysTillHarvest == 0 && CountLinedFrames() == 0)
+                    else if (/*daysTillHarvest == 0 && */CountLinedFrames() == 0)
                     {
                         sb.AppendLine(Lang.Get("fromgoldencombs:nofillableframes"));
                     }

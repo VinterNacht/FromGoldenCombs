@@ -96,7 +96,7 @@ namespace FromGoldenCombs.BlockEntities
             }
             else
             {
-                if (activeHotbarSlot.Itemstack == null && activeHotbarSlot.StorageType == EnumItemStorageFlags.Backpack && this.Api.World.BlockAccessor.GetBlock(blockSel.Position).Variant["open"] == "closed" && byPlayer.InventoryManager.TryGiveItemstack(blockContainer.OnPickBlock(this.Api.World, blockSel.Position), false))
+                if (byPlayer.Entity.Controls.ShiftKey && activeHotbarSlot.Itemstack == null /*&& activeHotbarSlot.StorageType == EnumItemStorageFlags.Backpack*/ && this.Api.World.BlockAccessor.GetBlock(blockSel.Position).Variant["open"] == "closed" && byPlayer.InventoryManager.TryGiveItemstack(blockContainer.OnPickBlock(this.Api.World, blockSel.Position), false))
                 {
                     this.Api.World.BlockAccessor.SetBlock(0, blockSel.Position);
                     base.MarkDirty(true, null);
@@ -109,7 +109,7 @@ namespace FromGoldenCombs.BlockEntities
                     base.MarkDirty(true, null);
                     return true;
                 }
-                if (base.Block.Variant["open"] == "closed")
+                if (base.Block.Variant["open"] == "closed" && !byPlayer.Entity.Controls.Sneak)
                 {
                     this.Api.World.BlockAccessor.ExchangeBlock(this.Api.World.GetBlock(blockContainer.CodeWithVariant("open", "open")).BlockId, blockSel.Position);
                     updateMeshes();

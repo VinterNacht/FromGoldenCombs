@@ -1,12 +1,17 @@
 ﻿using FromGoldenCombs.config;
 using System;
+using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
+using Vintagestory.Client.NoObf;
+using Vintagestory.Common;
 using Vintagestory.GameContent;
+using Vintagestory.Server;
 
 namespace FromGoldenCombs.BlockEntities
 {
@@ -126,10 +131,8 @@ namespace FromGoldenCombs.BlockEntities
                 ItemStack stack = blockContainer.OnPickBlock(this.Api.World, Pos);
                 SetAttributes(stack);
 
-                if (player.InventoryManager.TryGiveItemstack(stack))
+                if (player.InventoryManager.TryGiveItemstack(stack.Clone(), true))
                 {
-                    
-
                     Api.World.BlockAccessor.SetBlock(0, Pos);
                     return true;
                 }
@@ -212,22 +215,25 @@ namespace FromGoldenCombs.BlockEntities
 
             float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
             float avgtemp = (maxTemp + minTemp) / 2;
-            float testing = ((maxTemp - minTemp) / 2) / 100; //% value per step from center.
-            float beeParticleModifier = (conds.Temperature > avgtemp) ? 1f - ((conds.Temperature - avgtemp) * testing) : 1f - ((avgtemp - conds.Temperature)*testing);
+            float beeFlightTempModifier = ((maxTemp - minTemp) / 2) / 100; //% value per step from center.
+            float beeParticleModifier = (conds.Temperature > avgtemp) ? 1f - ((conds.Temperature - avgtemp) * beeFlightTempModifier) : 1f - ((avgtemp - conds.Temperature)*beeFlightTempModifier);
                 
             actvitiyLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
             //Reset timers during winter - Vanilla Settings
             //if (temp <= -10)
             //Reset timers when temp drops below 15c - FGC Settings
-            if (threeDayTemp < minTemp || threeDayTemp > maxTemp)
+            
+            if (threeDayTemp < minTemp || threeDayTemp > maxTemp && quantityNearbyFlowers!=0)
             {
+                
                 //harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                 harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                 cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
+
             }
 
             //If not cooling down
-            if (cooldownUntilTotalHours <= 0 && hasEmptyHivetop)
+            if (worldTime > cooldownUntilTotalHours && hasEmptyHivetop && quantityNearbyFlowers>0)
             {
                 //If harvestableAtHours is not currently set, but the hivesize is greater than Poor
                 if (harvestableAtTotalHours == 0 && hivePopSize > EnumHivePopSize.Poor)

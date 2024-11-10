@@ -1,6 +1,10 @@
+1.20-v1.8.0
+   - Updated to 1.20
+   - Modified interactions with Brood Box.  Can now Shift-Click from any slot and pick up Supers. Minor sanity change.
+   - Addressed Ceramic Brood Boxes not updating after cold weather.
+
 1.19-v1.7.2
-   - Unable to pick up bag slot blocks
-   - Introduced interaction to reveal if 3 day temp falls in range for debugging.
+   - Introduced interaction to reveal if 3 day temp falls in range for debugging (Hold Shift while targeting Ceramic/Langstroth Hive).
 
 1.19-v1.6.3
 	- Fixed Ceramic Pots disappearing when picked up with all bag slots full.
