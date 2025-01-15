@@ -1,3 +1,13 @@
+1.20-v1.8.2
+	- Updated lang files for better localization
+	- Corrected too large shadow from honey pot placed on ground
+	- Adjusted honey pot size in hotbar.
+	- Improved world interactions for Ceramic Hive.
+	- Added greenhousebonus indicator to BlockInfo.
+
+1.20-v1.8.1
+	- Added red clay variant to clayforming recipes.
+
 1.20-v1.8.0
    - Updated to 1.20
    - Modified interactions with Brood Box.  Can now Shift-Click from any slot and pick up Supers. Minor sanity change.

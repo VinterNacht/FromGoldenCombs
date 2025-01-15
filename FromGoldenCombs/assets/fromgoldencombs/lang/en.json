@@ -3,8 +3,8 @@
 
   //Appibuzian
   "hivewrongseason": "Hive will not swarm until Spring.",
-  "notop": "Hive lacks a usable honey pot, will not produce comb.",
-  "fullpot": "Honey pot is full, harvest it so bees can produce more comb",
+  "nopot": "Hive lacks a usable honey pot, will not produce comb.",
+  "fullpot": "Honey pot is full",
   "toocold": "Weather is too cold for the bees to fly.",
   "toohot": "Weather is too hot for the bees to fly.",
   "timetillpop": "Your bees will produce comb in {0}.",
@@ -23,7 +23,13 @@
   "placeremovepot": "Place or Remove honey pot",
   "emptybagslot": "Pick up in an empty backpack slot",
   "populatedhive":  "Populated Hive",
-
+  "placepot": "Place Honey Pot",
+  "removepot": "Remove Honey Pot",
+  "emptybagslot": "Pick Up In Empty Bag Slot",
+  "3DayTemp": "Three Day Temp Is",
+  "3DayTooHot": "Too Hot.",
+  "3DayTooCold": "Too Cold."
+                
   //Blocks
   "block-claypothive": "Claypot Hive",
   "fromgoldencombs:handbooktitle-claypothive": "Used for:",

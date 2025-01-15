@@ -77,6 +77,7 @@ namespace FromGoldenCombs.Blocks
         {
             WorldInteraction[] wi = null;
             WorldInteraction[] wi2 = base.GetPlacedBlockInteractionHelp(world, selection, forPlayer);
+            WorldInteraction[] wi2a = base.GetPlacedBlockInteractionHelp(world, selection, forPlayer);
             WorldInteraction[] wi3 = base.GetPlacedBlockInteractionHelp(world, selection, forPlayer);
 
             
@@ -109,41 +110,85 @@ namespace FromGoldenCombs.Blocks
                         });
                     }
 
+
                     wi2 = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions2", () =>
                     {
+
+
                         return new WorldInteraction[]
                         {
-                          new WorldInteraction(){
-                                ActionLangCode = Lang.Get("placeremovepot"),
-                                MouseButton = EnumMouseButton.Right,
-                                Itemstacks = topList.ToArray()
-                       }
-                     };
+                                new WorldInteraction(){
+                                    ActionLangCode = Lang.Get("fromgoldencombs:placepot"),
+                                    MouseButton = EnumMouseButton.Right,
+                                    Itemstacks = topList.ToArray()
+                            }
+
+                        };
+
                     });
 
-                    if (Variant["top"] == "notop")
+                    wi2a = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions2a", () =>
                     {
-                        wi3 = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions3", () =>
+
+
+                            return new WorldInteraction[]
                             {
-
-                                return new WorldInteraction[]
-                                {
-                            new WorldInteraction(){
-                                ActionLangCode = Lang.Get("emptybagslot"),
-                                MouseButton = EnumMouseButton.Right,
-                                Itemstacks = null
+                                new WorldInteraction(){
+                                    ActionLangCode = Lang.Get("fromgoldencombs:removepot"),
+                                    MouseButton = EnumMouseButton.Right
                             }
-                                };
-                            });
 
-                    }
+                        };
+
+                    });
+                    
+                    wi3 = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions3", () =>
+                        {
+
+                            return new WorldInteraction[]
+                            {
+                                new WorldInteraction(){
+                                    ActionLangCode = Lang.Get("fromgoldencombs:emptybagslot"),
+                                    MouseButton = EnumMouseButton.Right,
+                                    Itemstacks = null
+                                }
+                            };
+                        });
+
+
                 }
+
+                //WorldInteraction[] final = new WorldInteraction[] { };
+                //if (wi != null) final.Append(wi);
+                //if (Variant["top"] == "withtop") final.Append(wi2);
+                //if (Variant["top"] == "notop") final.Append(wi2a);
+                //final.Append(wi3);
+                //return final;
+
+
 
                 if (wi != null)
                 {
-                    return wi.Append(wi2).Append(wi3);
-                }
-                return wi2.Append(wi3);
+                    if (Variant["top"] == "withtop")
+                    {
+                        return wi.Append(wi2a);
+                    } else
+                    {
+                       return wi.Append(wi2).Append(wi3);
+                    }
+                    
+                } 
+                //else
+                //{
+                //    if (Variant["top"] == "withtop")
+                //    {
+                //        return wi.Append(wi2a);
+                //    }
+                //    else
+                //    {
+                //        return wi.Append(wi2).Append(wi3);
+                //    }
+                //}
             }
             return wi;
         }

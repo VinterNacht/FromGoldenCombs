@@ -482,7 +482,7 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     if (FromGoldenCombsConfig.Current.showcombpoptime)
                     {
-                        dsc.AppendLine(Lang.Get("fromgoldencombs:timetillpop", daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : (daysTillHarvest + " days")));
+                        dsc.AppendLine(Lang.Get("fromgoldencombs:timetillpop", daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : (daysTillHarvest + " " + Lang.Get("fromgoldencombs:days"))));
                     }
                 }
                 else if (isActiveHive && (this.Block.Variant["top"] == "notop"))
@@ -493,15 +493,15 @@ namespace FromGoldenCombs.BlockEntities
                 else if (inv[0]?.Itemstack?.Collectible.Variant["type"] == "harvestable")
                 {
 
-                    dsc.AppendLine(Lang.Get("fromgoldencombs:fulltop"));
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:fullpot"));
                 }
                 else if (quantityNearbyFlowers > 0 && !isOutTemp)
                 {
-                    dsc.AppendLine("The bees are out gathering.");
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:outgathering"));
                 }
                 else if (!isOutTemp)
                 {
-                    dsc.AppendLine("The bees are scouting for flowers.");
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
                 }
             }
             if (forPlayer.Entity.Controls.ShiftKey)
@@ -512,7 +512,11 @@ namespace FromGoldenCombs.BlockEntities
                 float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
                 if (conds == null) return;
                 float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
-                dsc.AppendLine("3 Day Temp is " + (threeDayTemp > maxTemp ? "too hot." : threeDayTemp < minTemp ? "too cold." : "perfect."));
+                dsc.AppendLine(Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect")));
+                if (this.roomness > 0f)
+                {
+                    dsc.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
+                }
             }
         }
 

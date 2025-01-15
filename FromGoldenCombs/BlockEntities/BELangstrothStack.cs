@@ -858,9 +858,6 @@ namespace FromGoldenCombs.BlockEntities
 //Misc Methods
         public override void ToTreeAttributes(ITreeAttribute tree)
         {
-            base.ToTreeAttributes(tree);
-
-
             tree.SetInt("scanIteration", scanIteration);
 
             tree.SetInt("quantityNearbyFlowers", quantityNearbyFlowers);
@@ -877,6 +874,7 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetFloat("roomness", roomness);
             tree.SetInt("harvestableFrames", harvestableFrames);
             tree.SetBool("activeHive", isActiveHive);
+            base.ToTreeAttributes(tree);
         }
 
         public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
@@ -963,7 +961,7 @@ namespace FromGoldenCombs.BlockEntities
                         float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
                         if (conds == null) return;
                         float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
-                        sb.AppendLine("3 Day Temp is " + (threeDayTemp > maxTemp ? "too hot." : threeDayTemp < minTemp ? "too cold." : "perfect."));
+                        sb.AppendLine(Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect")));
                     }
                 }
             } else
@@ -977,8 +975,12 @@ namespace FromGoldenCombs.BlockEntities
                     float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
                     if (conds == null) return;
                     float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
-                    sb.AppendLine("3 Day Temp is " + (threeDayTemp > maxTemp ? "too hot." : threeDayTemp < minTemp ? "too cold." : "perfect."));
+                    sb.AppendLine(Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect")));
                 }
+            }
+            if (this.roomness > 0f)
+            {
+                sb.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
             }
         }
 

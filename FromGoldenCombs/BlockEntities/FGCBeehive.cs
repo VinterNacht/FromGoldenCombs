@@ -467,6 +467,11 @@ namespace FromGoldenCombs.BlockEntities
             }
 
             dsc.AppendLine(hiveState);
+
+            if (this.roomness > 0f)
+            {
+                dsc.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
+            }
         }
 
 
