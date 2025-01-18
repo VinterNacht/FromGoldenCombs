@@ -1,4 +1,5 @@
 ﻿using FromGoldenCombs.config;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -461,6 +462,14 @@ namespace FromGoldenCombs.BlockEntities
             float minTemp = FromGoldenCombsConfig.Current.CeramicHiveMinTemp;
             float maxTemp = FromGoldenCombsConfig.Current.CeramicHiveMaxTemp == 0?37f:FromGoldenCombsConfig.Current.CeramicHiveMaxTemp;
             float temp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + (roomness > 0 ? 5 : 0);
+            ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
+            float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
+            float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
+            float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
+            if (conds == null) return;
+            float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+            string tempReport = Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect"));
+            dsc.AppendLine(Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect")));
             bool isOutTemp = (temp <= minTemp || temp >= maxTemp);
             if (isActiveHive)
             {
@@ -501,21 +510,25 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 else if (!isOutTemp)
                 {
-                    dsc.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:nearbyflowers"));
                 }
             }
             if (forPlayer.Entity.Controls.ShiftKey)
             {
-                ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
-                float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
-                float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
-                float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
-                if (conds == null) return;
-                float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
-                dsc.AppendLine(Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect")));
                 if (this.roomness > 0f)
                 {
-                    dsc.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
+                    dsc.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
+                }
+
+                if (conds == null) return;
+
+                dsc.AppendLine(tempReport);
+            }
+            if (!forPlayer.Entity.Controls.ShiftKey)
+            {
+                if (this.roomness > 0f)
+                {
+                    dsc.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 }
             }
         }
