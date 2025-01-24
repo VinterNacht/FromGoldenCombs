@@ -90,6 +90,36 @@ namespace FromGoldenCombs.config
         [ProtoMember(20)]
         public float LangstrothHiveMaxTemp { get; set; } = 37f;
 
+        [ProtoMember(21)]
+        public double skepCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+      
+        [ProtoMember(22)]
+        public int skepMaxCropCharges = 8;
+
+        [ProtoMember(23)]
+        public int skepCropRange = 8;
+
+        [ProtoMember(24)]
+        public double ceramicCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+
+        [ProtoMember(25)]
+        public int ceramicMaxCropCharges = 8;
+
+        [ProtoMember(26)]
+        public int ceramicCropRange = 8;
+
+        [ProtoMember(27)]
+        public double langstrothCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+
+        [ProtoMember(28)]
+        public int langstrothMaxCropCharges = 8;
+
+        [ProtoMember(29)]
+        public int langstrothCropRange = 8;
+
+        [ProtoMember(30)]
+        public bool showCurrentCropCharges = true;
+
         public FromGoldenCombsConfig()
         {}
 
@@ -122,6 +152,16 @@ namespace FromGoldenCombs.config
             defaultConfig.CeramicHiveMaxTemp = 37f;
             defaultConfig.LangstrothHiveMinTemp = 10f;
             defaultConfig.LangstrothHiveMaxTemp = 37f;
+            defaultConfig.skepCropChargeHoursIn30DayMonths = 24; 
+            defaultConfig.skepMaxCropCharges = 16;
+            defaultConfig.skepCropRange = 8;
+            defaultConfig.ceramicCropChargeHoursIn30DayMonths = 24;
+            defaultConfig.ceramicMaxCropCharges = 32;
+            defaultConfig.ceramicCropRange = 16;
+            defaultConfig.langstrothCropChargeHoursIn30DayMonths = 24;
+            defaultConfig.langstrothMaxCropCharges = 64;
+            defaultConfig.langstrothCropRange = 32;
+            defaultConfig.showCurrentCropCharges = true;
 
             return defaultConfig;
         }
@@ -149,12 +189,6 @@ namespace FromGoldenCombs.config
             }
             finally
             {
-                if (FromGoldenCombsConfig.Current.SkepDaysToHarvestIn30DayMonths <= 0)
-                    FromGoldenCombsConfig.Current.SkepDaysToHarvestIn30DayMonths = 7;
-                if (FromGoldenCombsConfig.Current.ClayPotDaysToHarvestIn30DayMonths <= 0)
-                    FromGoldenCombsConfig.Current.ClayPotDaysToHarvestIn30DayMonths = 7;
-                if (FromGoldenCombsConfig.Current.LangstrothDaysToHarvestIn30DayMonths <= 0)
-                    FromGoldenCombsConfig.Current.LangstrothDaysToHarvestIn30DayMonths = 1.2f;
                 api.StoreModConfig(FromGoldenCombsConfig.Current, "fromgoldencombs.json");
             }
         }

@@ -1,4 +1,5 @@
-﻿using FromGoldenCombs.Blocks;
+﻿using FromGoldenCombs.BlockBehavior;
+using FromGoldenCombs.Blocks;
 using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.config;
 using System;
@@ -11,6 +12,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
+using Vintagestory.API.Util;
 using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.BlockEntities
@@ -39,6 +41,12 @@ namespace FromGoldenCombs.BlockEntities
         float harvestBase;
         public override string InventoryClassName => "langstrothstack";
         private bool isActiveHive = false;
+        double cropChargeGrowthHours = FromGoldenCombsConfig.Current.langstrothCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+        double cropChargeAtTotalHours;
+        double cooldownUntilCropCharge;
+        int cropcharges;
+        int maxCropCharges = FromGoldenCombsConfig.Current.langstrothMaxCropCharges;
+        int cropChargeRange = FromGoldenCombsConfig.Current.langstrothCropRange;
 
         public BELangstrothStack()
         {
@@ -87,9 +95,39 @@ namespace FromGoldenCombs.BlockEntities
                     RegisterGameTickListener(SpawnBeeParticles, 300);
                 }
             }
+            Api.Event.RegisterEventBusListener(manageCropBoost, 0.5, "cropbreak");
             harvestBase = (FromGoldenCombsConfig.Current.LangstrothDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay;
         }
 
+        private void manageCropBoost(string eventName, ref EnumHandling handling, IAttribute data)
+        {
+            TreeAttribute tdata = data as TreeAttribute;
+            BlockPos cropPos = new(tdata.GetInt("x"), tdata.GetInt("y"), tdata.GetInt("z"));
+            int deltaX = cropPos.X - Pos.X;
+            int deltaY = cropPos.Y - Pos.Y;
+            int deltaZ = cropPos.Z - Pos.Z;
+            double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+            if (isActiveHive && hivePopSize != EnumHivePopSize.Poor)
+            {
+                if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(cropPos).HasBehavior<PushEventOnCropBreakBehavior>() && distance < FromGoldenCombsConfig.Current.langstrothCropRange)
+                {
+
+                    if (Api.World.BlockAccessor.GetBlock(cropPos) is BlockCrop crop && Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is BlockEntityFarmland farmland)
+                    {
+
+                        if (Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().validCropStages.Contains<int>(crop.CurrentCropStage))
+                        {
+                            Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().setHandling(EnumHandling.PreventSubsequent);
+                            cropcharges--;
+                        }
+
+                        handling = EnumHandling.PreventSubsequent;
+                    }
+
+                    MarkDirty();
+                }
+            }
+        }
         internal bool OnInteract(IPlayer byPlayer)
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
@@ -106,6 +144,7 @@ namespace FromGoldenCombs.BlockEntities
 
                     if (Api.World.BlockAccessor.GetBlock(bottomStackPos, 0) is LangstrothStack)
                     {
+                        bool validHive = GetBottomStack().IsValidHive();
                         GetBottomStack().isActiveHive = GetBottomStack().IsValidHive();
                         GetBottomStack().ResetHive();
                     }
@@ -262,7 +301,12 @@ namespace FromGoldenCombs.BlockEntities
                         }
                     }
                 }
-                curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
+                if(Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy()) is BELangstrothStack bestack) {
+                    curBE = bestack;
+                } else
+                {
+                    break;
+                }
             }
 
             return linedFrames;
@@ -293,14 +337,13 @@ namespace FromGoldenCombs.BlockEntities
 
             if (inv[index].Empty) //If the new target index is empty, place a super
             {
-
-                if (index - 1 >= 0 && inv[index - 1].Itemstack.Block is LangstrothBrood)
+                
+                if (index - 1 >= 0 && (inv[index - 1].Itemstack.Block is LangstrothBrood))
                 {
                     return false;
                 }
-                else if (index - 1 < 0 && IsLangstrothStackAt(Pos.DownCopy()))
+                else if (index - 1 < 0 && Api.World.BlockAccessor.GetBlockEntity(Pos.DownCopy()) is BELangstrothStack stack)
                 {
-                    BELangstrothStack stack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(Pos.DownCopy());
                     if (stack.GetStackIndex(2).Block is LangstrothBrood)
                     {
                         Api.World.BlockAccessor.SetBlock(0, Pos);
@@ -318,10 +361,9 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (IsLangstrothAt(Pos.UpCopy())) //Otherwise, check to see if the next block up is a Super or SuperStack
             {
-                if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0) is LangstrothStack) //If It's a SuperStack, Send To Next Stack
+                if (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) is BELangstrothStack stack) //If It's a SuperStack, Send To Next Stack
                 {
-                    (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).TryPut(slot);
-
+                    stack.TryPut(slot);
                 }
                 else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0) is LangstrothCore) //If It's a LangstrothCore, create a new LangstrothStack
                 {
@@ -375,10 +417,8 @@ namespace FromGoldenCombs.BlockEntities
                     return byPlayer.InventoryManager.TryGiveItemstack(stack);
                 }
                 //If it is a stack, retrieve the block from the stack
-                else if (block is LangstrothStack)
+                else if (block is LangstrothStack && Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) is BELangstrothStack BELangStack)
                 {
-                    BELangstrothStack BELangStack = Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack;
-
                     return BELangStack.RetrieveSuper(byPlayer);
                 }
 
@@ -535,13 +575,13 @@ namespace FromGoldenCombs.BlockEntities
         {
             BELangstrothStack topStack = GetTopStack();
             BELangstrothStack bottomStack = GetBottomStack();
-            BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(GetTopStack().Pos/*.DownCopy()*/);
+            BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(GetTopStack().Pos);
             int downCount = 1;
 
             if (topStack.Pos != bottomStack.Pos && bottomStack.inv[0].Itemstack.Block is LangstrothBase)
             {
                 bottomStack.topIsPopBrood = false;
-                while (curBE is BELangstrothStack)
+                while (curBE is BELangstrothStack stack)
                 {
                     for (int index = curBE.inv.Count - 1; index >= 0; index--)
                     {
@@ -564,7 +604,14 @@ namespace FromGoldenCombs.BlockEntities
                         }
                     }
                         downCount++;
-                    curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos.DownCopy(downCount));
+                    if(Api.World.BlockAccessor.GetBlockEntity(topStack.Pos.DownCopy(downCount)) is BELangstrothStack bestack) 
+                    {
+                        curBE = bestack;
+                    } else
+                    {
+                        break;
+                    }
+                    
                 }
                 return bottomStack.topIsPopBrood;
             } 
@@ -625,8 +672,8 @@ namespace FromGoldenCombs.BlockEntities
         public BELangstrothStack GetTopStack()
         {
             BlockPos topPos = Pos;
-            int upCount = 1;
-            while (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(upCount), 0) is LangstrothStack)
+            int upCount = 0;
+            while (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy(upCount)) is BELangstrothStack)
             {
                 topPos = Pos.UpCopy(upCount);
                 upCount++;
@@ -639,7 +686,7 @@ namespace FromGoldenCombs.BlockEntities
             BlockPos bottomPos = Pos;
             int downCount = 1;
 
-            while (Api.World.BlockAccessor.GetBlock(Pos.DownCopy(downCount), 0) is LangstrothStack)
+            while (Api.World.BlockAccessor.GetBlockEntity(Pos.DownCopy(downCount)) is BELangstrothStack)
             {
                 bottomPos = Pos.DownCopy(downCount);
                 downCount++;
@@ -720,26 +767,32 @@ namespace FromGoldenCombs.BlockEntities
                 if (conds == null) return;
 
                 float threeDayTemp = (todayNoonTemp*2+yesterdayNoonTemp+ twoDayAgoNoonTemp)/4 + (roomness > 0 ? 5 : 0);
-
-                float avgtemp = (maxTemp + minTemp) / 2;
-                float testing = ((maxTemp - minTemp) / 2) / 100; //% value per step from center.
-                float beeParticleModifier = (conds.Temperature > avgtemp) ? 1f - ((conds.Temperature - avgtemp) * testing) : 1f - ((avgtemp - conds.Temperature) * testing);
-                float testing3 = 1f - (35 - avgtemp) * testing;
-
+                float optimalTemp = (maxTemp + minTemp) / 2;
+                double distance = Math.Abs(conds.Temperature - optimalTemp);
+                double range = maxTemp - optimalTemp;
+                float beeParticleModifier = (float)(distance / range);
                 actvitiyLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
+
                 //Reset timers during winter - Vanilla Settings
                 //if (temp <= -10)
                 //Reset timers when temp drops below 15c - FGC Settings
-                if (threeDayTemp < minTemp|| threeDayTemp > maxTemp && quantityNearbyFlowers != 0)
+
+                bool tempOutOfRange = false;
+
+                if ((threeDayTemp < minTemp || threeDayTemp > maxTemp) && quantityNearbyFlowers != 0)
                 {
-                    //harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
-                    cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
+                    cooldownUntilTotalHours = worldTime + (2 * 24);
+                    tempOutOfRange = true;
                 }
+
+                handleCropCharges(tempOutOfRange, worldTime);
+
                 if (CountLinedFrames() <= 0)
                 {
-                    cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
+                    cooldownUntilTotalHours = worldTime + (2 * 24);
                 }
+
                 if (!Harvestable && harvestableAtTotalHours == 0 && hivePopSize > EnumHivePopSize.Poor && CountLinedFrames()>0)
                 {
                     BELangstrothStack bottomStack = GetBottomStack();
@@ -755,7 +808,19 @@ namespace FromGoldenCombs.BlockEntities
                 MarkDirty();
             }
         }
-
+        private void handleCropCharges(bool tempOutOfRange, double worldTime)
+        {
+            if (worldTime > cropChargeAtTotalHours && cropcharges < maxCropCharges && hivePopSize != EnumHivePopSize.Poor && quantityNearbyFlowers > 0)
+            {
+                if (cropChargeAtTotalHours != 0)
+                {
+                    int cropchargebase = (int)((worldTime - cropChargeAtTotalHours) / (Api.World.Calendar.DaysPerMonth/30 * cropChargeGrowthHours));
+                    int cropchargegrowth = (int)Math.Max(1, (cropchargebase * (int)hivePopSize));
+                    cropcharges = (int)Math.Min(cropchargegrowth + cropcharges, maxCropCharges);
+                }
+                cropChargeAtTotalHours = worldTime + (Api.World.Calendar.DaysPerMonth/30 * cropChargeGrowthHours);
+            }
+        }
         private double HarvestableTime(float i)
         {
                 Random rand = new();
@@ -840,7 +905,6 @@ namespace FromGoldenCombs.BlockEntities
 
                 scanIteration++;
 
-                System.Diagnostics.Debug.WriteLine("Langstroth Scan Iteration is " + scanIteration);
                 if (scanIteration == 4)
                 {
                     scanIteration = 0;
@@ -860,6 +924,7 @@ namespace FromGoldenCombs.BlockEntities
 //Misc Methods
         public override void ToTreeAttributes(ITreeAttribute tree)
         {
+            base.ToTreeAttributes(tree);
             tree.SetInt("scanIteration", scanIteration);
 
             tree.SetInt("quantityNearbyFlowers", quantityNearbyFlowers);
@@ -876,7 +941,10 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetFloat("roomness", roomness);
             tree.SetInt("harvestableFrames", harvestableFrames);
             tree.SetBool("activeHive", isActiveHive);
-            base.ToTreeAttributes(tree);
+            tree.SetDouble("cropChargeAtTotalHours", cropChargeAtTotalHours);
+            tree.SetInt("cropCharges", cropcharges);
+            tree.SetInt("maxCropCharges", maxCropCharges);
+            tree.SetInt("cropcharges", cropcharges);            
         }
 
         public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
@@ -898,7 +966,10 @@ namespace FromGoldenCombs.BlockEntities
             harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
             hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");
             roomness = tree.GetFloat("roomness");
-
+            cropChargeAtTotalHours = tree.GetDouble("cropChargeAtTotalHours");
+            cropcharges = tree.GetInt("cropCharges");
+            maxCropCharges = tree.GetInt("maxCropCharges");
+            cropcharges = tree.GetInt("cropcharges");
             updateMeshes();
         }
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
@@ -907,11 +978,9 @@ namespace FromGoldenCombs.BlockEntities
             BELangstrothStack bottomStack = GetBottomStack();
             float minTemp = FromGoldenCombsConfig.Current.LangstrothHiveMinTemp;
             float maxTemp = FromGoldenCombsConfig.Current.LangstrothHiveMaxTemp == 0 ? 37f : FromGoldenCombsConfig.Current.LangstrothHiveMaxTemp;
-            if (forPlayer.CurrentBlockSelection == null)
+            if (Pos != bottomStack.Pos)
             {
-
-                base.GetBlockInfo(forPlayer, sb);
-
+                bottomStack.GetBlockInfo(forPlayer, sb);
             }
             else if (Pos == bottomStack.Pos)
             {
@@ -920,12 +989,22 @@ namespace FromGoldenCombs.BlockEntities
                 float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
                 float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
                 float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+
                 string tempReport = Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect"));
+
                 if (bottomStack.harvestableFrames != 0) { sb.AppendLine(Lang.Get("fromgoldencombs:harvestableframes") + bottomStack.harvestableFrames); }
+
                 sb.AppendLine(bottomStack.isActiveHive ? Lang.Get("fromgoldencombs:populatedhive") : "");
+
                 double worldTime = Api.World.Calendar.TotalHours;
                 int daysTillHarvest = (int)Math.Round((bottomStack.harvestableAtTotalHours - worldTime) / 24);
                 daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
+                if (CountLinedFrames() <= 0 && CountHarvestable() == 0)
+                {
+                    sb.AppendLine(Lang.Get("fromgoldencombs:nofillableframes"));
+                    return;
+                }
+
                 string hiveState = Lang.Get("fromgoldencombs:nearbyflowers", bottomStack.quantityNearbyFlowers, bottomStack.hivePopSize);
                 if (bottomStack.isActiveHive)
                 {
@@ -952,46 +1031,20 @@ namespace FromGoldenCombs.BlockEntities
                         }
                         sb.AppendLine(combPopTime);
                     }
-                    else if (/*daysTillHarvest == 0 && */CountLinedFrames() == 0)
-                    {
-                        sb.AppendLine(Lang.Get("fromgoldencombs:nofillableframes"));
-                    }
                     else
                     {
                         sb.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
                     }
 
-                    if (forPlayer.Entity.Controls.ShiftKey)
+                    if (this.roomness > 0f)
                     {
-                        if (this.roomness > 0f)
-                        {
-                            sb.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
-                        }
+                        sb.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
+                    }
+                    sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
 
-                        if (conds == null) return;
-                        
-                        sb.AppendLine(tempReport);
-                    }
-                    if (!forPlayer.Entity.Controls.ShiftKey)
-                    {
-                        if (this.roomness > 0f)
-                        {
-                            sb.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
-                        }
-                    }
+                    sb.AppendLine(tempReport);
                 }
-                //else
-                //{
-                //    bottomStack.GetBlockInfo(forPlayer, sb);
-                //    if (forPlayer.Entity.Controls.ShiftKey)
-                //    {
-
-                //        if (conds == null) return;
-                //        sb.AppendLine(Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect")));
-                //    }
-                //}
             } 
-
         }
 
         readonly Matrixf mat = new();

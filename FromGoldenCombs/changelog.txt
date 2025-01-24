@@ -1,3 +1,11 @@
+1.20-v1.8.3
+	- Fixed crash caused by Langstroth Hives being placed on chiseled blocks.
+	- Polish Translation Updated
+	- French Language Updated
+	- Implemented Crop Pollination (In a way more complete way than I intended)
+	- Revised Bee temperature tolerance calculations
+	- Implemented Configuration Options for New Bee Crop Growth Feature.
+
 1.20-v1.8.2
 	- Updated lang files for better localization
 	- Corrected too large shadow from honey pot placed on ground
@@ -24,7 +32,7 @@
 1.19-v1.6.2
 	- Changed time of day for three day average temp to 0.66f, or 4pm-ish.
 	- Corrected frames not showing in super, again... 
-	- Fixed Ceramic Hives producing comb FAR too quickly
+	- Fixed Ceramic Hives producing comb FAR too quicklye
 	- Added missing fields to Network Handler and Config
 
 

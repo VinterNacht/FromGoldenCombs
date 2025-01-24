@@ -7,6 +7,7 @@ using FromGoldenCombs.Items;
 using VFromGoldenCombs.Blocks.Langstroth;
 using Vintagestory.API.Client;
 using Vintagestory.API.Server;
+using FromGoldenCombs.BlockBehavior;
 
 namespace FromGoldenCombs
 {
@@ -62,6 +63,9 @@ namespace FromGoldenCombs
 
             //Items
             api.RegisterItemClass("langstrothpartcore", typeof(LangstrothPartCore));
+
+            //
+            api.RegisterBlockBehaviorClass("PushEventOnCropBroken", typeof(PushEventOnCropBreakBehavior));
 
             networkHandler.RegisterMessages(api);
             FromGoldenCombsConfig.createConfig(api);

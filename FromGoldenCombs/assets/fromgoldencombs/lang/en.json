@@ -15,7 +15,7 @@
   "newframepop": "Your bees will fill new frames in ",
   "days": "days.",
   "outgathering": "The bees are out gathering",
-  "nofillableframes": "Hive lacks fillable frames.",
+  "nofillableframes": "Hive Requires Lined Frames.",
   "findflowers": "The bees are out scouting for flowers.",
   "nomodconfig": "No Mod Config specified. Falling back to default settings",
   "modconfigload": "Mod Config successfully loaded.",
@@ -30,6 +30,7 @@
   "3DayTooHot": "Too Hot.",
   "3DayTooCold": "Too Cold.",
   "3DayPerfect": "Perfect.",
+  "cropcharges": "Crop Charges:",
                 
   //Blocks
   "block-claypothive": "Claypot Hive",

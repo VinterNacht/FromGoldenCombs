@@ -200,5 +200,10 @@
 			"z": 0.5
 		},
 		"scale": 0.59
+	},
+		guiTransform: {
+		rotation: { x: -11, y: -23, z: 0 },
+		origin: { x: 0.5, y: 0.4, z: 0.5 },
+		scale: 1.4
 	}
 }

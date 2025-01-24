@@ -41,6 +41,7 @@
     <Compile Remove="Blocks\BlockRawClaypotHive .cs" />
     <None Remove="assets\fromgoldencombs\lang\de.json" />
     <None Remove="assets\fromgoldencombs\lang\fr.json" />
+    <None Remove="assets\game\patches\croppatch.json" />
     <None Remove="modinfo.json" />
     <Content Include="modinfo.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -128,6 +129,9 @@
     <Content Update="assets\fromgoldencombs\lang\ja.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="assets\fromgoldencombs\lang\pl.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="assets\fromgoldencombs\lang\pt-br.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -138,6 +142,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="assets\fromgoldencombs\lang\zh-cn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="assets\game\patches\croppatch.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

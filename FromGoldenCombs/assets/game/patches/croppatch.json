@@ -1,0 +1,8 @@
+[
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [6,7], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/carrot.json"
+  }
+]

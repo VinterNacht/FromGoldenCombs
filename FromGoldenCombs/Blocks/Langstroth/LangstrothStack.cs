@@ -1,4 +1,6 @@
 ﻿using FromGoldenCombs.BlockEntities;
+using HarmonyLib;
+using System.Collections.Generic;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
@@ -55,6 +57,26 @@ namespace FromGoldenCombs.Blocks.Langstroth
             BELangstrothStack belangstrothstack = world.BlockAccessor.GetBlockEntity(blockSel.Position) as BELangstrothStack;
             if (belangstrothstack is BELangstrothStack) return belangstrothstack.OnInteract(byPlayer);
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
+        }
+
+        public override Cuboidf[] GetSelectionBoxes(IBlockAccessor blockAccessor, BlockPos pos)
+        {
+            List<Cuboidf> curSelectionBoxes = new List<Cuboidf>();
+            BELangstrothStack curBE = blockAccessor.GetBlockEntity<BELangstrothStack>(pos);
+            curSelectionBoxes.Add(SelectionBoxes[0]);
+
+            if (curBE != null)
+            {
+                for (int i = 1; i < curBE.Inventory.Count; i++)
+                {
+                    if (!curBE.Inventory[i].Empty)
+                    {
+                        curSelectionBoxes.Add(SelectionBoxes[i]);
+                    }
+                }
+
+            }
+            return curSelectionBoxes.ToArray();
         }
 
         public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)

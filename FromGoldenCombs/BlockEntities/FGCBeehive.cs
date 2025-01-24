@@ -1,4 +1,5 @@
-﻿using FromGoldenCombs.Blocks;
+﻿using FromGoldenCombs.BlockBehavior;
+using FromGoldenCombs.Blocks;
 using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.config;
 using System;
@@ -37,6 +38,14 @@ namespace FromGoldenCombs.BlockEntities
             int scanQuantityNearbyHives;
             List<BlockPos> scanEmptySkeps = new();
 
+            double cropChargeGrowthHours = FromGoldenCombsConfig.Current.skepCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+            double cropChargeAtTotalHours;
+            double cooldownUntilCropCharge;
+            int cropcharges;
+            int maxCropCharges = FromGoldenCombsConfig.Current.skepMaxCropCharges;
+            int cropChargeRange = FromGoldenCombsConfig.Current.skepCropRange;
+
+
             // Temporary values
             EnumHivePopSize hivePopSize;
             bool wasPlaced = false;
@@ -49,7 +58,6 @@ namespace FromGoldenCombs.BlockEntities
             private float actvitiyLevel;
             private float roomness;
             public Vec3d Position => Pos.ToVec3d().Add(0.5, 0.5, 0.5);
-
             public string Type => "food";
 
         static FGCBeehive()
@@ -113,9 +121,38 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     api.ModLoader.GetModSystem<POIRegistry>().AddPOI(this);
                 }
-            
+                Api.Event.RegisterEventBusListener(manageCropBoost, 0.5, "cropbreak");
         }
 
+        private void manageCropBoost(string eventName, ref EnumHandling handling, IAttribute data)
+        {
+            TreeAttribute tdata = data as TreeAttribute;
+            BlockPos cropPos = new(tdata.GetInt("x"), tdata.GetInt("y"), tdata.GetInt("z"));
+            int deltaX = cropPos.X - Pos.X;
+            int deltaY = cropPos.Y - Pos.Y;
+            int deltaZ = cropPos.Z - Pos.Z;
+            double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+            if (this.Block.Variant["type"] == "populated" && hivePopSize != EnumHivePopSize.Poor)
+            {
+                if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(cropPos).HasBehavior<PushEventOnCropBreakBehavior>() && distance < FromGoldenCombsConfig.Current.skepCropRange)
+                {
+
+                    if (Api.World.BlockAccessor.GetBlock(cropPos) is BlockCrop crop && Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is BlockEntityFarmland farmland)
+                    {
+
+                        if (Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().validCropStages.Contains<int>(crop.CurrentCropStage))
+                        {
+                            Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().setHandling(EnumHandling.PreventSubsequent);
+                            cropcharges--;
+                        }
+
+                        handling = EnumHandling.PreventSubsequent;
+                    }
+
+                    MarkDirty();
+                }
+            }
+        }
 
         private double GetHarvestTime()
         {
@@ -161,6 +198,7 @@ namespace FromGoldenCombs.BlockEntities
 
             Api.World.SpawnParticles(Bees);
         }
+
         public override void OnBlockPlaced(ItemStack byItemStack = null)
         {
             wasPlaced = true;
@@ -182,20 +220,24 @@ namespace FromGoldenCombs.BlockEntities
             if (conds == null) return;
 
             threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
-            float avgtemp = (maxTemp + minTemp) / 2;
-            float testing = ((maxTemp - minTemp) / 2) / 100; //% value per step from center.
-            float beeParticleModifier = (conds.Temperature > avgtemp) ? 1.1f - ((conds.Temperature - avgtemp) * testing) : 1.1f - ((avgtemp - conds.Temperature) * testing);
-
+            float optimalTemp = (maxTemp + minTemp) / 2;
+            double distance = Math.Abs(conds.Temperature - optimalTemp);
+            double range = maxTemp - optimalTemp;
+            float beeParticleModifier = (float)(distance / range);
             actvitiyLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
             //Reset timers during winter - Vanilla Settings
             //if (temp <= -10)
             //Reset timers when temp drops below 15c - FGC Settings
-            if (threeDayTemp < minTemp || threeDayTemp > maxTemp)
+            bool tempOutOfRange = false;
+
+            if (threeDayTemp < minTemp || threeDayTemp > maxTemp && quantityNearbyFlowers != 0)
             {
-                //harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
-                harvestableAtTotalHours = worldTime + harvestBase;
+                harvestableAtTotalHours = worldTime + GetHarvestTime();
                 cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
+                tempOutOfRange = true;
             }
+
+            handleCropCharges(tempOutOfRange, worldTime);
 
             // Reset timers during winter
             if (threeDayTemp <= FromGoldenCombsConfig.Current.SkepHiveMinTemp || threeDayTemp >= FromGoldenCombsConfig.Current.SkepHiveMaxTemp)
@@ -209,6 +251,20 @@ namespace FromGoldenCombs.BlockEntities
                 Harvestable = true;
             }
             MarkDirty(redrawOnClient: true);
+        }
+
+        private void handleCropCharges(bool tempOutOfRange, double worldTime)
+        {
+            if (worldTime > cropChargeAtTotalHours && cropcharges < maxCropCharges && hivePopSize != EnumHivePopSize.Poor && quantityNearbyFlowers > 0)
+            {
+                if (cropChargeAtTotalHours != 0)
+                {
+                    int cropchargebase = (int)((worldTime - cropChargeAtTotalHours) / (Api.World.Calendar.DaysPerMonth / 30 * cropChargeGrowthHours));
+                    int cropchargegrowth = (int)Math.Max(1, (cropchargebase * (int)hivePopSize));
+                    cropcharges = (int)Math.Min(cropchargegrowth + cropcharges, maxCropCharges);
+                }
+                cropChargeAtTotalHours = worldTime + (Api.World.Calendar.DaysPerMonth / 30 * cropChargeGrowthHours);
+            }
         }
 
         private void OnScanForEmptySkep(float dt)
@@ -420,6 +476,7 @@ namespace FromGoldenCombs.BlockEntities
             daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
             string hiveState = Lang.Get("fromgoldencombs:nearbyflowers", quantityNearbyFlowers, hivePopSize);
             float curTemp = Api.World.BlockAccessor.GetClimateAt(this.Pos, EnumGetClimateMode.NowValues).Temperature;
+            string tempReport = Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect"));
             bool outOfTemp = (curTemp <= minTemp || curTemp >= maxTemp);
             if (curTemp < minTemp)
             {
@@ -465,10 +522,12 @@ namespace FromGoldenCombs.BlockEntities
             }
 
             dsc.AppendLine(hiveState);
-
+            dsc.AppendLine(tempReport);
+            dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
             if (this.roomness > 0f)
             {
                 dsc.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
+                
             }
         }
 
@@ -511,6 +570,8 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
             tree.SetInt("hiveHealth", (int)hivePopSize);
             tree.SetFloat("roomness", roomness);
+            tree.SetDouble("cropChargeAtTotalHours", cropChargeAtTotalHours);
+            tree.SetInt("cropcharges", cropcharges);
         }
 
         public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
@@ -558,6 +619,8 @@ namespace FromGoldenCombs.BlockEntities
             harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
             hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");
             roomness = tree.GetFloat("roomness");
+            cropChargeAtTotalHours = tree.GetDouble("cropChargeAtTotalHours");
+            cropcharges = tree.GetInt("cropcharges");
             if (Harvestable != harvestable && Api != null)
             {
                 MarkDirty(redrawOnClient: true);
