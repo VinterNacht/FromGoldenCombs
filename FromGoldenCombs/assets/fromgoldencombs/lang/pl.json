@@ -2,19 +2,19 @@
   "my-test-string": "Inicjalizacja From Golden Combs.",
 
   //Appibuzian
-  "hivewrongseason": "Rój nie wyruszy do wiosny.",
+  "hivewrongseason": "Ul nie będzie się roić aż do wiosny.",
   "nopot": "W ulu brakuje naczynia na miód",
   "fullpot": "Naczynie na miód jest pełne",
-  "toocold": "Pogoda jest zbyt zimna, aby pszczoły mogły latać.",
-  "toohot": "Pogoda jest zbyt gorąca, aby pszczoły mogły latać.",
+  "toocold": "Zbyt zimno, by pszczoły mogły latać.",
+  "toohot": "Zbyt gorąco, by pszczoły mogły latać.",
   "timetillpop": "Twoje pszczoły wytworzą plaster za {0}.",
   "lessthanday": "mniej niż dzień.",
   "busyhive": "Ul intensywnie brzęczy.",
   "harvestableframes": "Plastry do zebrania:",
   "nearbyflowers": "Pobliskie kwiaty: {0}\nRozmiar populacji: {1}",
-  "newframepop": "Twoje pszczoły zapełnią nowe ramki za ",
+  "newframepop": "Twoje pszczoły wypełnią nowe ramki za ",
   "days": "dni.",
-  "outgathering": "Pszczoły zbierają zapasy na zewnątrz",
+  "outgathering": "Pszczoły zbierają nektar",
   "nofillableframes": "Ul nie ma ramek do wypełnienia.",
   "findflowers": "Pszczoły szukają nowych kwiatów w okolicy.",
   "nomodconfig": "Nie określono konfiguracji moda. Przywracam ustawienia domyślne",
@@ -29,11 +29,12 @@
   "3DayTemp": "Trzydniowa temperatura jest",
   "3DayTooHot": "Zbyt gorąca.",
   "3DayTooCold": "Zbyt zimna.",
-  "3DayPerfect": "Perfekcyjnia.",
+  "3DayPerfect": "Idealna.",
+  "cropcharges": "Ładunki upraw:",
                 
   //Blocks
   "block-claypothive": "Gliniany ul",
-  "fromgoldencombs:handbooktitle-claypothive": "Używany dla:",
+  "fromgoldencombs:handbooktitle-claypothive": "Przeznaczenie:",
   "fromgoldencombs:handbooktext-claypothive": "Test glinianego ula",
   "blockhelp-claypothive-empty-notop": "Podnieś ceramiczny ul do wolnego miejsca w plecaku",
   "blockhelp-claypothive-populated-notop": "Umieść górną część ula.",
@@ -69,7 +70,7 @@
   "blockhelp-rawclaypothive": "Umieść w piecu ziemnym, aby wypalić.",
 
   "block-langstrothbase-*": "Podstawa ula Langstrotha",
-  "block-langstrothsuper-*": "Nadstawka Langstrotha",
+  "block-langstrothsuper-*": "Nadbudowa Langstrotha",
   "block-langstrothstack-*": "Stos Langstrotha",
   "langstrothstack-*-*-hive": "Ul Langstrotha",
   "block-langstrothbrood-*": "Komora macierzysta Langstrotha",
@@ -94,6 +95,8 @@
   //Guide Info
   "fromgoldencombsguide-title": "Pszczelarstwo 101 - From Golden Combs",
   "fromgoldencombsguide-text": "<font align=\"center\"><i>\"Jak pracowita pszczółka<br>Każdą chwilę dnia wykorzystuje,<br>Zbiera miód przez cały dzień<br>Z każdego kwiatu, co się otwiera!\"<br></i> - <strong>Isaac Watts</strong></font> <br><br>From Golden Combs to mod, który rozszerza możliwości pszczelarstwa („Beekeeping”) dostępne w Vintage Story. Osiąga to poprzez wprowadzenie dwóch nowych typów uli, które możesz zbudować: ceramicznego ula i ula Langstrotha. Każdy z tych uli ma swoje unikalne zalety i zapewnia większą produkcję plastrów miodu w porównaniu do kószki. W tej wersji jedynym minusem jest to, że ule z From Golden Combs nie rozmnażają się w sposób podobny do standardowej kószki. Zostało to zrobione, aby kószka pozostała użyteczna.<br><br>Historia pszczelarstwa sięga co najmniej 10 000 lat, co również oznacza najstarsze znane przedstawienie zbierania dzikich uli. Wiele podejść do tworzenia uli domowych było testowanych, a ule ceramiczne pojawiły się około 9 000 lat temu. To właśnie tutaj zaczyna się twoja podróż do zaawansowanego pszczelarstwa w Vintage Story.<br>Ule ceramiczne składają się z dwóch elementów. Pierwszym jest <a href=\"handbook://block-fromgoldencombs:ceramicbroodpot-notop\">ceramiczny ul</a>, będący podstawą ula i nowym domem dla twojej kolonii pszczół. Drugim elementem jest <a href=\"handbook://block-fromgoldencombs:hivetop-empty\">naczynie na miód</a>, które umieszcza się na górze ula i w którym pszczoły będą przechowywać miód. Razem tworzą stałe źródło miodu, które nie wymaga niszczenia ula, aby uzyskać plastry.<br><br>Tworzenie ceramicznego ula zaczyna się od zebrania gliny. Każdy rodzaj gliny może być użyty do wytworzenia dwóch części ceramicznego ula przy użyciu procesu formowania gliny. Wyprodukujesz <a href=\"handbook://block-fromgoldencombs:rawceramichive\">niewypalony gliniany ul</a> i <a href=\"handbook://block-fromgoldencombs:hivetop-raw\">surowe naczynie na miód</a>, które następnie wypalisz w piecu ziemnym . Gdy proces wypalania się zakończy, będą gotowe do użycia!<br><br><br><font size=\"18\" color=\"#E9D7AB\" weight=\"bold\" lineheight=\"1.2\" align=\"center\"><br>Po wypaleniu ul nie może być przenoszony w zwykłym slocie ekwipunku. Musisz mieć wolne miejsce w plecaku, aby go podnieść. <br> Możesz uzyskać dostęp, naciskając Ctrl+1-4 lub trzymając Ctrl i używając kółka myszy.</font><br><br><br><br>Teraz, gdy masz już swój ul i naczynie na miód, umieść ul tam, gdzie chcesz. Podobnie jak kószka, będą wymagały pobliskich kwiatów, aby produkować miód. Dodatkowo musisz mieć <a href=\"handbook://block-fromgoldencombs:hivetop-empty\">puste naczynie na miód</a> umieszczone na górze ula, aby pszczoły mogły go napełnić.<br><br>Oczywiście bez pszczół nie będzie miodu. Aby wypełnić ul pszczołami, będziesz potrzebować zasiedlonej kószki zdobytej w zwykły sposób. Zamiast jednak umieszczać zasiedloną kószkę, bezpośrednio użyj jej na ceramicznym ulu. Spowoduje to przeniesienie kolonii pszczół do ula i zużycie zasiedlonej kószki. Gratulacje! Twój ceramiczny ul będzie teraz produkował miód! Możesz zobaczyć, że jest gotowy do zbioru, gdy na garnku na miód na górze ula pojawi się żółty pierścień.<br><br>Zbieranie miodu z garnka jest proste. Zdejmij go, umieść na ziemi i użyj noża, aby uzyskać plastry miodu. Garnek stanie się pusty. Umieść go ponownie na ulu ceramicznym, a pszczoły będą mogły ponownie go napełnić. W porównaniu do kószki jest to bardziej wygodne, a także średnio bardziej wydajne.<br><br><font size=\"18\" color=\"#E9D7AB\" weight=\"bold\" lineheight=\"1.2\" align=\"center\"><br>Pamiętaj: Nie możesz tworzyć nowych kolonii za pomocą ceramicznych uli, do tego będziesz potrzebować kószki.</font><br><br>",
+  "fromgoldencombs:fromgoldencombspollination-title": "Pszczelarstwo 102 – Pszczoły i uprawy",
+  "fromgoldencombs:fromgoldencombspollination-text": "<font align=\"center\"><i>„Rodowód miodu<br>Nie obchodzi pszczoły;<br>Koniczyna, w każdej chwili,<br>Jest arystokracją.”</i> <br>- <strong>Emily Dickinson</strong></font> <br><br>Pszczoły zapylają uprawy, zwiększając plony. Ule gromadzą „ładunki upraw” (przy populacji co najmniej dobrej). Każdy ul ma określony zasięg – gdy zbierzesz uprawę w jego zasięgu, zużyje ładunek i poprawi jakość zbiorów. Maksymalną liczbę ładunków ul osiąga w 30 dni. Przytrzymaj <strong>Shift</strong>, by zobaczyć aktualne ładunki i zasięg.",
   
   //Handbook Info - Blocks
   "fromgoldencombs:block-handbooktitle-ceramicbroodpot":  "Ceramiczny ul",
@@ -106,8 +109,8 @@
   "fromgoldencombs:block-handbooktext-langstrothbase": "<br><font align=\"center\"><strong>Proszę pamiętać, że podstawa ula Langstrotha może być wykonana z dowolnej kombinacji drewna i paneli Langstrotha.<br>Powstały element będzie pasował kolorystycznie do paneli użytych do wykonania bloku lub przedmiotu.<br>Ograniczone opcje w podręczniku służą utrzymaniu przejrzystości i uniknięciu niezliczonych wariacji.<br>W trybie kreatywnym możesz podejrzeć inne możliwe kombinacje, które wykonasz w trybie przetrwania.</strong><br></font><br>Jest to jeden z trzech elementów wymaganych do zbudowania ula Langstrotha. Jak wskazuje nazwa, musi znajdować się na dole stosu. Możesz dodać <a href=\"handbook://block-fromgoldencombs:langstrothsuper-closed-baldcypress-maple-east\">nadstawkę Langstroth</a>, klikając <icon name='rightmousebutton'></icon>. Na górę dodaj <a href=\"handbook://block-fromgoldencombs:langstrothbrood-empty-ebony-baldcypress-east\">komorę macierzystą</a>.",
   "fromgoldencombs:block-handbooktitle-langstrothbrood": "Komora macierzysta Langstrotha - Umieszczana w wolnym slocie plecaka!",
   "fromgoldencombs:block-handbooktext-langstrothbrood": "<br>*<br>To część ula Langstrotha, która mieści twoją kolonię pszczół. Tworzy się ją poprzez kliknięcie <icon name='rightmousebutton'></icon> na <a href=\"handbook://block-fromgoldencombs:langstrothsuper-closed-baldcypress-maple-east\">nadstawke Langstroth</a> bez ramek, używając <a href=\"handbook://item-fromgoldencombs:langstrothbroodtop-ebony-baldcypress\">pokrywy komory macierzystej</a> o tej samej kombinacji kolorów. Po utworzeniu umieszczasz w niej kolonię, klikając na nią <icon name='rightmousebutton'></icon> zamieszkaną kószką, można to zrobić tylko wtedy, gdy komora macierzysta jest na ziemi. Następnie umieść ją na górze ula Langstrotha składającego się z <a href=\"handbook://block-fromgoldencombs:langstrothbase-ebony-baldcypress-east\">podstawy</a> i przynajmniej jednej <a href=\"handbook://block-fromgoldencombs:langstrothsuper-closed-ebony-baldcypress-east\">nadstawki</a>.",
-  "fromgoldencombs:block-handbooktitle-langstrothsuper": "Nadstawka Langstrotha - Umieszczana w wolnym slocie plecaka!",
-  "fromgoldencombs:block-handbooktext-langstrothsuper": "<br>To tutaj umieścisz swoje <a href=\"handbook://item-fromgoldencombs:beeframe-ebony-empty\">ramki</a>, aby twoje pszczoły mogły je napełnić. Może być wykonana z dowolnej kombinacji dwóch kolorów <a href=\"handbook://item-fromgoldencombs:langstrothside-ebony\">paneli Langstrotha</a>, co pozwala na stworzenie unikalnego wyglądu ula. <br>Możesz otworzyć i zamknąć nadstawka, gdy znajduje się na ziemi, klikając <icon name='rightmousebutton'></icon>, wybierając odpowiedni slot paska szybkiego dostępu, lub podnieść ją (jeśli jest zamknięta), zaznaczając pusty slot w plecaku (Ctrl+1-4). Gdy nadstawka jest otwarta, możesz wypełnić ją do 10 <a href=\"handbook://item-fromgoldencombs:beeframe-ebony-lined\">wyłożonymi ramkami</a>.<br>Gdy umieścisz ją w kompletnym ulu, twoje pszczoły z  czasem przekształcą te ramki w <a href=\"handbook://item-fromgoldencombs:beeframe-ebony-harvestable\">ramki z miodem (gotowe do zebrania)</a>. Kompletny ul składa się z <a href=\"handbook://block-fromgoldencombs:langstrothbase-ebony-baldcypress-east\">podstawy</a>, przynajmniej jednej nadstawki (z co najmniej jedną wyłożoną ramką) i zwieńczony jest <a href=\"handbook://block-fromgoldencombs:langstrothbrood-empty-ebony-baldcypress-east\">komorą macierzystą</a>.",
+  "fromgoldencombs:block-handbooktitle-langstrothsuper": "Nadbudowa Langstrotha - Umieszczana w wolnym slocie plecaka!",
+  "fromgoldencombs:block-handbooktext-langstrothsuper": "<br>To tutaj umieścisz swoje <a href=\"handbook://item-fromgoldencombs:beeframe-ebony-empty\">ramki</a>, aby twoje pszczoły mogły je napełnić. Może być wykonana z dowolnej kombinacji dwóch kolorów <a href=\"handbook://item-fromgoldencombs:langstrothside-ebony\">paneli Langstrotha</a>, co pozwala na stworzenie unikalnego wyglądu ula. <br>Możesz otworzyć i zamknąć nadbudowę, gdy znajduje się na ziemi, klikając <icon name='rightmousebutton'></icon>, wybierając odpowiedni slot paska szybkiego dostępu, lub podnieść ją (jeśli jest zamknięta), zaznaczając pusty slot w plecaku (Ctrl+1-4). Gdy nadbudowa jest otwarta, możesz wypełnić ją do 10 <a href=\"handbook://item-fromgoldencombs:beeframe-ebony-lined\">wyłożonymi ramkami</a>.<br>Gdy umieścisz ją w kompletnym ulu, twoje pszczoły z  czasem przekształcą te ramki w <a href=\"handbook://item-fromgoldencombs:beeframe-ebony-harvestable\">ramki z miodem (gotowe do zebrania)</a>. Kompletny ul składa się z <a href=\"handbook://block-fromgoldencombs:langstrothbase-ebony-baldcypress-east\">podstawy</a>, przynajmniej jednej nadstawki (z co najmniej jedną wyłożoną ramką) i zwieńczony jest <a href=\"handbook://block-fromgoldencombs:langstrothbrood-empty-ebony-baldcypress-east\">komorą macierzystą</a>.",
 
   //items
   "item-handbooktitle-langstrothbroodtop": "Pokrywa komory macierzystej Langstroth",
@@ -124,7 +127,7 @@
   "item-handbooktext-frameliner": "Wkłady są tworzone przy użyciu <a href=\"handbook://block-linen-waxed-down\">woskowanego płótna</a> i noża. Służą do wypełniania <a href=\"handbook://item-fromgoldencombs:beeframe-ebony-empty\">pustych ramek</a> w <a href=\"handbook://block-fromgoldencombs:framerack-ebony-baldcypress-east\">stojaku na ramki</a>.",
   "item-handbooktitle-waxedflaxtwine": "Woskowany lniany sznurek",
   "item-handbooktext-waxedflaxtwine": "Ten sznurek służy do naprawy <a href=\"handbook://item-fromgoldencombs:beeframe-ebony-lined\">wyłożonych ramek</a> w <a href=\"handbook://block-fromgoldencombs:framerack-ebony-baldcypress-east\">stojaku na ramki</a>.",
-  "fromgoldencombs:nonemptysuper": "Nadstawka musi być pusta, aby można było ją przekształcić w komorę macierzystą."
+  "fromgoldencombs:nonemptysuper": "Nadbudowa musi być pusta, aby można było ją przekształcić w komorę macierzystą."
 
   //Handbook Text - Items
 }

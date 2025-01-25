@@ -1,0 +1,44 @@
+[
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [10,11], "beeChanceMultiplier": 0.25}},
+    "file": "newworldcrops:blocktypes/plant/crop/beans.json",
+    "dependsOn": [ { "modid": "newworldcrops" } ]
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [10,11,12], "beeChanceMultiplier": 0.25}},
+    "file": "newworldcrops:blocktypes/plant/crop/chimeracrops.json",
+    "dependsOn": [ { "modid": "newworldcrops" } ]
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [8,9], "beeChanceMultiplier": 0.25}},
+    "file": "newworldcrops:blocktypes/plant/crop/corn.json",
+    "dependsOn": [ { "modid": "newworldcrops" } ]
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [7], "beeChanceMultiplier": 0.25}},
+    "file": "newworldcrops:blocktypes/plant/crop/crops.json",
+    "dependsOn": [ { "modid": "newworldcrops" } ]
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [10,11,12], "beeChanceMultiplier": 0.25}},
+    "file": "newworldcrops:blocktypes/plant/crop/fruitcrops.json",
+    "dependsOn": [ { "modid": "newworldcrops" } ]
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [10], "beeChanceMultiplier": 0.25}},
+    "file": "newworldcrops:blocktypes/plant/crop/sisters.json",
+    "dependsOn": [ { "modid": "newworldcrops" } ]
+  }
+]

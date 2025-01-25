@@ -52,13 +52,13 @@ namespace FromGoldenCombs.config
             FromGoldenCombsConfig.Current.showcombpoptime = fgcConfig.showcombpoptime;
             FromGoldenCombsConfig.Current.CeramicHiveMinTemp = fgcConfig.CeramicHiveMinTemp;
             FromGoldenCombsConfig.Current.LangstrothHiveMinTemp = fgcConfig.LangstrothHiveMinTemp;
-            FromGoldenCombsConfig.Current.skepCropChargeHoursIn30DayMonths = fgcConfig.skepCropChargeHoursIn30DayMonths;
+            FromGoldenCombsConfig.Current.skepBaseChargesPerDay = fgcConfig.skepCropChargeHoursIn30DayMonths;
             FromGoldenCombsConfig.Current.skepMaxCropCharges = fgcConfig.skepMaxCropCharges;
             FromGoldenCombsConfig.Current.skepCropRange = fgcConfig.skepCropRange;
-            FromGoldenCombsConfig.Current.ceramicCropChargeHoursIn30DayMonths = fgcConfig.ceramicCropChargeHoursIn30DayMonths;
+            FromGoldenCombsConfig.Current.ceramicBaseChargesPerDay = fgcConfig.ceramicCropChargeHoursIn30DayMonths;
             FromGoldenCombsConfig.Current.ceramicMaxCropCharges = fgcConfig.ceramicMaxCropCharges;
             FromGoldenCombsConfig.Current.ceramicCropRange = fgcConfig.ceramicCropRange;
-            FromGoldenCombsConfig.Current.langstrothCropChargeHoursIn30DayMonths = fgcConfig.langstrothCropChargeHoursIn30DayMonths;
+            FromGoldenCombsConfig.Current.langstrothBaseChargesPerDay = fgcConfig.langstrothCropChargeHoursIn30DayMonths;
             FromGoldenCombsConfig.Current.langstrothMaxCropCharges = fgcConfig.langstrothMaxCropCharges;
             FromGoldenCombsConfig.Current.langstrothCropRange = fgcConfig.langstrothCropRange;
             FromGoldenCombsConfig.Current.showCurrentCropCharges = true;
@@ -140,7 +140,7 @@ namespace FromGoldenCombs.config
             [ProtoMember(20)]
             public float LangstrothHiveMaxTemp = FromGoldenCombsConfig.Current.LangstrothHiveMaxTemp;
             [ProtoMember(21)]
-            public double skepCropChargeHoursIn30DayMonths = FromGoldenCombsConfig.Current.skepCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+            public double skepCropChargeHoursIn30DayMonths = FromGoldenCombsConfig.Current.skepBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
 
             [ProtoMember(22)]
             public int skepMaxCropCharges = FromGoldenCombsConfig.Current.skepMaxCropCharges;
@@ -149,7 +149,7 @@ namespace FromGoldenCombs.config
             public int skepCropRange = FromGoldenCombsConfig.Current.skepCropRange;
 
             [ProtoMember(24)]
-            public double ceramicCropChargeHoursIn30DayMonths = FromGoldenCombsConfig.Current.ceramicCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+            public double ceramicCropChargeHoursIn30DayMonths = FromGoldenCombsConfig.Current.ceramicBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
 
             [ProtoMember(25)]
             public int ceramicMaxCropCharges = FromGoldenCombsConfig.Current.ceramicMaxCropCharges;
@@ -158,7 +158,7 @@ namespace FromGoldenCombs.config
             public int ceramicCropRange = FromGoldenCombsConfig.Current.ceramicCropRange;
 
             [ProtoMember(27)]
-            public double langstrothCropChargeHoursIn30DayMonths = FromGoldenCombsConfig.Current.langstrothCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+            public double langstrothCropChargeHoursIn30DayMonths = FromGoldenCombsConfig.Current.langstrothBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
 
             [ProtoMember(28)]
             public int langstrothMaxCropCharges = FromGoldenCombsConfig.Current.langstrothMaxCropCharges;

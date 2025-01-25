@@ -1,3 +1,16 @@
+1.20-v1.8.5
+	- New World Crops compatibility added
+	- Art of Growing compatibility added
+	- Amaranth added to vanilla crops
+	- Peanute.json misspelling corrected to peanut.json
+
+1.20-v1.8.4-rc.1
+	- Added all vanilla crops but rye, rice, and spelt to the croppatch.
+	- Updated lang files with new guide entry.
+	- Fixed Broodbox Shape to prevent Z-fighting
+	- Adjusted configuration files
+	- Finalized Hive crop charge rate, range, and max charges.
+
 1.20-v1.8.3
 	- Fixed crash caused by Langstroth Hives being placed on chiseled blocks.
 	- Polish Translation Updated

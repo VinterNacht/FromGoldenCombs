@@ -91,7 +91,7 @@ namespace FromGoldenCombs.config
         public float LangstrothHiveMaxTemp { get; set; } = 37f;
 
         [ProtoMember(21)]
-        public double skepCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+        public double skepBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
       
         [ProtoMember(22)]
         public int skepMaxCropCharges = 8;
@@ -100,7 +100,7 @@ namespace FromGoldenCombs.config
         public int skepCropRange = 8;
 
         [ProtoMember(24)]
-        public double ceramicCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+        public double ceramicBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
 
         [ProtoMember(25)]
         public int ceramicMaxCropCharges = 8;
@@ -109,7 +109,7 @@ namespace FromGoldenCombs.config
         public int ceramicCropRange = 8;
 
         [ProtoMember(27)]
-        public double langstrothCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+        public double langstrothBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
 
         [ProtoMember(28)]
         public int langstrothMaxCropCharges = 8;
@@ -152,15 +152,15 @@ namespace FromGoldenCombs.config
             defaultConfig.CeramicHiveMaxTemp = 37f;
             defaultConfig.LangstrothHiveMinTemp = 10f;
             defaultConfig.LangstrothHiveMaxTemp = 37f;
-            defaultConfig.skepCropChargeHoursIn30DayMonths = 24; 
-            defaultConfig.skepMaxCropCharges = 16;
-            defaultConfig.skepCropRange = 8;
-            defaultConfig.ceramicCropChargeHoursIn30DayMonths = 24;
-            defaultConfig.ceramicMaxCropCharges = 32;
-            defaultConfig.ceramicCropRange = 16;
-            defaultConfig.langstrothCropChargeHoursIn30DayMonths = 24;
-            defaultConfig.langstrothMaxCropCharges = 64;
-            defaultConfig.langstrothCropRange = 32;
+            defaultConfig.skepBaseChargesPerDay = 1; 
+            defaultConfig.skepMaxCropCharges = 50;
+            defaultConfig.skepCropRange = 10;
+            defaultConfig.ceramicBaseChargesPerDay = 2;
+            defaultConfig.ceramicMaxCropCharges = 90;
+            defaultConfig.ceramicCropRange = 12;
+            defaultConfig.langstrothBaseChargesPerDay = 3;
+            defaultConfig.langstrothMaxCropCharges = 150;
+            defaultConfig.langstrothCropRange = 17;
             defaultConfig.showCurrentCropCharges = true;
 
             return defaultConfig;

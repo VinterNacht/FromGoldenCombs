@@ -41,7 +41,8 @@ namespace FromGoldenCombs.BlockEntities
         float harvestBase;
         public override string InventoryClassName => "langstrothstack";
         private bool isActiveHive = false;
-        double cropChargeGrowthHours = FromGoldenCombsConfig.Current.langstrothCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
+        double chargesPerDay = FromGoldenCombsConfig.Current.langstrothBaseChargesPerDay;
+        double cropChargeGrowthHours; //Number of hours until the hive accumulates a new grow charge.
         double cropChargeAtTotalHours;
         double cooldownUntilCropCharge;
         int cropcharges;
@@ -77,7 +78,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             Block block = api.World.BlockAccessor.GetBlock(Pos, 0);
             base.Initialize(api);
-            RegisterGameTickListener(TestHarvestable, 6000);
+            RegisterGameTickListener(TestHarvestable, 5000);
             RegisterGameTickListener(OnScanForFlowers, api.World.Rand.Next(5000) + 30000);
             
             roomreg = Api.ModLoader.GetModSystem<RoomRegistry>();
@@ -468,7 +469,7 @@ namespace FromGoldenCombs.BlockEntities
             //Update the Stack to match the number of blocks in it.
             int filledstacks = 0;
             string stacksize;
-            for (int i = 0; i < inv.Count; i++)
+            for (int i = 0; i < inv.Count-1; i++)
             {
                 if (!inv[i].Empty)
                 {
@@ -814,11 +815,11 @@ namespace FromGoldenCombs.BlockEntities
             {
                 if (cropChargeAtTotalHours != 0)
                 {
-                    int cropchargebase = (int)((worldTime - cropChargeAtTotalHours) / (Api.World.Calendar.DaysPerMonth/30 * cropChargeGrowthHours));
-                    int cropchargegrowth = (int)Math.Max(1, (cropchargebase * (int)hivePopSize));
+                    int cropchargebase = (int)Math.Max(1, (Math.Round((worldTime - cropChargeAtTotalHours) / (Api.World.Calendar.HoursPerDay * (Api.World.Calendar.DaysPerMonth / 30)))));
+                    int cropchargegrowth = (int)Math.Max(1, ((cropchargebase * chargesPerDay) * (int)hivePopSize));
                     cropcharges = (int)Math.Min(cropchargegrowth + cropcharges, maxCropCharges);
                 }
-                cropChargeAtTotalHours = worldTime + (Api.World.Calendar.DaysPerMonth/30 * cropChargeGrowthHours);
+                cropChargeAtTotalHours = worldTime + cropChargeGrowthHours;
             }
         }
         private double HarvestableTime(float i)
@@ -1040,9 +1041,9 @@ namespace FromGoldenCombs.BlockEntities
                     {
                         sb.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                     }
-                    sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
 
                     sb.AppendLine(tempReport);
+                    if (forPlayer.Entity.Controls.ShiftKey && FromGoldenCombsConfig.Current.showCurrentCropCharges) sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
                 }
             } 
         }

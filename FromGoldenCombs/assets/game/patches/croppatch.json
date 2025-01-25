@@ -2,7 +2,84 @@
   {
     "op": "addmerge",
     "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [9], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/amaranth.json"
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
     "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [6,7], "beeChanceMultiplier": 0.25}},
     "file": "blocktypes/plant/crop/carrot.json"
-  }
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [18], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/bellpepper.json"
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [6,7], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/carrot.json"
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [11,12], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/cabbage.json"
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [8,9], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/cassava.json"
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [9], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/flax.json"
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [6,7], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/onion.json"
+  },{
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [7,8], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/parsnip.json"
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [8,9], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/peanut.json"
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [16], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/pineapple.json"
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [10, 11], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/soybean.json"
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [12], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/sunflower.json"
+  },
+  {
+    "op": "addmerge",
+    "path": "/behaviors/-",
+    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [4,5], "beeChanceMultiplier": 0.25}},
+    "file": "blocktypes/plant/crop/turnip.json"
+  },
 ]

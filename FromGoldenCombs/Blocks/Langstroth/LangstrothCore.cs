@@ -30,7 +30,10 @@ namespace FromGoldenCombs.Blocks.Langstroth
                 api.World.BlockAccessor.SetBlock(api.World.GetBlock(
                 new AssetLocation("fromgoldencombs", "langstrothstack-two-" + block.Variant["side"])).BlockId, blockSel.Position);
                 BELangstrothStack lStack = (BELangstrothStack)api.World.BlockAccessor.GetBlockEntity(blockSel.Position);
-                lStack.InitializePut(langstrothblock, slot);
+                if (lStack != null)
+                {
+                    lStack.InitializePut(langstrothblock, slot);
+                }
             }
             return true;
         }

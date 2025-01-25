@@ -18,47 +18,47 @@ namespace FromGoldenCombs.BlockEntities
     class FGCBeehive : BlockEntityBeehive, IAnimalFoodSource
     {
             
-            // Stored values
-            int scanIteration;
-            int quantityNearbyFlowers;
-            int quantityNearbyHives;
-            List<BlockPos> emptySkeps = new();
-            bool isWildHive;
-            BlockPos skepToPop;
-            double beginPopStartTotalHours;
-            float popHiveAfterHours;
-            double cooldownUntilTotalHours;
-            double harvestableAtTotalHours;
-            float harvestBase;
-            new bool Harvestable;
-            float threeDayTemp;
+        // Stored values
+        int scanIteration;
+        int quantityNearbyFlowers;
+        int quantityNearbyHives;
+        List<BlockPos> emptySkeps = new();
+        bool isWildHive;
+        BlockPos skepToPop;
+        double beginPopStartTotalHours;
+        float popHiveAfterHours;
+        double cooldownUntilTotalHours;
+        double harvestableAtTotalHours;
+        float harvestBase;
+        new bool Harvestable;
+        float threeDayTemp;
 
-            // Current scan values
-            int scanQuantityNearbyFlowers;
-            int scanQuantityNearbyHives;
-            List<BlockPos> scanEmptySkeps = new();
+        // Current scan values
+        int scanQuantityNearbyFlowers;
+        int scanQuantityNearbyHives;
+        List<BlockPos> scanEmptySkeps = new();
+        double cropChargeGrowthHours;
+        double chargesPerDay = FromGoldenCombsConfig.Current.skepBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
+        double cropChargeAtTotalHours;
+        double cooldownUntilCropCharge;
+        int cropcharges;
+        int maxCropCharges = FromGoldenCombsConfig.Current.skepMaxCropCharges;
+        int cropChargeRange = FromGoldenCombsConfig.Current.skepCropRange;
 
-            double cropChargeGrowthHours = FromGoldenCombsConfig.Current.skepCropChargeHoursIn30DayMonths; //Number of hours until the hive accumulates a new grow charge.
-            double cropChargeAtTotalHours;
-            double cooldownUntilCropCharge;
-            int cropcharges;
-            int maxCropCharges = FromGoldenCombsConfig.Current.skepMaxCropCharges;
-            int cropChargeRange = FromGoldenCombsConfig.Current.skepCropRange;
 
-
-            // Temporary values
-            EnumHivePopSize hivePopSize;
-            bool wasPlaced = false;
-            string orientation;
-            private RoomRegistry roomreg;
-            private Vec3d startPos = new Vec3d();
-            private Vec3d endPos = new Vec3d();
-            private Vec3f minVelo = new Vec3f();
-            private Vec3f maxVelo = new Vec3f();
-            private float actvitiyLevel;
-            private float roomness;
-            public Vec3d Position => Pos.ToVec3d().Add(0.5, 0.5, 0.5);
-            public string Type => "food";
+        // Temporary values
+        EnumHivePopSize hivePopSize;
+        bool wasPlaced = false;
+        string orientation;
+        private RoomRegistry roomreg;
+        private Vec3d startPos = new Vec3d();
+        private Vec3d endPos = new Vec3d();
+        private Vec3f minVelo = new Vec3f();
+        private Vec3f maxVelo = new Vec3f();
+        private float actvitiyLevel;
+        private float roomness;
+        public Vec3d Position => Pos.ToVec3d().Add(0.5, 0.5, 0.5);
+        public string Type => "food";
 
         static FGCBeehive()
             {
@@ -81,9 +81,9 @@ namespace FromGoldenCombs.BlockEntities
             {
                 base.Initialize(api);
 
-                RegisterGameTickListener(TestHarvestable, 3000);
+                RegisterGameTickListener(TestHarvestable, 5000);
                 RegisterGameTickListener(OnScanForEmptySkep, api.World.Rand.Next(5000) + 30000);
-
+                cropChargeGrowthHours = api.World.Calendar.HoursPerDay;
                 roomreg = Api.ModLoader.GetModSystem<RoomRegistry>();
 
                 harvestBase = (FromGoldenCombsConfig.Current.SkepDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay;
@@ -259,11 +259,11 @@ namespace FromGoldenCombs.BlockEntities
             {
                 if (cropChargeAtTotalHours != 0)
                 {
-                    int cropchargebase = (int)((worldTime - cropChargeAtTotalHours) / (Api.World.Calendar.DaysPerMonth / 30 * cropChargeGrowthHours));
-                    int cropchargegrowth = (int)Math.Max(1, (cropchargebase * (int)hivePopSize));
+                    int cropchargebase = (int)Math.Max(1, (Math.Round((worldTime - cropChargeAtTotalHours) / (Api.World.Calendar.HoursPerDay * (Api.World.Calendar.DaysPerMonth / 30)))));
+                    int cropchargegrowth = (int)Math.Max(1, ((cropchargebase * chargesPerDay) * (int)hivePopSize));
                     cropcharges = (int)Math.Min(cropchargegrowth + cropcharges, maxCropCharges);
                 }
-                cropChargeAtTotalHours = worldTime + (Api.World.Calendar.DaysPerMonth / 30 * cropChargeGrowthHours);
+                cropChargeAtTotalHours = worldTime + cropChargeGrowthHours;
             }
         }
 
@@ -523,12 +523,12 @@ namespace FromGoldenCombs.BlockEntities
 
             dsc.AppendLine(hiveState);
             dsc.AppendLine(tempReport);
-            dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
             if (this.roomness > 0f)
             {
                 dsc.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 
             }
+            if (forPlayer.Entity.Controls.ShiftKey && FromGoldenCombsConfig.Current.showCurrentCropCharges) dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
         }
 
 

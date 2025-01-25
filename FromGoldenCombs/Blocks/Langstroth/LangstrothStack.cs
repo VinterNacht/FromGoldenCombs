@@ -67,7 +67,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
 
             if (curBE != null)
             {
-                for (int i = 1; i < curBE.Inventory.Count; i++)
+                for (int i = 1; i < curBE.Inventory.Count-1; i++)
                 {
                     if (!curBE.Inventory[i].Empty)
                     {
