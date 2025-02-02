@@ -3,7 +3,7 @@ using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.GameContent;
 
-namespace FromGoldenCombs.BlockBehavior
+namespace FromGoldenCombs.BlockBehaviors
 {
     internal class PushEventOnCropBreakBehavior : BlockBehaviorPushEventOnBlockBroken
     {
@@ -22,7 +22,7 @@ namespace FromGoldenCombs.BlockBehavior
             base.Initialize(properties);
             this._eventName = ((properties["eventName"] != null) ? properties["eventName"].AsString(null) : null);
             this._validCropStages = properties["validCropStages"].AsArray<int>();
-            this._beeChanceMultiplier = 1 + properties["beeChanceMultiplier"].AsInt();
+            this._beeChanceMultiplier = 1 + properties["beeChanceMultiplier"].AsFloat();
         }
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, ref EnumHandling handling)

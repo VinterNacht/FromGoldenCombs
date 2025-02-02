@@ -37,6 +37,12 @@
 			"base": "block/hive/ceramic/ceramicbroodpot-withtop"
 		}
 	},
+	sounds: {
+		place: "game:block/planks",
+		break: "game:block/planks",
+		hit: "game:block/planks",
+		ambient: "game:creature/beehive"
+	},
 	"collisionboxesByType": {
 		"*-notop": [{
 				"x1": 0.25,

@@ -6,6 +6,7 @@ using Vintagestory.GameContent;
 using Vintagestory.API.Util;
 using System.Collections.Generic;
 using Vintagestory.API.Config;
+using System;
 
 namespace FromGoldenCombs.Blocks
 {
@@ -25,6 +26,23 @@ namespace FromGoldenCombs.Blocks
             BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);         
             if (beCeramicBroodPot is BECeramicBroodPot) return beCeramicBroodPot.OnInteract(byPlayer);
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
+        }
+
+        public override float GetAmbientSoundStrength(IWorldAccessor world, BlockPos pos)
+        {
+            if(api.World.BlockAccessor.GetBlockEntity(pos) is BECeramicBroodPot pot && pot.isActiveHive)
+            {
+                float soundVolume = 0f;
+                switch ((int)pot.HivePopSize)
+                {
+                    case 0: soundVolume = 0.33f; break;
+                    case 1: soundVolume = 0.66f; break;
+                    default: soundVolume = 1f; break;
+                }
+                return Math.Min(soundVolume * pot.ActivityLevel, 0.25f);
+            }
+            return 0f;
+
         }
 
         /// <summary>Called when a block is initially placed.</summary>
@@ -83,13 +101,12 @@ namespace FromGoldenCombs.Blocks
             
             if (world.BlockAccessor.GetBlockEntity(selection.Position) is BECeramicBroodPot pot)
             {
+                List<ItemStack> topList = new();
+                topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-empty"))));
+                topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-harvestable"))));
+
                 if (pot != null)
-
                 {
-
-                    List<ItemStack> topList = new();
-                    topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-empty"))));
-                    topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-harvestable"))));
 
                     //Information about world interaction
                     if (!pot.isActiveHive)
@@ -109,7 +126,7 @@ namespace FromGoldenCombs.Blocks
                             };
                         });
                     }
-
+                }
 
                     wi2 = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions2", () =>
                     {
@@ -131,32 +148,29 @@ namespace FromGoldenCombs.Blocks
                     {
 
 
-                            return new WorldInteraction[]
-                            {
+                        return new WorldInteraction[]
+                        {
                                 new WorldInteraction(){
                                     ActionLangCode = Lang.Get("fromgoldencombs:removepot"),
                                     MouseButton = EnumMouseButton.Right
                             }
 
-                        };
+                    };
 
                     });
-                    
-                    wi3 = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions3", () =>
-                        {
 
-                            return new WorldInteraction[]
-                            {
+                    wi3 = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions3", () =>
+                    {
+
+                        return new WorldInteraction[]
+                        {
                                 new WorldInteraction(){
                                     ActionLangCode = Lang.Get("fromgoldencombs:emptybagslot"),
                                     MouseButton = EnumMouseButton.Right,
                                     Itemstacks = null
                                 }
-                            };
-                        });
-
-
-                }
+                        };
+                    });
 
                 //WorldInteraction[] final = new WorldInteraction[] { };
                 //if (wi != null) final.Append(wi);
@@ -167,17 +181,31 @@ namespace FromGoldenCombs.Blocks
 
 
 
-                if (wi != null)
+                if (pot.isActiveHive)
                 {
                     if (Variant["top"] == "withtop")
                     {
-                        return wi.Append(wi2a);
-                    } else
+                        return wi2a;
+                    }
+                    else
                     {
-                       return wi.Append(wi2).Append(wi3);
+                        return wi2.Append(wi3);
                     }
                     
-                } 
+                }
+
+                if (!pot.isActiveHive)
+                {
+
+                    if (Variant["top"] == "withtop")
+                    {
+                        return wi.Append(wi2a);
+                    }
+                    else
+                    {
+                        return wi.Append(wi2).Append(wi3);
+                    }
+                }
                 //else
                 //{
                 //    if (Variant["top"] == "withtop")

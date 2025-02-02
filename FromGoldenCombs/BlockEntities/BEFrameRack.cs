@@ -1,4 +1,4 @@
-﻿using FromGoldenCombs.config;
+﻿using FromGoldenCombs.Util.config;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -10,7 +10,7 @@ using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.BlockEntities
 {
-    
+
     class BEFrameRack : BlockEntityDisplay
     {
 

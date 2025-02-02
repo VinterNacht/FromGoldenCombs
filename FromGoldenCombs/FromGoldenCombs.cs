@@ -1,13 +1,13 @@
 ﻿using Vintagestory.API.Common;
 using FromGoldenCombs.Blocks;
 using FromGoldenCombs.BlockEntities;
-using FromGoldenCombs.config;
 using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.Items;
 using VFromGoldenCombs.Blocks.Langstroth;
 using Vintagestory.API.Client;
 using Vintagestory.API.Server;
-using FromGoldenCombs.BlockBehavior;
+using FromGoldenCombs.BlockBehaviors;
+using FromGoldenCombs.Util.config;
 
 namespace FromGoldenCombs
 {
@@ -66,7 +66,7 @@ namespace FromGoldenCombs
 
             //
             api.RegisterBlockBehaviorClass("PushEventOnCropBroken", typeof(PushEventOnCropBreakBehavior));
-
+            api.RegisterBlockBehaviorClass("PushEventOnBlockHarvested", typeof(PushEventOnBlockHarvested));
             networkHandler.RegisterMessages(api);
             FromGoldenCombsConfig.createConfig(api);
         }

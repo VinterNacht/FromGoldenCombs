@@ -4,7 +4,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 
-namespace FromGoldenCombs.config
+namespace FromGoldenCombs.Util.config
 {
     public class NetworkHandler
     {
@@ -95,7 +95,7 @@ namespace FromGoldenCombs.config
 
         #endregion
 
-        
+
         [ProtoContract]
         class FGCConfigFromServerMessage
         {

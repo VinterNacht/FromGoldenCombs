@@ -1,0 +1,14 @@
+
+[
+	{ 
+    file: "wildcraftfruit:patches/vanilla_berry_patches.json", 
+    op: "addmerge", 
+		path: "/9/value/*-ripe/0", 
+    value: {name: "PushEventOnBlockHarvested", properties: { 
+				"eventName": "berryharvest",
+				"beeChanceMultiplier": 0.25
+			},
+	  },
+		"dependson": [{"modid": "wildcraftfruit"}]
+	}
+]

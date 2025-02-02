@@ -40,11 +40,16 @@
     <Compile Remove="Blocks\BlockHiveTop.cs" />
     <Compile Remove="Blocks\BlockRawClaypotHive .cs" />
     <None Remove="assets\artofgrowing\croppatch.json" />
+    <None Remove="assets\flora\patches\block-item\smallberrybush.json" />
+    <None Remove="assets\flora\patches\block-item\Wildcraftfruit-groundberryplant.json" />
     <None Remove="assets\fromgoldencombs\config\handbook\fromgoldencombs-pollination.json" />
     <None Remove="assets\fromgoldencombs\lang\de.json" />
     <None Remove="assets\fromgoldencombs\lang\fr.json" />
+    <None Remove="assets\game\patches\berrybushpatch.json" />
     <None Remove="assets\game\patches\croppatch.json" />
     <None Remove="assets\newworldcrops\patches\croppatch.json" />
+    <None Remove="assets\wildcraft\patches\vanilla-berry-patches.json" />
+    <None Remove="assets\wildcraft\patches\wildcraftberrypatches.json" />
     <None Remove="modinfo.json" />
     <Content Include="modinfo.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -147,16 +152,19 @@
     <Content Update="assets\fromgoldencombs\lang\ru.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="assets\fromgoldencombs\lang\uk.json">
+    <Content Update="assets\fromgoldencombs\lang\zh-cn.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="assets\fromgoldencombs\lang\zh-cn.json">
+    <Content Update="assets\game\patches\berrybushpatch.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="assets\game\patches\croppatch.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="assets\newworldcrops\patches\croppatch.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="assets\wildcraft\patches\vanilla-berry-patches.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

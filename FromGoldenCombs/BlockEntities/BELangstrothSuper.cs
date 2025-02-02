@@ -55,7 +55,7 @@ namespace FromGoldenCombs.BlockEntities
                 //((itemstack != null) ? itemstack.Collectible : null) is LangstrothFrame;
             BlockContainer blockContainer = this.Api.World.BlockAccessor.GetBlock(blockSel.Position, 0) as BlockContainer;
             blockContainer.SetContents(new ItemStack(blockContainer, 1), base.GetContentStacks(true));
-            if (!byPlayer.Entity.Controls.ShiftKey && !activeHotbarSlot.Empty && activeHotbarSlot.Itemstack.Collectible.FirstCodePart(0) == "langstrothbroodtop" && activeHotbarSlot.Itemstack.Collectible.Variant["primary"] == base.Block.Variant["primary"] && activeHotbarSlot.Itemstack.Collectible.Variant["accent"] == base.Block.Variant["accent"])
+            if (!byPlayer.Entity.Controls.Sneak && !activeHotbarSlot.Empty && activeHotbarSlot.Itemstack.Collectible.FirstCodePart(0) == "langstrothbroodtop" && activeHotbarSlot.Itemstack.Collectible.Variant["primary"] == base.Block.Variant["primary"] && activeHotbarSlot.Itemstack.Collectible.Variant["accent"] == base.Block.Variant["accent"])
             {
                 if (this.inv.Empty)
                 {

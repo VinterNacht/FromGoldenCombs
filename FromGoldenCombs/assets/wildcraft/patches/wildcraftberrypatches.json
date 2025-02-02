@@ -1,0 +1,433 @@
+[
+	{ 
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush.json", 
+    "op": "replace", 
+    "path": "/behaviorsByType", 
+		"dependsOn": [{"modid": "wildcraftfruit"}],
+    value: {
+		"*-feijoa-flowering": [ {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:flower-feijoa", "quantity": { "avg": 4.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-feijoa-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-honeysuckle-flowering": [ {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:flower-honeysuckle", "quantity": { "avg": 6.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-honeysuckle-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-blackelder-flowering": [ {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:flower-elder", "quantity": { "avg": 6.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-blackelder-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-dwarfpine-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:nut-dwarfpinecone", "quantity": { "avg": 4.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-dwarfpine-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-sumac-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:nut-sumac", "quantity": { "avg": 4.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-sumac-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-pistachio-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:nut-pistachioberry", "quantity": { "avg": 4.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-pistachio-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-marita-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:nut-marita", "quantity": { "avg": 2.3 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-marita-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-huckleberry-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-huckleberry", "quantity": { "avg": 6.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-huckleberry-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-spindle-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-spindle", "quantity": { "avg": 8.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-spindle-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-pilo-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-pilo", "quantity": { "avg": 6.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-pilo-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-mingimingi-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-mingimingi", "quantity": { "avg": 6.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-mingimingi-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-juniper-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:nut-juniper", "quantity": { "avg": 6.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-juniper-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-beautyberry-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-beautyberry", "quantity": { "avg": 6.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-beautyberry-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-kumquat-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-kumquat", "quantity": { "avg": 6.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-kumquat-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-blackelder-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-blackelder", "quantity": { "avg": 6.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-blackelder-empty",
+			"exchangeBlock": true
+		}} ],
+		"*-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+			"harvestTime": 0.6, 
+			"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-{type}", "quantity": { "avg": 4.4 }  },
+			"harvestedBlockCode": "wildcraftfruit:berrybush-{type}-empty",
+			"exchangeBlock": true
+		}} ]
+		}
+	},
+	{ 
+    "file": "wildcraftfruit:blocktypes/plant/berry/bottomberrybush.json", 
+    "op": "replace", 
+    "path": "/behaviorsByType", 
+		"dependsOn": [{"modid": "wildcraftfruit"}],
+    value: {
+				"*-pilo-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-pilo", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:bottomberrybush-pilo-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-juniper-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:nut-juniper", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:bottomberrybush-juniper-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-blackelder-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-blackelder", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:bottomberrybush-blackelder-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-{type}", "quantity": { "avg": 2.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:bottomberrybush-{type}-empty",
+				"exchangeBlock": true
+			}} ]
+    }
+	},
+	{ 
+    "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant.json", 
+    "op": "replace", 
+    "path": "/behaviorsByType", 
+		"dependsOn": [{"modid": "wildcraftfruit"}],
+    value: {
+			"*-honeypots-flowering": [ {name: "Harvestable", properties: { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { type: "item", code: "wildcraftfruit:flower-honeypots", quantity: { avg: 4.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:groundberryplant-honeypots-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-lingonberry-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-lingonberry", "quantity": { "avg": 4.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:groundberryplant-lingonberry-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-coralbead-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-coralbead", "quantity": { "avg": 4.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:groundberryplant-coralbead-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-crowberry-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-crowberry", "quantity": { "avg": 4.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:groundberryplant-crowberry-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-crowseye-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-crowseye", "quantity": { "avg": 1.8 }  },
+				"harvestedBlockCode": "wildcraftfruit:groundberryplant-crowseye-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-cloudberry-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-cloudberry", "quantity": { "avg": 2.8 }  },
+				"harvestedBlockCode": "wildcraftfruit:groundberryplant-cloudberry-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-knyazberry-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-knyazberry", "quantity": { "avg": 2.8 }  },
+				"harvestedBlockCode": "wildcraftfruit:groundberryplant-knyazberry-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-{type}", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:groundberryplant-{type}-empty",
+				"exchangeBlock": true
+			}} ]
+    }
+	},
+	{ 
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush.json", 
+    "op": "replace", 
+    "path": "/behaviorsByType", 
+		"dependsOn": [{"modid": "wildcraftfruit"}],
+    value: {
+				"*-gooseberry-flowering": [ {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:flower-currant", "quantity": { "avg": 6.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:pricklyberrybush-gooseberry-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-dogrose-flowering": [ {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:flower-rose", "quantity": { "avg": 6.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:pricklyberrybush-dogrose-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-deserthackberry-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:nut-deserthackberry", "quantity": { "avg": 6.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:pricklyberrybush-deserthackberry-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-dogrose-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-dogrose", "quantity": { "avg": 6.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:pricklyberrybush-dogrose-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-sallowthorn-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-sallowthorn", "quantity": { "avg": 6.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:pricklyberrybush-sallowthorn-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-{type}", "quantity": { "avg": 4.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:pricklyberrybush-{type}-empty",
+				"exchangeBlock": true
+		}} ]
+    }
+	},
+	{ 
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyshortbush.json", 
+    "op": "replace", 
+    "path": "/behaviorsByType", 
+		"dependsOn": [{"modid": "wildcraftfruit"}],
+    value: {
+			"*-caper-flowering": [ {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:flower-caper", "quantity": { "avg": 4.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:pricklyshortbush-caper-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-caper-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-caperberry", "quantity": { "avg": 4.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:pricklyshortbush-caper-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-pricklyheath-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-pricklyheath", "quantity": { "avg": 4.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:pricklyshortbush-pricklyheath-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-{type}", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:pricklyshortbush-{type}-empty",
+				"exchangeBlock": true
+			}} ]
+    }
+	},
+	{ 
+    "file": "wildcraftfruit:blocktypes/plant/berry/shortberrybush.json", 
+    "op": "replace", 
+    "path": "/behaviorsByType", 
+		"dependsOn": [{"modid": "wildcraftfruit"}],
+    value: {
+			"*-ugni-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-ugni", "quantity": { "avg": 4.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:shortberrybush-ugni-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-munthari-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-munthari", "quantity": { "avg": 4.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:shortberrybush-munthari-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-{type}", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:shortberrybush-{type}-empty",
+				"exchangeBlock": true
+			}} ]
+    }
+	},
+	{ 
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush.json", 
+    "op": "replace", 
+    "path": "/behaviorsByType", 
+		"dependsOn": [{"modid": "wildcraftfruit"}],
+    value: {
+			"*-turkscap-flowering": [ {name: "Harvestable", properties: { 
+				harvestTime: 0.6, 
+				harvestedStack: { type: "item", code: "wildcraftfruit:flower-hibiscus", quantity: { avg: 3.4 }  },
+				harvestedBlockCode: "wildcraftfruit:shrubberrybush-turkscap-empty",
+				exchangeBlock: true
+			}} ],
+			"*-elderberry-flowering": [ {name: "Harvestable", properties: { 
+				harvestTime: 0.6, 
+				harvestedStack: { type: "item", code: "wildcraftfruit:flower-elder", quantity: { avg: 4.4 }  },
+				harvestedBlockCode: "wildcraftfruit:shrubberrybush-elderberry-empty",
+				exchangeBlock: true
+			}} ],
+			"*-blacknightshade-ripe": [ {name: "BlockBehaviorHarvestMultiple", properties: { 
+				harvestTime: 0.6, 
+				harvestedStacks: [ { type: "item", code: "wildcraftfruit:fruit-blacknightshade", quantity: { avg: 3.4 }  },
+						{ type: "item", code: "wildcraftfruit:fruit-blacknightshadeunripe", quantity: { avg: 0.6 }  },
+				],
+				harvestedBlockCode: "wildcraftfruit:shrubberrybush-blacknightshade-empty",
+				exchangeBlock: true
+			}} ],
+			"*-oldmansaltbush-ripe": [ {name: "Harvestable", properties: { 
+				harvestTime: 0.6, 
+				harvestedStack: { type: "item", code: "wildcraftfruit:nut-oldmansaltbush", quantity: { avg: 4.4 }  },
+				harvestedBlockCode: "wildcraftfruit:shrubberrybush-{type}-empty",
+				exchangeBlock: true
+			}} ],
+			"*-bitternightshade-ripe": [ {name: "Harvestable", properties: { 
+				harvestTime: 0.6, 
+				harvestedStack: { type: "item", code: "wildcraftfruit:fruit-bitternightshade", quantity: { avg: 4.4 }  },
+				harvestedBlockCode: "wildcraftfruit:shrubberrybush-bitternightshade-empty",
+				exchangeBlock: true
+			}} ],
+			"*-husktomato-ripe": [ {name: "Harvestable", properties: { 
+				harvestTime: 0.6, 
+				harvestedStack: { type: "item", code: "wildcraftfruit:fruit-husktomato", quantity: { avg: 4.4 }  },
+				harvestedBlockCode: "wildcraftfruit:shrubberrybush-husktomato-empty",
+				exchangeBlock: true
+			}} ],
+			"*-ripe": [ {name: "Harvestable", properties: { 
+				harvestTime: 0.6, 
+				harvestedStack: { type: "item", code: "wildcraftfruit:fruit-{type}", quantity: { avg: 3.4 }  },
+				harvestedBlockCode: "wildcraftfruit:shrubberrybush-{type}-empty",
+				exchangeBlock: true
+			}} ]
+    }
+	},
+	{ 
+    "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush.json", 
+    "op": "replace", 
+    "path": "/behaviorsByType", 
+		"dependsOn": [{"modid": "wildcraftfruit"}],
+    value: {
+			"*-huckleberry-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-huckleberry", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:topberrybush-huckleberry-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-mingimingi-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-mingimingi", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:topberrybush-mingimingi-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-kumquat-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-kumquat", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:topberrybush-kumquat-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-sumac-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:nut-sumac", "quantity": { "avg": 2.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:topberrybush-sumac-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-{type}", "quantity": { "avg": 2.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:topberrybush-{type}-empty",
+				"exchangeBlock": true
+			}} ]
+    }
+	},
+	{ 
+    "file": "wildcraftfruit:blocktypes/plant/berry/toppricklybush.json", 
+    "op": "replace", 
+    "path": "/behaviorsByType", 
+		"dependsOn": [{"modid": "wildcraftfruit"}],
+    value: {
+			"*-gooseberry-flowering": [ {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:flower-currant", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:toppricklybush-gooseberry-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-dogrose-flowering": [ {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:flower-rose", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:toppricklybush-dogrose-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-dogrose-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-dogrose", "quantity": { "avg": 3.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:toppricklybush-dogrose-empty",
+				"exchangeBlock": true
+			}} ],
+			"*-ripe": [ {name: "PushEventOnBlockHarvested", properties: {"eventName": "berryharvest", "beeChanceMultiplier": 0.25}}, {"name": "Harvestable", "properties": { 
+				"harvestTime": 0.6, 
+				"harvestedStack": { "type": "item", "code": "wildcraftfruit:fruit-{type}", "quantity": { "avg": 2.4 }  },
+				"harvestedBlockCode": "wildcraftfruit:toppricklybush-{type}-empty",
+				"exchangeBlock": true
+			}} ]
+    }
+	},
+	{ 
+		file: "wildcraftfruit:blocktypes/plant/berry/groundberryplant", 
+    op: "replace", 
+    path: "/dropsByType/*-ripe/1/quantity/avg", 
+    value: 1.1,
+    "dependsOn": [{"modid": "flora"}, {"modid": "wildcraftfruit"}]
+  },
+  { 
+		file: "wildcraftfruit:blocktypes/plant/berry/groundberryplant", 
+		op: "replace", 
+		path: "/behaviorsByType/*-ripe/1/properties/harvestedStack/quantity/avg", 
+		value: 1.1,
+		"dependsOn": [{"modid": "flora"}, {"modid": "wildcraftfruit"}]
+  }
+]
+

@@ -2,7 +2,7 @@
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 
-namespace FromGoldenCombs.config
+namespace FromGoldenCombs.Util.config
 {
     [ProtoContract()]
     class FromGoldenCombsConfig
@@ -37,7 +37,7 @@ namespace FromGoldenCombs.config
         public int maxFramePerCycle = 3;
 
         /// <summary>Whether to show the time left until new comb/frames are produced</summary>
-        
+
         [ProtoMember(8)]
         public bool showcombpoptime = true;
 
@@ -79,7 +79,7 @@ namespace FromGoldenCombs.config
         public float SkepHiveMaxTemp { get; set; } = 37f;
         [ProtoMember(17)]
         public float CeramicHiveMinTemp { get; set; } = 10f;
-        [ProtoMember(18)]       
+        [ProtoMember(18)]
         public float CeramicHiveMaxTemp { get; set; } = 37f;
 
         /// <summary>Set the minimum temperature at which Langstroth Hive Bees will fly.</summary>
@@ -91,28 +91,28 @@ namespace FromGoldenCombs.config
         public float LangstrothHiveMaxTemp { get; set; } = 37f;
 
         [ProtoMember(21)]
-        public double skepBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
-      
+        public double skepBaseChargesPerDay = 1; //Number of hours until the hive accumulates a new grow charge.
+
         [ProtoMember(22)]
-        public int skepMaxCropCharges = 8;
+        public int skepMaxCropCharges = 50;
 
         [ProtoMember(23)]
-        public int skepCropRange = 8;
+        public int skepCropRange = 5;
 
         [ProtoMember(24)]
-        public double ceramicBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
+        public double ceramicBaseChargesPerDay = 2; //Number of hours until the hive accumulates a new grow charge.
 
         [ProtoMember(25)]
-        public int ceramicMaxCropCharges = 8;
+        public int ceramicMaxCropCharges = 90;
 
         [ProtoMember(26)]
-        public int ceramicCropRange = 8;
+        public int ceramicCropRange = 6;
 
         [ProtoMember(27)]
-        public double langstrothBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
+        public double langstrothBaseChargesPerDay = 3; //Number of hours until the hive accumulates a new grow charge.
 
         [ProtoMember(28)]
-        public int langstrothMaxCropCharges = 8;
+        public int langstrothMaxCropCharges = 150;
 
         [ProtoMember(29)]
         public int langstrothCropRange = 8;
@@ -121,10 +121,10 @@ namespace FromGoldenCombs.config
         public bool showCurrentCropCharges = true;
 
         public FromGoldenCombsConfig()
-        {}
+        { }
 
         public static FromGoldenCombsConfig Current { get; set; }
-       
+
 
         public static FromGoldenCombsConfig GetDefault()
         {
@@ -135,8 +135,8 @@ namespace FromGoldenCombs.config
             defaultConfig.LangstrothDaysToHarvestIn30DayMonths = 7f;
             defaultConfig.SkepMinYield = 1;
             defaultConfig.SkepMaxYield = 3;
-            defaultConfig.CeramicPotMinYield= 2;
-            defaultConfig.CeramicPotMaxYield= 4;
+            defaultConfig.CeramicPotMinYield = 2;
+            defaultConfig.CeramicPotMaxYield = 4;
             defaultConfig.minFramePerCycle = 2;
             defaultConfig.maxFramePerCycle = 3;
             defaultConfig.FrameMinYield = 2;
@@ -152,15 +152,15 @@ namespace FromGoldenCombs.config
             defaultConfig.CeramicHiveMaxTemp = 37f;
             defaultConfig.LangstrothHiveMinTemp = 10f;
             defaultConfig.LangstrothHiveMaxTemp = 37f;
-            defaultConfig.skepBaseChargesPerDay = 1; 
+            defaultConfig.skepBaseChargesPerDay = 1;
             defaultConfig.skepMaxCropCharges = 50;
-            defaultConfig.skepCropRange = 10;
+            defaultConfig.skepCropRange = 5;
             defaultConfig.ceramicBaseChargesPerDay = 2;
             defaultConfig.ceramicMaxCropCharges = 90;
-            defaultConfig.ceramicCropRange = 12;
+            defaultConfig.ceramicCropRange = 6;
             defaultConfig.langstrothBaseChargesPerDay = 3;
             defaultConfig.langstrothMaxCropCharges = 150;
-            defaultConfig.langstrothCropRange = 17;
+            defaultConfig.langstrothCropRange = 8;
             defaultConfig.showCurrentCropCharges = true;
 
             return defaultConfig;
@@ -174,22 +174,22 @@ namespace FromGoldenCombs.config
                 if (Config != null)
                 {
                     api.Logger.Notification(Lang.Get("modconfigload"));
-                    FromGoldenCombsConfig.Current = Config;
+                    Current = Config;
                 }
                 else
                 {
                     api.Logger.Notification(Lang.Get("nomodconfig"));
-                    FromGoldenCombsConfig.Current = FromGoldenCombsConfig.GetDefault();
+                    Current = GetDefault();
                 }
             }
             catch
             {
-                FromGoldenCombsConfig.Current = FromGoldenCombsConfig.GetDefault();
+                Current = GetDefault();
                 api.Logger.Error(Lang.Get("defaultloaded"));
             }
             finally
             {
-                api.StoreModConfig(FromGoldenCombsConfig.Current, "fromgoldencombs.json");
+                api.StoreModConfig(Current, "fromgoldencombs.json");
             }
         }
     }

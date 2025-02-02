@@ -1,10 +1,12 @@
 ﻿using FromGoldenCombs.BlockEntities;
 using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
+using Vintagestory.Common;
 
 namespace FromGoldenCombs.Blocks.Langstroth
 {
@@ -49,6 +51,23 @@ namespace FromGoldenCombs.Blocks.Langstroth
                 }
             }
             world.BlockAccessor.SetBlock(0, pos);
+        }
+
+        public override float GetAmbientSoundStrength(IWorldAccessor world, BlockPos pos)
+        {
+            if(world.BlockAccessor.GetBlockEntity(pos) is BELangstrothStack pot && pot.isHiveActive())
+            {
+                float soundVolume = 0f;
+                switch ((int)pot.HivePopSize)
+                {
+                    case 0: soundVolume = 0.33f; break;
+                    case 1: soundVolume = 0.66f; break;
+                    default: soundVolume = 1f; break;
+                }
+                return Math.Min(soundVolume * pot.ActivityLevel, 0.25f);
+            }
+            return 0f;
+            
         }
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)

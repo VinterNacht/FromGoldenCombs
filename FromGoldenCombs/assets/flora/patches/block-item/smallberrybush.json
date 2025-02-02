@@ -1,0 +1,15 @@
+[
+    { file: "game:blocktypes/plant/smallberrybush", op: "replace", path: "/shapeByType", value: {
+		"*-blueberry-empty": { base: "block/plant/berrybush/blueberry"},
+		"*-blueberry-*": { base: "block/plant/berrybush/blueberry1" },
+        "*-cranberry-empty": { base: "block/plant/berrybush/cranberry"},
+		"*-cranberry-*": { base: "block/plant/berrybush/cranberry1" },
+		"*-empty": { base: "block/plant/berrybush/small*", selectiveElements: ["branchesN", "branchesS", "Leaves", "Largeleaves/*"] },
+		"*": { base: "block/plant/berrybush/small*" }
+		} 
+	},
+	{ file: "game:blocktypes/plant/smallberrybush", op: "replace", path: "/behaviorsByType/*-ripe/0/properties/harvestedStack/quantity", value: { avg: 1.1 } 
+	},
+	{ file: "game:blocktypes/plant/smallberrybush", op: "replace", path: "/dropsByType/*-ripe/1/quantity", value: { avg: 1.1 } 
+	}
+]

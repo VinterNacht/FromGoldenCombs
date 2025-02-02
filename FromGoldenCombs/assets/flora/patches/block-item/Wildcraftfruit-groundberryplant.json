@@ -1,0 +1,12 @@
+[
+    { file: "wildcraftfruit:blocktypes/plant/berry/groundberryplant", 
+    op: "replace", 
+    path: "/dropsByType/*-ripe/0/quantity/avg", 
+    value: 1.1
+    },
+    { file: "wildcraftfruit:blocktypes/plant/berry/groundberryplant", 
+    op: "replace", 
+    path: "/behaviorsByType/*-ripe/1/properties/harvestedStack/quantity/avg", 
+    value: 1.1
+}
+]

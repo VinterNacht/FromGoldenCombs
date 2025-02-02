@@ -53,9 +53,14 @@
   "sideopaque": { "all": false },
   "sidesolid": { "all": false },
   "blockmaterial": "Wood",
-  "sounds": {
-      "place": "game:block/planks"
-    },
+  sounds: {
+		place: "game:block/planks",
+		break: "game:block/planks",
+		hit: "game:block/planks",
+		ambientByType:{
+     "*-populated-*": "game:creature/beehive"
+        }
+		},
   "groundTransform": {
       "scale": 4
     },
