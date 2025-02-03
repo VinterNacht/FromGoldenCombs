@@ -167,14 +167,14 @@ namespace FromGoldenCombs.BlockEntities
                 rackStack.Itemstack.Attributes.SetInt("durability", durability);
 
             }
-            Api.World.SpawnItemEntity(new ItemStack(Api.World.GetItem(new AssetLocation("game", "honeycomb")), rnd.Next(FromGoldenCombsConfig.Current.FrameMinYield, FromGoldenCombsConfig.Current.FrameMaxYield)), Pos.ToVec3d());
+            Api.World.SpawnItemEntity(new ItemStack(Api.World.GetItem(new AssetLocation("game", "honeycomb")), rnd.Next(FGCServerConfig.Current.FrameMinYield, FGCServerConfig.Current.FrameMaxYield)), Pos.ToVec3d());
             return true;
         }
 
         private bool TryRepair(ItemSlot slot, ItemStack rackStack, int index)
         {
             int durability = rackStack.Attributes.GetInt("durability");
-            int maxDurability = FromGoldenCombsConfig.Current.baseframedurability;
+            int maxDurability = FGCServerConfig.Current.baseframedurability;
 
             if (durability == maxDurability)
             return false;

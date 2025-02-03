@@ -30,12 +30,12 @@ namespace FromGoldenCombs.BlockEntities
         int scanIteration;
         public bool isActiveHive = false;
         double cropChargeGrowthHours = 24;
-        double chargesPerDay = FromGoldenCombsConfig.Current.ceramicBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
+        double chargesPerDay = FGCServerConfig.Current.ceramicBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
         double cropChargeAtTotalHours;
         double cooldownUntilCropCharge;
         int cropcharges;
-        int maxCropCharges = FromGoldenCombsConfig.Current.ceramicMaxCropCharges;
-        int cropChargeRange = FromGoldenCombsConfig.Current.ceramicCropRange;
+        int maxCropCharges = FGCServerConfig.Current.ceramicMaxCropCharges;
+        int cropChargeRange = FGCServerConfig.Current.ceramicCropRange;
         float harvestBase;
         EnumHivePopSize _hivePopSize;
 
@@ -93,7 +93,7 @@ namespace FromGoldenCombs.BlockEntities
             Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "cropbreak");
             Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "berryharvest");
             Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "fruitharvest");
-            harvestBase = (FromGoldenCombsConfig.Current.ClayPotDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth/ 30f)) * api.World.Calendar.HoursPerDay;
+            harvestBase = (FGCServerConfig.Current.ClayPotDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth/ 30f)) * api.World.Calendar.HoursPerDay;
         }
 
         private void managePollinationBoost(string eventName, ref EnumHandling handling, IAttribute data)
@@ -125,7 +125,7 @@ namespace FromGoldenCombs.BlockEntities
 
         private void manageCropBoost(BlockPos cropPos, double distance, ref EnumHandling handling) { 
             
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(cropPos).HasBehavior<PushEventOnCropBreakBehavior>() && distance < FromGoldenCombsConfig.Current.ceramicCropRange)
+            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(cropPos).HasBehavior<PushEventOnCropBreakBehavior>() && distance < FGCServerConfig.Current.ceramicCropRange)
             {
 
                 if (Api.World.BlockAccessor.GetBlock(cropPos) is BlockCrop crop && Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is BlockEntityFarmland farmland)
@@ -160,7 +160,7 @@ namespace FromGoldenCombs.BlockEntities
         private void manageFruitBoost(BlockPos fruitFoliagePos, double distance, ref EnumHandling handling)
         {
 
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlockEntity(fruitFoliagePos) is BlockEntityFruitTreePart beFTP && distance < FromGoldenCombsConfig.Current.ceramicCropRange)
+            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlockEntity(fruitFoliagePos) is BlockEntityFruitTreePart beFTP && distance < FGCServerConfig.Current.ceramicCropRange)
             {
                 AssetLocation loc = AssetLocation.Create(beFTP.Block.Attributes["branchBlock"].AsString(null), beFTP.Block.Code.Domain);
                 foreach (BlockDropItemStack drop in (beFTP.Api.World.GetBlock(loc) as BlockFruitTreeBranch).TypeProps[beFTP.TreeType].FruitStacks)
@@ -311,8 +311,8 @@ namespace FromGoldenCombs.BlockEntities
             
             bool hasEmptyHivetop = !inv[0].Empty && inv[0]?.Itemstack?.Block.Variant["type"] == "empty";
 
-            float minTemp = FromGoldenCombsConfig.Current.CeramicHiveMinTemp;
-            float maxTemp = FromGoldenCombsConfig.Current.CeramicHiveMaxTemp == 0 ? 37f : FromGoldenCombsConfig.Current.CeramicHiveMaxTemp;
+            float minTemp = FGCServerConfig.Current.CeramicHiveMinTemp;
+            float maxTemp = FGCServerConfig.Current.CeramicHiveMaxTemp == 0 ? 37f : FGCServerConfig.Current.CeramicHiveMaxTemp;
             double worldTime = Api.World.Calendar.TotalHours;
             ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
             float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
@@ -593,8 +593,8 @@ namespace FromGoldenCombs.BlockEntities
 
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
         {
-            float minTemp = FromGoldenCombsConfig.Current.CeramicHiveMinTemp;
-            float maxTemp = FromGoldenCombsConfig.Current.CeramicHiveMaxTemp == 0?37f:FromGoldenCombsConfig.Current.CeramicHiveMaxTemp;
+            float minTemp = FGCServerConfig.Current.CeramicHiveMinTemp;
+            float maxTemp = FGCServerConfig.Current.CeramicHiveMaxTemp == 0?37f:FGCServerConfig.Current.CeramicHiveMaxTemp;
             float temp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + (roomness > 0 ? 5 : 0);
             ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
             float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
@@ -623,7 +623,7 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 if ((harvestableAtTotalHours - worldTime / 24 > 0) && this.Block.Variant["top"] == "withtop" && !isOutTemp)
                 {
-                    if (FromGoldenCombsConfig.Current.showcombpoptime)
+                    if (FGCServerConfig.Current.showcombpoptime)
                     {
                         dsc.AppendLine(Lang.Get("fromgoldencombs:timetillpop", daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : (daysTillHarvest + " " + Lang.Get("fromgoldencombs:days"))));
                     }
@@ -648,7 +648,7 @@ namespace FromGoldenCombs.BlockEntities
 
                 }
                 dsc.AppendLine(tempReport);
-                if (forPlayer.Entity.Controls.ShiftKey && FromGoldenCombsConfig.Current.showCurrentCropCharges) dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                if (forPlayer.Entity.Controls.ShiftKey && FGCServerConfig.Current.showCurrentCropCharges) dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
             }            
         }
 

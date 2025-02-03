@@ -1,14 +1,19 @@
 ﻿using ProtoBuf;
+using System.Runtime.CompilerServices;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 
 namespace FromGoldenCombs.Util.config
 {
     [ProtoContract()]
-    class FromGoldenCombsConfig
+    class FGCServerConfig
     {
-
+        [ProtoMember(0)]
+        public double ConfigVersion = 1.0;
         /// <summary>The number of days until a skep is ready to harvest when using 30 day months</summary>
+        /// 
+        public bool retainConfigOnVersionChange = false;
+
         [ProtoMember(1)]
         public float SkepDaysToHarvestIn30DayMonths = 7;
 
@@ -97,7 +102,7 @@ namespace FromGoldenCombs.Util.config
         public int skepMaxCropCharges = 50;
 
         [ProtoMember(23)]
-        public int skepCropRange = 5;
+        public int skepCropRange = 10;
 
         [ProtoMember(24)]
         public double ceramicBaseChargesPerDay = 2; //Number of hours until the hive accumulates a new grow charge.
@@ -106,7 +111,7 @@ namespace FromGoldenCombs.Util.config
         public int ceramicMaxCropCharges = 90;
 
         [ProtoMember(26)]
-        public int ceramicCropRange = 6;
+        public int ceramicCropRange = 13;
 
         [ProtoMember(27)]
         public double langstrothBaseChargesPerDay = 3; //Number of hours until the hive accumulates a new grow charge.
@@ -115,81 +120,88 @@ namespace FromGoldenCombs.Util.config
         public int langstrothMaxCropCharges = 150;
 
         [ProtoMember(29)]
-        public int langstrothCropRange = 8;
+        public int langstrothCropRange = 17;
 
         [ProtoMember(30)]
         public bool showCurrentCropCharges = true;
 
-        public FromGoldenCombsConfig()
+        public FGCServerConfig()
         { }
 
-        public static FromGoldenCombsConfig Current { get; set; }
+        public static FGCServerConfig Current { get; set; }
 
 
-        public static FromGoldenCombsConfig GetDefault()
+        public static FGCServerConfig GetServerDefault()
         {
-            FromGoldenCombsConfig defaultConfig = new();
+            FGCServerConfig defaultServerConfig = new();
 
-            defaultConfig.SkepDaysToHarvestIn30DayMonths = 7;
-            defaultConfig.ClayPotDaysToHarvestIn30DayMonths = 7;
-            defaultConfig.LangstrothDaysToHarvestIn30DayMonths = 7f;
-            defaultConfig.SkepMinYield = 1;
-            defaultConfig.SkepMaxYield = 3;
-            defaultConfig.CeramicPotMinYield = 2;
-            defaultConfig.CeramicPotMaxYield = 4;
-            defaultConfig.minFramePerCycle = 2;
-            defaultConfig.maxFramePerCycle = 3;
-            defaultConfig.FrameMinYield = 2;
-            defaultConfig.FrameMaxYield = 4;
-            defaultConfig.MaxStackSize = 6;
-            defaultConfig.baseframedurability = 32;
-            defaultConfig.minFramePerCycle = 2;
-            defaultConfig.maxFramePerCycle = 4;
-            defaultConfig.showcombpoptime = true;
-            defaultConfig.SkepHiveMinTemp = 10f;
-            defaultConfig.SkepHiveMaxTemp = 37f;
-            defaultConfig.CeramicHiveMinTemp = 10f;
-            defaultConfig.CeramicHiveMaxTemp = 37f;
-            defaultConfig.LangstrothHiveMinTemp = 10f;
-            defaultConfig.LangstrothHiveMaxTemp = 37f;
-            defaultConfig.skepBaseChargesPerDay = 1;
-            defaultConfig.skepMaxCropCharges = 50;
-            defaultConfig.skepCropRange = 5;
-            defaultConfig.ceramicBaseChargesPerDay = 2;
-            defaultConfig.ceramicMaxCropCharges = 90;
-            defaultConfig.ceramicCropRange = 6;
-            defaultConfig.langstrothBaseChargesPerDay = 3;
-            defaultConfig.langstrothMaxCropCharges = 150;
-            defaultConfig.langstrothCropRange = 8;
-            defaultConfig.showCurrentCropCharges = true;
+            defaultServerConfig.ConfigVersion = 1.1;
+            defaultServerConfig.retainConfigOnVersionChange = false;
+            defaultServerConfig.SkepDaysToHarvestIn30DayMonths = 7;
+            defaultServerConfig.ClayPotDaysToHarvestIn30DayMonths = 7;
+            defaultServerConfig.LangstrothDaysToHarvestIn30DayMonths = 7f;
+            defaultServerConfig.SkepMinYield = 1;
+            defaultServerConfig.SkepMaxYield = 3;
+            defaultServerConfig.CeramicPotMinYield = 2;
+            defaultServerConfig.CeramicPotMaxYield = 4;
+            defaultServerConfig.minFramePerCycle = 2;
+            defaultServerConfig.maxFramePerCycle = 3;
+            defaultServerConfig.FrameMinYield = 2;
+            defaultServerConfig.FrameMaxYield = 4;
+            defaultServerConfig.MaxStackSize = 6;
+            defaultServerConfig.baseframedurability = 32;
+            defaultServerConfig.minFramePerCycle = 2;
+            defaultServerConfig.maxFramePerCycle = 4;
+            defaultServerConfig.showcombpoptime = true;
+            defaultServerConfig.SkepHiveMinTemp = 10f;
+            defaultServerConfig.SkepHiveMaxTemp = 37f;
+            defaultServerConfig.CeramicHiveMinTemp = 10f;
+            defaultServerConfig.CeramicHiveMaxTemp = 37f;
+            defaultServerConfig.LangstrothHiveMinTemp = 10f;
+            defaultServerConfig.LangstrothHiveMaxTemp = 37f;
+            defaultServerConfig.skepBaseChargesPerDay = 1;
+            defaultServerConfig.skepMaxCropCharges = 50;
+            defaultServerConfig.skepCropRange = 5;
+            defaultServerConfig.ceramicBaseChargesPerDay = 2;
+            defaultServerConfig.ceramicMaxCropCharges = 90;
+            defaultServerConfig.ceramicCropRange = 6;
+            defaultServerConfig.langstrothBaseChargesPerDay = 3;
+            defaultServerConfig.langstrothMaxCropCharges = 150;
+            defaultServerConfig.langstrothCropRange = 8;
+            defaultServerConfig.showCurrentCropCharges = true;
 
-            return defaultConfig;
+            return defaultServerConfig;
         }
 
-        internal static void createConfig(ICoreAPI api)
+        internal static void createServerConfig(ICoreAPI api)
         {
+            double MasterServerConfigVersion = 1.1;
             try
             {
-                var Config = api.LoadModConfig<FromGoldenCombsConfig>("fromgoldencombs.json");
-                if (Config != null)
+                var ServerConfig = api.LoadModConfig<FGCServerConfig>("fromgoldencombs/fromgoldencombsserver.json");
+                if (ServerConfig != null && ServerConfig.ConfigVersion == MasterServerConfigVersion)
                 {
-                    api.Logger.Notification(Lang.Get("modconfigload"));
-                    Current = Config;
+                    api.Logger.Notification(Lang.Get("fromgoldencombs:modserverconfigload"));
+                    Current = ServerConfig;
                 }
                 else
                 {
-                    api.Logger.Notification(Lang.Get("nomodconfig"));
-                    Current = GetDefault();
+                    if((ServerConfig?.ConfigVersion != MasterServerConfigVersion) && ServerConfig.retainConfigOnVersionChange)
+                    {
+                        api.Logger.Notification(Lang.Get("fromgoldencombs:wrongserverconfigversion"));
+                    }
+                    api.Logger.Notification(Lang.Get("fromgoldencombs:nomodserverconfig"));
+                    Current = GetServerDefault();
                 }
             }
             catch
             {
-                Current = GetDefault();
-                api.Logger.Error(Lang.Get("defaultloaded"));
+                Current = GetServerDefault();
+                api.Logger.Error(Lang.Get("fromgoldencombs:defaultserverconfigloaded"));
             }
             finally
             {
-                api.StoreModConfig(Current, "fromgoldencombs.json");
+                api.StoreModConfig(Current, "fromgoldencombs/fromgoldencombsserver.json");
             }
         }
     }

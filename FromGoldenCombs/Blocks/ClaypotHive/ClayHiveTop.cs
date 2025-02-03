@@ -29,7 +29,7 @@ namespace FromGoldenCombs.Blocks
             {
                 //If the top is harvestable, and the player uses a knife on it, drop between 1-5 honeycomb and return an empty pot.
                 Random rand = new();
-                byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(world.GetItem(new AssetLocation("game", "honeycomb")), rand.Next(FromGoldenCombsConfig.Current.CeramicPotMinYield, FromGoldenCombsConfig.Current.CeramicPotMaxYield)));
+                byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(world.GetItem(new AssetLocation("game", "honeycomb")), rand.Next(FGCServerConfig.Current.CeramicPotMinYield, FGCServerConfig.Current.CeramicPotMaxYield)));
                 byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack.Item.DamageItem(world, byPlayer.Entity, byPlayer.InventoryManager.ActiveHotbarSlot, 1);
                 world.BlockAccessor.SetBlock(emptyTop.BlockId, blockSel.Position);
             }

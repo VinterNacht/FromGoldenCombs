@@ -34,34 +34,34 @@ namespace FromGoldenCombs.Util.config
         //SetToolConfigValues received from Server
         private void RecieveFGCConfigAction(FGCConfigFromServerMessage fgcConfig)
         {
-            FromGoldenCombsConfig.Current.SkepDaysToHarvestIn30DayMonths = fgcConfig.SkepDaysToHarvestIn30DayMonths;
-            FromGoldenCombsConfig.Current.ClayPotDaysToHarvestIn30DayMonths = fgcConfig.ClayPotDaysToHarvestIn30DayMonths;
-            FromGoldenCombsConfig.Current.LangstrothDaysToHarvestIn30DayMonths = fgcConfig.LangstrothDaysToHarvestIn30DayMonths;
-            FromGoldenCombsConfig.Current.SkepMinYield = fgcConfig.SkepMinYield;
-            FromGoldenCombsConfig.Current.SkepMaxYield = fgcConfig.SkepMaxYield;
-            FromGoldenCombsConfig.Current.CeramicPotMinYield = fgcConfig.CeramicPotMinYield;
-            FromGoldenCombsConfig.Current.CeramicPotMaxYield = fgcConfig.CeramicPotMaxYield;
-            FromGoldenCombsConfig.Current.minFramePerCycle = fgcConfig.minFramePerCycle;
-            FromGoldenCombsConfig.Current.maxFramePerCycle = fgcConfig.maxFramePerCycle;
-            FromGoldenCombsConfig.Current.FrameMinYield = fgcConfig.FrameMinYield;
-            FromGoldenCombsConfig.Current.FrameMaxYield = fgcConfig.FrameMaxYield;
-            FromGoldenCombsConfig.Current.MaxStackSize = fgcConfig.maxStackSize;
-            FromGoldenCombsConfig.Current.baseframedurability = fgcConfig.baseFrameDurability;
-            FromGoldenCombsConfig.Current.minFramePerCycle = fgcConfig.minFramePerCycle;
-            FromGoldenCombsConfig.Current.maxFramePerCycle = fgcConfig.maxStackSize;
-            FromGoldenCombsConfig.Current.showcombpoptime = fgcConfig.showcombpoptime;
-            FromGoldenCombsConfig.Current.CeramicHiveMinTemp = fgcConfig.CeramicHiveMinTemp;
-            FromGoldenCombsConfig.Current.LangstrothHiveMinTemp = fgcConfig.LangstrothHiveMinTemp;
-            FromGoldenCombsConfig.Current.skepBaseChargesPerDay = fgcConfig.skepCropChargeHoursIn30DayMonths;
-            FromGoldenCombsConfig.Current.skepMaxCropCharges = fgcConfig.skepMaxCropCharges;
-            FromGoldenCombsConfig.Current.skepCropRange = fgcConfig.skepCropRange;
-            FromGoldenCombsConfig.Current.ceramicBaseChargesPerDay = fgcConfig.ceramicCropChargeHoursIn30DayMonths;
-            FromGoldenCombsConfig.Current.ceramicMaxCropCharges = fgcConfig.ceramicMaxCropCharges;
-            FromGoldenCombsConfig.Current.ceramicCropRange = fgcConfig.ceramicCropRange;
-            FromGoldenCombsConfig.Current.langstrothBaseChargesPerDay = fgcConfig.langstrothCropChargeHoursIn30DayMonths;
-            FromGoldenCombsConfig.Current.langstrothMaxCropCharges = fgcConfig.langstrothMaxCropCharges;
-            FromGoldenCombsConfig.Current.langstrothCropRange = fgcConfig.langstrothCropRange;
-            FromGoldenCombsConfig.Current.showCurrentCropCharges = true;
+            FGCServerConfig.Current.SkepDaysToHarvestIn30DayMonths = fgcConfig.SkepDaysToHarvestIn30DayMonths;
+            FGCServerConfig.Current.ClayPotDaysToHarvestIn30DayMonths = fgcConfig.ClayPotDaysToHarvestIn30DayMonths;
+            FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths = fgcConfig.LangstrothDaysToHarvestIn30DayMonths;
+            FGCServerConfig.Current.SkepMinYield = fgcConfig.SkepMinYield;
+            FGCServerConfig.Current.SkepMaxYield = fgcConfig.SkepMaxYield;
+            FGCServerConfig.Current.CeramicPotMinYield = fgcConfig.CeramicPotMinYield;
+            FGCServerConfig.Current.CeramicPotMaxYield = fgcConfig.CeramicPotMaxYield;
+            FGCServerConfig.Current.minFramePerCycle = fgcConfig.minFramePerCycle;
+            FGCServerConfig.Current.maxFramePerCycle = fgcConfig.maxFramePerCycle;
+            FGCServerConfig.Current.FrameMinYield = fgcConfig.FrameMinYield;
+            FGCServerConfig.Current.FrameMaxYield = fgcConfig.FrameMaxYield;
+            FGCServerConfig.Current.MaxStackSize = fgcConfig.maxStackSize;
+            FGCServerConfig.Current.baseframedurability = fgcConfig.baseFrameDurability;
+            FGCServerConfig.Current.minFramePerCycle = fgcConfig.minFramePerCycle;
+            FGCServerConfig.Current.maxFramePerCycle = fgcConfig.maxStackSize;
+            FGCServerConfig.Current.showcombpoptime = fgcConfig.showcombpoptime;
+            FGCServerConfig.Current.CeramicHiveMinTemp = fgcConfig.CeramicHiveMinTemp;
+            FGCServerConfig.Current.LangstrothHiveMinTemp = fgcConfig.LangstrothHiveMinTemp;
+            FGCServerConfig.Current.skepBaseChargesPerDay = fgcConfig.skepCropChargeHoursIn30DayMonths;
+            FGCServerConfig.Current.skepMaxCropCharges = fgcConfig.skepMaxCropCharges;
+            FGCServerConfig.Current.skepCropRange = fgcConfig.skepCropRange;
+            FGCServerConfig.Current.ceramicBaseChargesPerDay = fgcConfig.ceramicCropChargeHoursIn30DayMonths;
+            FGCServerConfig.Current.ceramicMaxCropCharges = fgcConfig.ceramicMaxCropCharges;
+            FGCServerConfig.Current.ceramicCropRange = fgcConfig.ceramicCropRange;
+            FGCServerConfig.Current.langstrothBaseChargesPerDay = fgcConfig.langstrothCropChargeHoursIn30DayMonths;
+            FGCServerConfig.Current.langstrothMaxCropCharges = fgcConfig.langstrothMaxCropCharges;
+            FGCServerConfig.Current.langstrothCropRange = fgcConfig.langstrothCropRange;
+            FGCServerConfig.Current.showCurrentCropCharges = true;
         }
 
         #endregion
@@ -100,74 +100,74 @@ namespace FromGoldenCombs.Util.config
         class FGCConfigFromServerMessage
         {
             [ProtoMember(1)]
-            public float SkepDaysToHarvestIn30DayMonths = FromGoldenCombsConfig.Current.SkepDaysToHarvestIn30DayMonths;
+            public float SkepDaysToHarvestIn30DayMonths = FGCServerConfig.Current.SkepDaysToHarvestIn30DayMonths;
             [ProtoMember(2)]
-            public float ClayPotDaysToHarvestIn30DayMonths = FromGoldenCombsConfig.Current.ClayPotDaysToHarvestIn30DayMonths;
+            public float ClayPotDaysToHarvestIn30DayMonths = FGCServerConfig.Current.ClayPotDaysToHarvestIn30DayMonths;
             [ProtoMember(3)]
-            public float LangstrothDaysToHarvestIn30DayMonths = FromGoldenCombsConfig.Current.LangstrothDaysToHarvestIn30DayMonths;
+            public float LangstrothDaysToHarvestIn30DayMonths = FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths;
             [ProtoMember(4)]
-            public int maxStackSize = FromGoldenCombsConfig.Current.MaxStackSize;
+            public int maxStackSize = FGCServerConfig.Current.MaxStackSize;
             [ProtoMember(5)]
-            public int baseFrameDurability = FromGoldenCombsConfig.Current.baseframedurability;
+            public int baseFrameDurability = FGCServerConfig.Current.baseframedurability;
             [ProtoMember(6)]
-            public int minFramePerCycle = FromGoldenCombsConfig.Current.minFramePerCycle;
+            public int minFramePerCycle = FGCServerConfig.Current.minFramePerCycle;
             [ProtoMember(7)]
-            public int maxFramePerCycle = FromGoldenCombsConfig.Current.maxFramePerCycle;
+            public int maxFramePerCycle = FGCServerConfig.Current.maxFramePerCycle;
             [ProtoMember(8)]
-            public bool showcombpoptime = FromGoldenCombsConfig.Current.showcombpoptime;
+            public bool showcombpoptime = FGCServerConfig.Current.showcombpoptime;
             [ProtoMember(9)]
-            public int CeramicPotMinYield = FromGoldenCombsConfig.Current.CeramicPotMinYield;
+            public int CeramicPotMinYield = FGCServerConfig.Current.CeramicPotMinYield;
             [ProtoMember(10)]
-            public int CeramicPotMaxYield = FromGoldenCombsConfig.Current.CeramicPotMaxYield;
+            public int CeramicPotMaxYield = FGCServerConfig.Current.CeramicPotMaxYield;
             [ProtoMember(11)]
-            public int FrameMinYield = FromGoldenCombsConfig.Current.FrameMinYield;
+            public int FrameMinYield = FGCServerConfig.Current.FrameMinYield;
             [ProtoMember(12)]
-            public int FrameMaxYield = FromGoldenCombsConfig.Current.FrameMaxYield;
+            public int FrameMaxYield = FGCServerConfig.Current.FrameMaxYield;
             [ProtoMember(13)]
-            public int SkepMinYield = FromGoldenCombsConfig.Current.SkepMinYield;
+            public int SkepMinYield = FGCServerConfig.Current.SkepMinYield;
             [ProtoMember(14)]
-            public int SkepMaxYield = FromGoldenCombsConfig.Current.SkepMaxYield;
+            public int SkepMaxYield = FGCServerConfig.Current.SkepMaxYield;
             [ProtoMember(15)]
-            public float SkepHiveMinTemp = FromGoldenCombsConfig.Current.SkepHiveMinTemp;
+            public float SkepHiveMinTemp = FGCServerConfig.Current.SkepHiveMinTemp;
             [ProtoMember(16)]
-            public float SkepHiveMaxTemp = FromGoldenCombsConfig.Current.SkepHiveMaxTemp;
+            public float SkepHiveMaxTemp = FGCServerConfig.Current.SkepHiveMaxTemp;
             [ProtoMember(17)]
-            public float CeramicHiveMinTemp = FromGoldenCombsConfig.Current.CeramicHiveMinTemp;
+            public float CeramicHiveMinTemp = FGCServerConfig.Current.CeramicHiveMinTemp;
             [ProtoMember(18)]
-            public float CeramicHiveMaxTemp = FromGoldenCombsConfig.Current.CeramicHiveMaxTemp;
+            public float CeramicHiveMaxTemp = FGCServerConfig.Current.CeramicHiveMaxTemp;
             [ProtoMember(19)]
-            public float LangstrothHiveMinTemp = FromGoldenCombsConfig.Current.LangstrothHiveMinTemp;
+            public float LangstrothHiveMinTemp = FGCServerConfig.Current.LangstrothHiveMinTemp;
             [ProtoMember(20)]
-            public float LangstrothHiveMaxTemp = FromGoldenCombsConfig.Current.LangstrothHiveMaxTemp;
+            public float LangstrothHiveMaxTemp = FGCServerConfig.Current.LangstrothHiveMaxTemp;
             [ProtoMember(21)]
-            public double skepCropChargeHoursIn30DayMonths = FromGoldenCombsConfig.Current.skepBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
+            public double skepCropChargeHoursIn30DayMonths = FGCServerConfig.Current.skepBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
 
             [ProtoMember(22)]
-            public int skepMaxCropCharges = FromGoldenCombsConfig.Current.skepMaxCropCharges;
+            public int skepMaxCropCharges = FGCServerConfig.Current.skepMaxCropCharges;
 
             [ProtoMember(23)]
-            public int skepCropRange = FromGoldenCombsConfig.Current.skepCropRange;
+            public int skepCropRange = FGCServerConfig.Current.skepCropRange;
 
             [ProtoMember(24)]
-            public double ceramicCropChargeHoursIn30DayMonths = FromGoldenCombsConfig.Current.ceramicBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
+            public double ceramicCropChargeHoursIn30DayMonths = FGCServerConfig.Current.ceramicBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
 
             [ProtoMember(25)]
-            public int ceramicMaxCropCharges = FromGoldenCombsConfig.Current.ceramicMaxCropCharges;
+            public int ceramicMaxCropCharges = FGCServerConfig.Current.ceramicMaxCropCharges;
 
             [ProtoMember(26)]
-            public int ceramicCropRange = FromGoldenCombsConfig.Current.ceramicCropRange;
+            public int ceramicCropRange = FGCServerConfig.Current.ceramicCropRange;
 
             [ProtoMember(27)]
-            public double langstrothCropChargeHoursIn30DayMonths = FromGoldenCombsConfig.Current.langstrothBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
+            public double langstrothCropChargeHoursIn30DayMonths = FGCServerConfig.Current.langstrothBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
 
             [ProtoMember(28)]
-            public int langstrothMaxCropCharges = FromGoldenCombsConfig.Current.langstrothMaxCropCharges;
+            public int langstrothMaxCropCharges = FGCServerConfig.Current.langstrothMaxCropCharges;
 
             [ProtoMember(29)]
-            public int langstrothCropRange = FromGoldenCombsConfig.Current.langstrothCropRange;
+            public int langstrothCropRange = FGCServerConfig.Current.langstrothCropRange;
 
             [ProtoMember(30)]
-            public bool showCurrentCropCharges = FromGoldenCombsConfig.Current.showCurrentCropCharges;
+            public bool showCurrentCropCharges = FGCServerConfig.Current.showCurrentCropCharges;
         }
 
         [ProtoContract]

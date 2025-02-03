@@ -1,5 +1,7 @@
 1.20-1.8.8
 	- Fixed reference in Super lang entry.
+	- Fixed Skep charge generation being almost instant.
+	- Fixed Flora patches causing bushes to lose their shape and appear as ?
 
 1.20-v1.8.7
 	- Added Wildcraft Fruits and Nuts Compat

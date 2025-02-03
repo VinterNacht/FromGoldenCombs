@@ -15,7 +15,7 @@ using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.BlockEntities
 {
-    class FGCBeehive : BlockEntityBeehive, IAnimalFoodSource
+    class BEFGCBeehive : BlockEntityBeehive, IAnimalFoodSource
     {
             
         // Stored values
@@ -37,13 +37,13 @@ namespace FromGoldenCombs.BlockEntities
         int scanQuantityNearbyFlowers;
         int scanQuantityNearbyHives;
         List<BlockPos> scanEmptySkeps = new();
-        double cropChargeGrowthHours;
-        double chargesPerDay = FromGoldenCombsConfig.Current.skepBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
-        double cropChargeAtTotalHours = 24;
+        double cropChargeGrowthHours = 24;
+        double chargesPerDay = FGCServerConfig.Current.skepBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
+        double cropChargeAtTotalHours;
         double cooldownUntilCropCharge;
         int cropcharges;
-        int maxCropCharges = FromGoldenCombsConfig.Current.skepMaxCropCharges;
-        int cropChargeRange = FromGoldenCombsConfig.Current.skepCropRange;
+        int maxCropCharges = FGCServerConfig.Current.skepMaxCropCharges;
+        int cropChargeRange = FGCServerConfig.Current.skepCropRange;
 
 
         // Temporary values
@@ -60,7 +60,7 @@ namespace FromGoldenCombs.BlockEntities
         public Vec3d Position => Pos.ToVec3d().Add(0.5, 0.5, 0.5);
         public string Type => "food";
 
-        static FGCBeehive()
+        static BEFGCBeehive()
             {
                 Bees = new SimpleParticleProperties(
                     1, 1,
@@ -86,7 +86,7 @@ namespace FromGoldenCombs.BlockEntities
                 cropChargeGrowthHours = api.World.Calendar.HoursPerDay;
                 roomreg = Api.ModLoader.GetModSystem<RoomRegistry>();
 
-                harvestBase = (FromGoldenCombsConfig.Current.SkepDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay;
+                harvestBase = (FGCServerConfig.Current.SkepDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay;
 
                 if (api.Side == EnumAppSide.Client)
                 {
@@ -267,8 +267,8 @@ namespace FromGoldenCombs.BlockEntities
 
         private void TestHarvestable(float dt)
         {
-            float minTemp = FromGoldenCombsConfig.Current.CeramicHiveMinTemp;
-            float maxTemp = FromGoldenCombsConfig.Current.CeramicHiveMaxTemp == 0 ? 37f : FromGoldenCombsConfig.Current.CeramicHiveMaxTemp;
+            float minTemp = FGCServerConfig.Current.CeramicHiveMinTemp;
+            float maxTemp = FGCServerConfig.Current.CeramicHiveMaxTemp == 0 ? 37f : FGCServerConfig.Current.CeramicHiveMaxTemp;
             double worldTime = Api.World.Calendar.TotalHours;
             ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
             float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
@@ -524,8 +524,8 @@ namespace FromGoldenCombs.BlockEntities
             }
 
             //General Information
-            float minTemp = FromGoldenCombsConfig.Current.SkepHiveMinTemp;
-            float maxTemp = FromGoldenCombsConfig.Current.SkepHiveMaxTemp == 0 ? 37f : FromGoldenCombsConfig.Current.SkepHiveMaxTemp;
+            float minTemp = FGCServerConfig.Current.SkepHiveMinTemp;
+            float maxTemp = FGCServerConfig.Current.SkepHiveMaxTemp == 0 ? 37f : FGCServerConfig.Current.SkepHiveMaxTemp;
             double worldTime = Api.World.Calendar.TotalHours;
             float hoursPerDay = Api.World.Calendar.HoursPerDay;
             int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / hoursPerDay);
@@ -544,7 +544,7 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if ((harvestableAtTotalHours - worldTime / 24 > 0) && !Harvestable && hivePopSize > EnumHivePopSize.Poor && !outOfTemp)
             {
-                if (FromGoldenCombsConfig.Current.showcombpoptime)
+                if (FGCServerConfig.Current.showcombpoptime)
                 {
                     hiveState += "\n" + Lang.Get("fromgoldencombs:timetillpop", daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : (daysTillHarvest + " days"));
                 }
@@ -584,7 +584,7 @@ namespace FromGoldenCombs.BlockEntities
                 dsc.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 
             }
-            if (forPlayer.Entity.Controls.ShiftKey && FromGoldenCombsConfig.Current.showCurrentCropCharges) dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+            if (forPlayer.Entity.Controls.ShiftKey && FGCServerConfig.Current.showCurrentCropCharges) dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
         }
 
 

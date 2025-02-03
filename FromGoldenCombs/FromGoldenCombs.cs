@@ -8,6 +8,7 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Server;
 using FromGoldenCombs.BlockBehaviors;
 using FromGoldenCombs.Util.config;
+using FromGoldenCombs.Util.Config;
 
 namespace FromGoldenCombs
 {
@@ -38,6 +39,7 @@ namespace FromGoldenCombs
         public override void StartServerSide(ICoreServerAPI api)
         {
             networkHandler.InitializeServerSideNetworkHandler(api);
+            
         }
         #endregion
         public override void Start(ICoreAPI api)
@@ -45,7 +47,7 @@ namespace FromGoldenCombs
             base.Start(api);
             networkHandler = new NetworkHandler();
             //BlockEntities
-            api.RegisterBlockEntityClass("fgcbeehive", typeof(FGCBeehive));
+            api.RegisterBlockEntityClass("fgcbeehive", typeof(BEFGCBeehive));
             api.RegisterBlockEntityClass("beceramichive", typeof(BECeramicBroodPot));
             api.RegisterBlockEntityClass("belangstrothsuper", typeof(BELangstrothSuper));
             api.RegisterBlockEntityClass("belangstrothstack", typeof(BELangstrothStack));
@@ -68,7 +70,14 @@ namespace FromGoldenCombs
             api.RegisterBlockBehaviorClass("PushEventOnCropBroken", typeof(PushEventOnCropBreakBehavior));
             api.RegisterBlockBehaviorClass("PushEventOnBlockHarvested", typeof(PushEventOnBlockHarvested));
             networkHandler.RegisterMessages(api);
-            FromGoldenCombsConfig.createConfig(api);
+            if (api.Side.IsClient())
+            {
+                FGCClientConfig.createClientConfig(api);
+            }
+            if (api.Side.IsServer())
+            {
+                FGCServerConfig.createServerConfig(api);
+            }
         }
     }
 }

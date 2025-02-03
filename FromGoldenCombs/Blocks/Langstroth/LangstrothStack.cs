@@ -1,4 +1,6 @@
 ﻿using FromGoldenCombs.BlockEntities;
+using FromGoldenCombs.Util.config;
+using FromGoldenCombs.Util.Config;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -55,16 +57,27 @@ namespace FromGoldenCombs.Blocks.Langstroth
 
         public override float GetAmbientSoundStrength(IWorldAccessor world, BlockPos pos)
         {
-            if(world.BlockAccessor.GetBlockEntity(pos) is BELangstrothStack pot && pot.isHiveActive())
-            {
-                float soundVolume = 0f;
-                switch ((int)pot.HivePopSize)
+            float soundVolume = 0f;    
+            if ((world.BlockAccessor.GetBlockEntity(pos) is BELangstrothStack stack && stack.isHiveActive())) {
+                if (world.BlockAccessor.GetBlockEntity(pos) is BELangstrothStack pot && pot.isHiveActive())
                 {
-                    case 0: soundVolume = 0.33f; break;
-                    case 1: soundVolume = 0.66f; break;
-                    default: soundVolume = 1f; break;
+                    switch ((int)pot.HivePopSize)
+                    {
+                        case 0: soundVolume = 0.44f; break;
+                        case 1: soundVolume = 0.88f; break;
+                        default: soundVolume = 1f; break;
+                    }
+                    switch (FGCClientConfig.Current.hiveSoundVolume)
+                    {
+                        case "off": soundVolume = 0f; break;
+                        case "soft": soundVolume *= 0.5f; break;
+                        case "on": soundVolume = 1f; break;
+                        case "boosted": soundVolume *= 2f; break;
+                        case "loud": soundVolume *= 4f; break;
+                    }
+                    soundVolume = Math.Max(soundVolume * pot.ActivityLevel, 0.25f);
+                    return soundVolume;
                 }
-                return Math.Min(soundVolume * pot.ActivityLevel, 0.25f);
             }
             return 0f;
             

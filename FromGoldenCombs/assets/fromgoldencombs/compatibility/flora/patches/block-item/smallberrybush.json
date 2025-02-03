@@ -6,11 +6,10 @@
 		"*-cranberry-*": { base: "block/plant/berrybush/cranberry1" },
 		"*-empty": { base: "block/plant/berrybush/small*", selectiveElements: ["branchesN", "branchesS", "Leaves", "Largeleaves/*"] },
 		"*": { base: "block/plant/berrybush/small*" }
-		},
-		"dependsOn":[{"modid": "flora"}]
-  },
-	{ file: "game:blocktypes/plant/smallberrybush", op: "replace", path: "/behaviorsByType/*-ripe/0/properties/harvestedStack/quantity", value: { avg: 1.1 },"dependsOn": [{"modid": "flora"}]
+		} 
 	},
-	{ file: "game:blocktypes/plant/smallberrybush", op: "replace", path: "/dropsByType/*-ripe/1/quantity", value: { avg: 1.1 }, "dependsOn":[{"modid": "flora"}]
+	{ file: "game:blocktypes/plant/smallberrybush", op: "replace", path: "/behaviorsByType/*-ripe/1/properties/harvestedStack/quantity", value: { avg: 1.1 } 
+	},
+	{ file: "game:blocktypes/plant/smallberrybush", op: "replace", path: "/dropsByType/*-ripe/2/quantity", value: { avg: 1.1 } 
 	}
 ]
