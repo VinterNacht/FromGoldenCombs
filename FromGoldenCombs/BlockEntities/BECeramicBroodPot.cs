@@ -226,11 +226,17 @@ namespace FromGoldenCombs.BlockEntities
             int index = 0;
             if (!inv[index].Empty)
             {
+                
+                ItemStack stack = inv[0].TakeOut(1);
+                player.InventoryManager.TryGiveItemstack(stack, false);
+                if (stack.StackSize > 0)
+                {
+                    this.Api.World.SpawnItemEntity(stack, this.Pos, null);
+                }
                 Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(this.Block.CodeWithVariant("top", "notop")).BlockId, Pos);
-                player.InventoryManager.TryGiveItemstack(inv[0].TakeOutWhole());
                 return true;
             }
-            else if (activeHotbarSlot.Itemstack == null && activeHotbarSlot.StorageType == EnumItemStorageFlags.Backpack)
+            else if (activeHotbarSlot.Empty && activeHotbarSlot.StorageType == EnumItemStorageFlags.Backpack)
             {
                 ItemStack stack = blockContainer.OnPickBlock(this.Api.World, Pos);
                 SetAttributes(stack);

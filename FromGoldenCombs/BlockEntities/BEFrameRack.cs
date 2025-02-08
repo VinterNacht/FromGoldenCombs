@@ -50,6 +50,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 if (TryTake(byPlayer, blockSel))
                 {
+                    updateMeshes();
                     MarkDirty(true);
                     return true;
                 }
@@ -60,6 +61,7 @@ namespace FromGoldenCombs.BlockEntities
                 {
 
                     slot.Itemstack.Item.DamageItem(Api.World, byPlayer.Entity, slot, 1);
+                    updateMeshes();
                     MarkDirty(true);
                     return true;
                 }
@@ -70,7 +72,7 @@ namespace FromGoldenCombs.BlockEntities
                 ItemStack rackSlot = inv[index].Itemstack;
                 if (TryRepair(slot, rackSlot, index))
                 {
-
+                    updateMeshes();
                     MarkDirty(true);
                     return true;
                 }
@@ -81,6 +83,7 @@ namespace FromGoldenCombs.BlockEntities
                 inv[index].Itemstack = new ItemStack(Api.World.GetItem(inv[index].Itemstack.Item.CodeWithVariant("harvestable", "lined")));
                 inv[index].Itemstack.Attributes.SetInt("durability", 32);
                 slot.TakeOut(1);
+                updateMeshes();
                 MarkDirty(true);
                 return true;
             }
@@ -98,6 +101,7 @@ namespace FromGoldenCombs.BlockEntities
                      && byPlayer.InventoryManager.TryGiveItemstack(block.OnPickBlock(Api.World, blockSel.Position)))
             {
                 Api.World.BlockAccessor.SetBlock(0, blockSel.Position);
+                updateMeshes();
                 MarkDirty(true);
                 return true;
             }
@@ -168,6 +172,8 @@ namespace FromGoldenCombs.BlockEntities
 
             }
             Api.World.SpawnItemEntity(new ItemStack(Api.World.GetItem(new AssetLocation("game", "honeycomb")), rnd.Next(FGCServerConfig.Current.FrameMinYield, FGCServerConfig.Current.FrameMaxYield)), Pos.ToVec3d());
+            updateMeshes();
+            MarkDirty(true);
             return true;
         }
 
@@ -182,6 +188,8 @@ namespace FromGoldenCombs.BlockEntities
             rackStack.Attributes.SetInt("durability", (maxDurability - durability) < 16 ? maxDurability : durability + 16);
             slot.TakeOut(1);
             inv[index].Itemstack = rackStack;
+            updateMeshes();
+            MarkDirty(true);
             return true;
         }
 

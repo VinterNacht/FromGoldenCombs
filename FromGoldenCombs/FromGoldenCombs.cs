@@ -32,6 +32,7 @@ namespace FromGoldenCombs
         public override void StartClientSide(ICoreClientAPI api)
         {
             networkHandler.InitializeClientSideNetworkHandler(api);
+            
         }
         #endregion
 
@@ -70,14 +71,8 @@ namespace FromGoldenCombs
             api.RegisterBlockBehaviorClass("PushEventOnCropBroken", typeof(PushEventOnCropBreakBehavior));
             api.RegisterBlockBehaviorClass("PushEventOnBlockHarvested", typeof(PushEventOnBlockHarvested));
             networkHandler.RegisterMessages(api);
-            if (api.Side.IsClient())
-            {
-                FGCClientConfig.createClientConfig(api);
-            }
-            if (api.Side.IsServer())
-            {
-                FGCServerConfig.createServerConfig(api);
+            FGCClientConfig.createClientConfig(api);
+            FGCServerConfig.createServerConfig(api);
             }
         }
     }
-}

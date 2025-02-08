@@ -8,121 +8,69 @@ namespace FromGoldenCombs.Util.config
     [ProtoContract()]
     class FGCServerConfig
     {
-        [ProtoMember(0)]
-        public double ConfigVersion = 1.0;
-        /// <summary>The number of days until a skep is ready to harvest when using 30 day months</summary>
-        /// 
-        public bool retainConfigOnVersionChange = false;
-
         [ProtoMember(1)]
-        public float SkepDaysToHarvestIn30DayMonths = 7;
-
-        /// <summary>The number of days until a ceramic hive is ready to harvest when using 30 day months</summary>
+        public double ConfigVersion = 1.0;
         [ProtoMember(2)]
-        public float ClayPotDaysToHarvestIn30DayMonths = 7;
-
-        /// <summary>The number of days until a Langstroth Hive is ready to harvest when using 30 day months</summary>
+        public bool retainConfigOnVersionChange = false;
         [ProtoMember(3)]
-        public float LangstrothDaysToHarvestIn30DayMonths = 3.5f;
-
-        /// <summary>Maximum number of langstroth blocks that can be put in a Langstroth Stack</summary>
+        public float SkepDaysToHarvestIn30DayMonths = 7;
         [ProtoMember(4)]
-        public int MaxStackSize = 6;
-
-        /// <summary>The default durability of beeframes</summary>
+        public float ClayPotDaysToHarvestIn30DayMonths = 7;
         [ProtoMember(5)]
-        public int baseframedurability = 32;
-
-        /// <summary>The minimum number of frames filled per cycle</summary>
+        public float LangstrothDaysToHarvestIn30DayMonths = 3.5f;
         [ProtoMember(6)]
-        public int minFramePerCycle = 2;
-
-        /// <summary>The maximum number of frames filled per cycle</summary>
+        public int MaxStackSize = 6;
         [ProtoMember(7)]
-        public int maxFramePerCycle = 3;
-
-        /// <summary>Whether to show the time left until new comb/frames are produced</summary>
-
+        public int baseframedurability = 32;
         [ProtoMember(8)]
-        public bool showcombpoptime = true;
-
-        /// <summary>Minimum number of honeycombs produced when a honeypot is harvested from a ceramic hive</summary>
-        /// <value>The ceramic pot minimum yield.</value>
+        public int minFramePerCycle = 2;
         [ProtoMember(9)]
-        public int CeramicPotMinYield { get; set; } = 2;
-
-        /// <summary>Gets or sets the maximum honey produced when a honeypot is harvest from a ceramic hive.</summary>
-        /// <value>The ceramic pot maximum yield.</value>
+        public int maxFramePerCycle = 3;
         [ProtoMember(10)]
-        public int CeramicPotMaxYield { get; set; } = 5;
-
-        /// <summary>Minimum number of frames filled per cycle in a Langstroth Hive</summary>
-        /// <value>The frame minimum yield.</value>
+        public bool showcombpoptime = true;
         [ProtoMember(11)]
-        public int FrameMinYield { get; set; } = 2;
-
-        /// <summary>Maximum number of frames filled per cycle in a Langstroth Hive</summary>
-        /// <value>The frame maximum yield.</value>
+        public int CeramicPotMinYield { get; set; } = 2;
         [ProtoMember(12)]
-        public int FrameMaxYield { get; set; } = 5;
-
-        /// <summary>Gets or sets the minimum honeycomb yield from a skep.</summary>
-        /// <value>The skep minimum yield.</value>
+        public int CeramicPotMaxYield { get; set; } = 5;
         [ProtoMember(13)]
-        public int SkepMinYield { get; set; } = 1;
-
-        /// <summary>Gets or sets the maximum honeycomb yield from a skep.</summary>
-        /// <value>The skep maximum yield.</value>
+        public int FrameMinYield { get; set; } = 2;
         [ProtoMember(14)]
-        public int SkepMaxYield { get; set; } = 3;
-
-        /// <summary>Set the minimum temperature at which Ceramic Hive Bees will fly.</summary>
-        /// <value>The minimum temperature in C as a float</value>
+        public int FrameMaxYield { get; set; } = 5;
         [ProtoMember(15)]
-        public float SkepHiveMinTemp { get; set; } = 10f;
+        public int SkepMinYield { get; set; } = 1;
         [ProtoMember(16)]
-        public float SkepHiveMaxTemp { get; set; } = 37f;
+        public int SkepMaxYield { get; set; } = 3;
         [ProtoMember(17)]
-        public float CeramicHiveMinTemp { get; set; } = 10f;
+        public float SkepHiveMinTemp { get; set; } = 10f;
         [ProtoMember(18)]
-        public float CeramicHiveMaxTemp { get; set; } = 37f;
-
-        /// <summary>Set the minimum temperature at which Langstroth Hive Bees will fly.</summary>
-        /// <value>The minimum temperature in C as a float</value>
+        public float SkepHiveMaxTemp { get; set; } = 37f;
         [ProtoMember(19)]
-        public float LangstrothHiveMinTemp { get; set; } = 10f;
-
+        public float CeramicHiveMinTemp { get; set; } = 10f;
         [ProtoMember(20)]
-        public float LangstrothHiveMaxTemp { get; set; } = 37f;
-
+        public float CeramicHiveMaxTemp { get; set; } = 37f;
         [ProtoMember(21)]
-        public double skepBaseChargesPerDay = 1; //Number of hours until the hive accumulates a new grow charge.
-
+        public float LangstrothHiveMinTemp { get; set; } = 10f;
         [ProtoMember(22)]
-        public int skepMaxCropCharges = 50;
-
+        public float LangstrothHiveMaxTemp { get; set; } = 37f;
         [ProtoMember(23)]
-        public int skepCropRange = 10;
-
+        public double skepBaseChargesPerDay = 1;
         [ProtoMember(24)]
-        public double ceramicBaseChargesPerDay = 2; //Number of hours until the hive accumulates a new grow charge.
-
+        public int skepMaxCropCharges = 50;
         [ProtoMember(25)]
-        public int ceramicMaxCropCharges = 90;
-
+        public int skepCropRange = 5;
         [ProtoMember(26)]
-        public int ceramicCropRange = 13;
-
+        public double ceramicBaseChargesPerDay = 2;
         [ProtoMember(27)]
-        public double langstrothBaseChargesPerDay = 3; //Number of hours until the hive accumulates a new grow charge.
-
+        public int ceramicMaxCropCharges = 100;
         [ProtoMember(28)]
-        public int langstrothMaxCropCharges = 150;
-
+        public int ceramicCropRange = 7;
         [ProtoMember(29)]
-        public int langstrothCropRange = 17;
-
+        public double langstrothBaseChargesPerDay = 3;
         [ProtoMember(30)]
+        public int langstrothMaxCropCharges = 150;
+        [ProtoMember(31)]
+        public int langstrothCropRange = 8;
+        [ProtoMember(32)]
         public bool showCurrentCropCharges = true;
 
         public FGCServerConfig()
@@ -163,7 +111,7 @@ namespace FromGoldenCombs.Util.config
             defaultServerConfig.skepMaxCropCharges = 50;
             defaultServerConfig.skepCropRange = 5;
             defaultServerConfig.ceramicBaseChargesPerDay = 2;
-            defaultServerConfig.ceramicMaxCropCharges = 90;
+            defaultServerConfig.ceramicMaxCropCharges = 100;
             defaultServerConfig.ceramicCropRange = 6;
             defaultServerConfig.langstrothBaseChargesPerDay = 3;
             defaultServerConfig.langstrothMaxCropCharges = 150;
@@ -186,9 +134,12 @@ namespace FromGoldenCombs.Util.config
                 }
                 else
                 {
-                    if((ServerConfig?.ConfigVersion != MasterServerConfigVersion) && ServerConfig.retainConfigOnVersionChange)
+                    if (ServerConfig != null)
                     {
-                        api.Logger.Notification(Lang.Get("fromgoldencombs:wrongserverconfigversion"));
+                        if ((ServerConfig?.ConfigVersion != MasterServerConfigVersion) && ServerConfig.retainConfigOnVersionChange)
+                        {
+                            api.Logger.Notification(Lang.Get("fromgoldencombs:wrongserverconfigversion"));
+                        }
                     }
                     api.Logger.Notification(Lang.Get("fromgoldencombs:nomodserverconfig"));
                     Current = GetServerDefault();

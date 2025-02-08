@@ -52,9 +52,12 @@ namespace FromGoldenCombs.Util.Config
                 }
                 else
                 {
-                    if ((ClientConfig?.configVersion != MasterClientConfigVersion) && !ClientConfig.retainConfigOnVersionChange)
+                    if (ClientConfig != null)
                     {
-                        api.Logger.Notification(Lang.Get("fromgoldencombs:wrongclientconfigversion"));
+                        if ((ClientConfig?.configVersion != MasterClientConfigVersion) && !ClientConfig.retainConfigOnVersionChange)
+                        {
+                            api.Logger.Notification(Lang.Get("fromgoldencombs:wrongclientconfigversion"));
+                        }
                     }
                     api.Logger.Notification(Lang.Get("fromgoldencombs:nomodclientconfig"));
                     Current = GetClientDefault();
