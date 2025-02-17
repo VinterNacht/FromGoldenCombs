@@ -59,9 +59,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
         {
             float soundVolume = 0f;    
             if ((world.BlockAccessor.GetBlockEntity(pos) is BELangstrothStack stack && stack.isHiveActive())) {
-                if (world.BlockAccessor.GetBlockEntity(pos) is BELangstrothStack pot && pot.isHiveActive())
-                {
-                    switch ((int)pot.HivePopSize)
+                    switch ((int)stack.HivePopSize)
                     {
                         case 0: soundVolume = 0.44f; break;
                         case 1: soundVolume = 0.88f; break;
@@ -69,15 +67,15 @@ namespace FromGoldenCombs.Blocks.Langstroth
                     }
                     switch (FGCClientConfig.Current.hiveSoundVolume)
                     {
-                        case "off": soundVolume = 0f; break;
+                        case "off": soundVolume *= 0f; break;
                         case "soft": soundVolume *= 0.5f; break;
-                        case "on": soundVolume = 1f; break;
-                        case "boosted": soundVolume *= 2f; break;
+                        case "normal": soundVolume *= 1f; break;
+                        case "high": soundVolume *= 2f; break;
                         case "loud": soundVolume *= 4f; break;
-                    }
-                    soundVolume = Math.Max(soundVolume * pot.ActivityLevel, 0.25f);
-                    return soundVolume;
+                        default: soundVolume *= 1f; break;
                 }
+                    soundVolume = Math.Max(soundVolume * stack.ActivityLevel, 0.25f);
+                    return soundVolume;
             }
             return 0f;
             
@@ -99,7 +97,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
 
             if (curBE != null)
             {
-                for (int i = 1; i < curBE.Inventory.Count-1; i++)
+                for (int i = 1; i < curBE.Inventory.Count; i++)
                 {
                     if (!curBE.Inventory[i].Empty)
                     {

@@ -1,3 +1,49 @@
+
+
+
+1.20-1.8.11-rc.6
+	- Fix error with picking up supers related to ensuring the world interaction is reactive to whether the super contains frames or not.
+
+1.20-1.8.11-rc.5
+	- Adjusted math in Langstroth Hive to ensure it always completes at least one frameFillCycle when worldtime > harvestableAtTotalHours
+	- Ensured that next harvestcycle is set adjusted for partial harvestbase times.
+	- Prevented skeps from generating charges during cold months.
+	- Corrected collision box on Langstroth Super
+
+1.20-1.8.11-rc.4
+	- ANOTHER (shame on me) quick patch to fix the recipe to make raw ceramic brood pots.  Ugh.
+
+1.20-1.8.11-rc.3
+	- Quick patch to fix inability to fire Ceramic Hives.
+
+1.20-1.8.11-rc.2
+	- Langstroth Hives now account for temperature changes during lengthy absences.
+	- Client Config version updated to 1.5
+	  - Show or hide current pollination count and three day temp info on client side. (Overriden by Server Side Config)
+	- Server Config versio updated to 1.1
+		- New config value for showing or hiding three day temp and pollination count from all clients.
+
+1.20-1.8.11-rc.1
+	- Added Ukranian Translation
+	- Fixed hives generating pollination charges outside of normal temps.
+	- Fixed Skep not using proper temperature ranges due to error in network config transference.
+	- Fixed funky collision/selectionboxes on the raw ceramic hive.
+	- Updated shape files for Ceramic Hive, eliminated excess shape files used for the same.
+	- Client Config version updated to 1.4
+	  - The ability to alter wild hive volumes.
+	  - Now includes instructions for config values
+	- Client Config includes protections to ensure the instructions are unchanged and the values used are valid.
+	- Fixed issue with Langstroth Selection boxes not appearing correctly
+	- Implemented frames filling during long absences.
+	- Standardize Langstroth Base recipes to require 2 logs per slot instead of some 2, some 4. (this was an old oversight)
+
+1.20-1.8.10
+	- Last minute patch and fixes. (oops)
+
+1.20-1.8.9
+	- Fixed config situation that I broke (This fixed a few things, including the ceramic hives not working properly)
+	- Corrected Ceramic Hives not properly generating buzzing sound
+
 1.20-1.8.8
 	- Fixed reference in Super lang entry.
 	- Fixed Skep charge generation being almost instant.

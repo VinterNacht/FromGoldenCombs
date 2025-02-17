@@ -7,6 +7,7 @@ using Vintagestory.API.Util;
 using System.Collections.Generic;
 using Vintagestory.API.Config;
 using System;
+using FromGoldenCombs.Util.Config;
 
 namespace FromGoldenCombs.Blocks
 {
@@ -30,17 +31,27 @@ namespace FromGoldenCombs.Blocks
 
         public override float GetAmbientSoundStrength(IWorldAccessor world, BlockPos pos)
         {
-            if(api.World.BlockAccessor.GetBlockEntity(pos) is BECeramicBroodPot pot && pot.isActiveHive)
-            {
-                float soundVolume = 0f;
-                switch ((int)pot.HivePopSize)
+            float soundVolume = 0f;
+                if (world.BlockAccessor.GetBlockEntity(pos) is BECeramicBroodPot pot && pot.isActiveHive)
                 {
-                    case 0: soundVolume = 0.33f; break;
-                    case 1: soundVolume = 0.66f; break;
-                    default: soundVolume = 1f; break;
+                    switch ((int)pot.HivePopSize)
+                    {
+                        case 0: soundVolume = 0.44f; break;
+                        case 1: soundVolume = 0.88f; break;
+                        default: soundVolume = 1f; break;
+                    }
+                    switch (FGCClientConfig.Current.hiveSoundVolume)
+                    {
+                        case "off": soundVolume = 0f; break;
+                        case "soft": soundVolume *= 0.5f; break;
+                        case "normal": soundVolume = 1f; break;
+                        case "high": soundVolume *= 2f; break;
+                        case "loud": soundVolume *= 4f; break;
+                        default: soundVolume *= 1f; break;
+                    }
+                    soundVolume = Math.Max(soundVolume * pot.ActivityLevel, 0.25f);
+                    return soundVolume;
                 }
-                return Math.Min(soundVolume * pot.ActivityLevel, 0.25f);
-            }
             return 0f;
 
         }

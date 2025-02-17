@@ -2,6 +2,7 @@
 using FromGoldenCombs.Blocks;
 using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.Util.config;
+using FromGoldenCombs.Util.Config;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -47,7 +48,7 @@ namespace FromGoldenCombs.BlockEntities
 
 
         // Temporary values
-        EnumHivePopSize hivePopSize;
+        public EnumHivePopSize hivePopSize;
         bool wasPlaced = false;
         string orientation;
         private RoomRegistry roomreg;
@@ -55,8 +56,8 @@ namespace FromGoldenCombs.BlockEntities
         private Vec3d endPos = new Vec3d();
         private Vec3f minVelo = new Vec3f();
         private Vec3f maxVelo = new Vec3f();
-        private float actvitiyLevel;
-        private float roomness;
+        public float actvitiyLevel;
+        public float roomness;
         public Vec3d Position => Pos.ToVec3d().Add(0.5, 0.5, 0.5);
         public string Type => "food";
 
@@ -224,7 +225,7 @@ namespace FromGoldenCombs.BlockEntities
             if (Api.World.Rand.NextDouble() > 2 * dayLightStrength - 0.5) return;
 
             Random rand = Api.World.Rand;
-
+            
             Bees.MinQuantity = actvitiyLevel;
 
             // Leave hive
@@ -276,11 +277,11 @@ namespace FromGoldenCombs.BlockEntities
             float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
             if (conds == null) return;
 
-            threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+            float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
             float optimalTemp = (maxTemp + minTemp) / 2;
             double distance = Math.Abs(conds.Temperature - optimalTemp);
-            double range = maxTemp - optimalTemp;
-            float beeParticleModifier = (float)(distance / range);
+            double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
+            float beeParticleModifier = 1f - (float)(distance / range);
             actvitiyLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
             //Reset timers during winter - Vanilla Settings
             //if (temp <= -10)
@@ -294,7 +295,7 @@ namespace FromGoldenCombs.BlockEntities
                 tempOutOfRange = true;
             }
 
-            handleCropCharges(tempOutOfRange, worldTime);
+            if(hivePopSize > 0 && !tempOutOfRange) handleCropCharges(tempOutOfRange, worldTime);
 
             // Reset timers during winter
             if (threeDayTemp <= minTemp || threeDayTemp >= maxTemp)
@@ -576,15 +577,17 @@ namespace FromGoldenCombs.BlockEntities
                     hiveState += "\n" + Lang.Get("Will swarm in less than a day");
                 }
             }
-
             dsc.AppendLine(hiveState);
-            dsc.AppendLine(tempReport);
             if (this.roomness > 0f)
             {
                 dsc.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 
             }
-            if (forPlayer.Entity.Controls.ShiftKey && FGCServerConfig.Current.showCurrentCropCharges) dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+            if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowHiveInfo == true))
+            {
+                dsc.AppendLine(tempReport);
+                dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+            }
         }
 
 

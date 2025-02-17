@@ -52,12 +52,12 @@
   },
   "sidesolid": { "all": false },
   "sideopaque": { "all": false },
-  "tpHandTransform": {
-    "translation": { "x": -0.9, "y": -0.4, "z": -0.7 },
-    "rotation": { "x": 51, "y": 13, "z": -84 },
-    "origin": { "x": 0.5, "y": 0.2, "z": 0.5 },
-    "scale": 0.59
-  },
+  tpHandTransform: {
+		translation: { x: -1.15, y: -0.5, z: -0.7 },
+		rotation: { x: 34, y: 13, z: -84 },
+		origin: { x: 0.5, y: 0.2, z: 0.5 },
+		scale: 0.5899
+	},
   guiTransform: {
 		origin: { x: 0.5, y: 0.3, z: 0.5 },
 		scale: 1.86

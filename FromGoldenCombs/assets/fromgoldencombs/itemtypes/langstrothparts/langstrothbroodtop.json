@@ -1,6 +1,6 @@
 {
 	"code": "langstrothbroodtop",
-	"class": "langstrothpartcore",
+	"class": "langstrothpartcore",  
 	"variantgroups": [
 	 { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" }
@@ -8,7 +8,7 @@
   "creativeinventory": { "general": ["langstrothbroodtop-*"] },
   "attributes": {
     "handbook": {
-			groupBy: ["langstrothbrood-*"],
+			groupBy: ["langstrothbroodtop-*"],
 			"extraSections": [
         {
           "title": "fromgoldencombs:item-handbooktitle-langstrothbroodtop",

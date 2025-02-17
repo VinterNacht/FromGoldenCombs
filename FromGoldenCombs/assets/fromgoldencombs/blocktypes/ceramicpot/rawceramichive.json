@@ -2,14 +2,17 @@
   "code": "rawceramichive",
   "class": "rawceramichive",
   "behaviors": [
-    { "name": "GroundStorable" },
+    { name: "GroundStorable", properties: { layout: "SingleCenter", collisionBox: { x1: 0.187, y1: 0.063, z1: 0.189, x2: 0.812, y2: 0.559, z2: 0.8115 }}}	,
       {
         "name": "Unplaceable",
         "__comment": "The ground storable obsoletes this being a block. Should be an item, but is kept a block for backwards compatibility"
       },
       { "name": "RightClickPickup" }
   ],
-  "shape": { "base": "fromgoldencombs:block/hive/ceramic/rawceramichive" },
+  "shape": { "base": "block/hive/ceramic/ceramicbroodpot" },
+  "textures": {		
+      "clay": { "base": "game:block/clay/blueclay" },
+	},
   "combustibleProps": {
     "meltingPoint": 650,
     "meltingDuration": 45,
@@ -30,7 +33,11 @@
   "sounds": {
     "place": "game:block/planks"
   },
-  "collisionboxes": [{
+	guiTransform: {
+		origin: { x: 0.5, y: 0.4, z: 0.5 },
+		scale: 1.37
+	},
+	"collisionboxes": [{
 				"x1": 0.25,
 				"y1": 0,
 				"z1": 0.25,
@@ -62,39 +69,14 @@
 				"y2": 0.625,
 				"z2": 0.75
 			}
-			],
-		"selectionboxes": [{
-				"x1": 0.25,
-				"y1": 0,
-				"z1": 0.25,
-				"x2": 0.75,
-				"y2": 0.0625,
-				"z2": 0.75
-			},
-			{
-				"x1": 0.3125,
-				"y1": 0.625,
-				"z1": 0.3125,
-				"x2": 0.6875,
-				"y2": 0.6875,
-				"z2": 0.6875
-			},
-			{
-				"x1": 0.3125,
-				"y1": 0.625,
-				"z1": 0.3125,
-				"x2": 0.6875,
-				"y2": 0.6875,
-				"z2": 0.6875
-			},
-			{
-				"x1": 0.25,
-				"y1": 0.5625,
-				"z1": 0.25,
-				"x2": 0.75,
-				"y2": 0.625,
-				"z2": 0.75
-			}
-			]
+		],
+	"selectionboxes": [{
+			"x1": 0.187,
+			"y1": 0.063,
+			"z1": 0.189,
+			"x2": 0.812,
+			"y2": 0.559,
+			"z2": 0.8115
+		}],
 }
 

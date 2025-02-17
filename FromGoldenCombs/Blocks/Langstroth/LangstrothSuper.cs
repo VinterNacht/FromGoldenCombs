@@ -3,7 +3,6 @@ using FromGoldenCombs.Blocks.Langstroth;
 using System.Collections.Generic;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
-using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 
 namespace FromGoldenCombs.Blocks
@@ -28,6 +27,7 @@ namespace FromGoldenCombs.Blocks
             WorldInteraction[] wi2 = null;
             WorldInteraction[] wi3 = null;
             WorldInteraction[] wx = null;
+            BELangstrothSuper super = world.BlockAccessor.GetBlockEntity(forPlayer.CurrentBlockSelection.Position) as BELangstrothSuper;
 
             wi = ObjectCacheUtil.GetOrCreate(api, "superInteractions1", () =>
             {
@@ -97,7 +97,7 @@ namespace FromGoldenCombs.Blocks
             if (wi2 == null || wi3 == null)
             {
                 return wi;
-            } else if (wi3 == null)
+            } else if (wi3 == null || (super != null && !super.Inventory.Empty))
             {
                 return wi.Append(wi2);
             }

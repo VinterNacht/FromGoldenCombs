@@ -9,7 +9,7 @@ namespace FromGoldenCombs.Util.config
     class FGCServerConfig
     {
         [ProtoMember(1)]
-        public double ConfigVersion = 1.0;
+        public double ConfigVersion = 1.1;
         [ProtoMember(2)]
         public bool retainConfigOnVersionChange = false;
         [ProtoMember(3)]
@@ -71,7 +71,7 @@ namespace FromGoldenCombs.Util.config
         [ProtoMember(31)]
         public int langstrothCropRange = 8;
         [ProtoMember(32)]
-        public bool showCurrentCropCharges = true;
+        public bool showExtraBeehiveInfo = true;
 
         public FGCServerConfig()
         { }
@@ -116,7 +116,7 @@ namespace FromGoldenCombs.Util.config
             defaultServerConfig.langstrothBaseChargesPerDay = 3;
             defaultServerConfig.langstrothMaxCropCharges = 150;
             defaultServerConfig.langstrothCropRange = 8;
-            defaultServerConfig.showCurrentCropCharges = true;
+            defaultServerConfig.showExtraBeehiveInfo = true;
 
             return defaultServerConfig;
         }

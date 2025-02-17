@@ -96,7 +96,7 @@ namespace FromGoldenCombs.BlockEntities
             }
             else
             {
-                if (byPlayer.Entity.Controls.ShiftKey && activeHotbarSlot.Itemstack == null /*&& activeHotbarSlot.StorageType == EnumItemStorageFlags.Backpack*/ && this.Api.World.BlockAccessor.GetBlock(blockSel.Position).Variant["open"] == "closed" && byPlayer.InventoryManager.TryGiveItemstack(blockContainer.OnPickBlock(this.Api.World, blockSel.Position), false))
+                if (byPlayer.Entity.Controls.Sneak && activeHotbarSlot.Itemstack == null /*&& activeHotbarSlot.StorageType == EnumItemStorageFlags.Backpack*/ && this.Api.World.BlockAccessor.GetBlock(blockSel.Position).Variant["open"] == "closed" && byPlayer.InventoryManager.TryGiveItemstack(blockContainer.OnPickBlock(this.Api.World, blockSel.Position), false))
                 {
                     this.Api.World.BlockAccessor.SetBlock(0, blockSel.Position);
                     base.MarkDirty(true, null);

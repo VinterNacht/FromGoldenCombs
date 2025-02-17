@@ -1,5 +1,6 @@
 ﻿using FromGoldenCombs.BlockBehaviors;
 using FromGoldenCombs.Util.config;
+using FromGoldenCombs.Util.Config;
 using FromGoldenCombs.Util.HarmonyPatches;
 using System;
 using System.Text;
@@ -83,7 +84,7 @@ namespace FromGoldenCombs.BlockEntities
             if (api.Side == EnumAppSide.Client)
             {
                 ICoreClientAPI capi = api as ICoreClientAPI;
-                Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/hive/ceramic/ceramicbroodpot-notop.json")).ToObject<Shape>();
+                Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/hive/ceramic/ceramicbroodpot.json")).ToObject<Shape>();
 
                 if (api.Side == EnumAppSide.Client)
                 {
@@ -221,12 +222,12 @@ namespace FromGoldenCombs.BlockEntities
 
         private bool TryTake(IPlayer player)
         {
-            ItemSlot activeHotbarSlot = player.InventoryManager.ActiveHotbarSlot;
-            BlockContainer blockContainer = this.Api.World.BlockAccessor.GetBlock(Pos, 0) as BlockContainer;
-            int index = 0;
+                ItemSlot activeHotbarSlot = player.InventoryManager.ActiveHotbarSlot;
+                BlockContainer blockContainer = this.Api.World.BlockAccessor.GetBlock(Pos, 0) as BlockContainer;
+                int index = 0;
             if (!inv[index].Empty)
             {
-                
+
                 ItemStack stack = inv[0].TakeOut(1);
                 player.InventoryManager.TryGiveItemstack(stack, false);
                 if (stack.StackSize > 0)
@@ -326,11 +327,11 @@ namespace FromGoldenCombs.BlockEntities
             float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
             if (conds == null) return;
 
-            float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5/4 : 0);
+            float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
             float optimalTemp = (maxTemp + minTemp) / 2;
             double distance = Math.Abs(conds.Temperature - optimalTemp);
-            double range = maxTemp - optimalTemp;
-            float beeParticleModifier = (float)(distance / range);
+            double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
+            float beeParticleModifier = 1f - (float)(distance / range);
             _activityLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
 
             if (!isActiveHive) { cropcharges = 0; return; }
@@ -348,7 +349,10 @@ namespace FromGoldenCombs.BlockEntities
                 tempOutOfRange = true;
             }
 
-            handleCropCharges(tempOutOfRange, worldTime);
+            if (HivePopSize > 0 && !tempOutOfRange)
+            {
+                handleCropCharges(worldTime);
+            }
 
             //If not cooling down
             if (worldTime > cooldownUntilTotalHours && hasEmptyHivetop && quantityNearbyFlowers>0)
@@ -378,7 +382,7 @@ namespace FromGoldenCombs.BlockEntities
             MarkDirty(true);
         }
 
-        private void handleCropCharges(bool tempOutOfRange, double worldTime)
+        private void handleCropCharges(double worldTime)
         {
             if (worldTime > cropChargeAtTotalHours && cropcharges < maxCropCharges && _hivePopSize != EnumHivePopSize.Poor && quantityNearbyFlowers > 0)
             {
@@ -407,7 +411,8 @@ namespace FromGoldenCombs.BlockEntities
             if (isActiveHive)
             {
                 float dayLightStrength = Api.World.Calendar.GetDayLightStrength(Pos.X, Pos.Z);
-                if (Api.World.Rand.NextDouble() > 2 * dayLightStrength - 0.5) return;
+                if (Api.World.Rand.NextDouble() > (2 * dayLightStrength - 0.5))                     
+                    return;
 
                 Random rand = Api.World.Rand;
 
@@ -607,7 +612,7 @@ namespace FromGoldenCombs.BlockEntities
             float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
             float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
             if (conds == null) return;
-            float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+            float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5f : 0f);
             string tempReport = Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect"));
             bool isOutTemp = (temp <= minTemp || temp >= maxTemp);
 
@@ -644,7 +649,7 @@ namespace FromGoldenCombs.BlockEntities
 
                     dsc.AppendLine(Lang.Get("fromgoldencombs:fullpot"));
                 }
-                else if (quantityNearbyFlowers > 0 && !isOutTemp)
+                else if (quantityNearbyFlowers <= 0 && !isOutTemp)
                 {
                     dsc.AppendLine(Lang.Get("fromgoldencombs:outgathering"));
                 }
@@ -653,8 +658,11 @@ namespace FromGoldenCombs.BlockEntities
                     dsc.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
 
                 }
-                dsc.AppendLine(tempReport);
-                if (forPlayer.Entity.Controls.ShiftKey && FGCServerConfig.Current.showCurrentCropCharges) dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowHiveInfo == true))
+                {
+                    dsc.AppendLine(tempReport);
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                }
             }            
         }
 

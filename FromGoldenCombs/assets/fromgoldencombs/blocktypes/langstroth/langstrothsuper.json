@@ -95,12 +95,8 @@
       "scale": 0.56
     },
   "collisionboxesByType": {
-      "*-closed": [
+      "*": [
         { "x1": 0.062, "y1": 0.0126, "z1": 0.156, "x2": 0.9254, "y2": 0.3624, "z2": 0.845, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west*": 90}}
-      ],
-      "*-open": [
-        { "x1": 0.062, "y1": 0.0126, "z1": 0.156, "x2": 0.9254, "y2": 0.3624, "z2": 0.845, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west*": 90}}
-       
       ]
     },
   "selectionboxesByType": {

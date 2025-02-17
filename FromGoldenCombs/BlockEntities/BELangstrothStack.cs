@@ -2,8 +2,10 @@
 using FromGoldenCombs.Blocks;
 using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.Util.config;
+using FromGoldenCombs.Util.Config;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using VFromGoldenCombs.Blocks.Langstroth;
@@ -22,7 +24,6 @@ namespace FromGoldenCombs.BlockEntities
 
         double harvestableAtTotalHours;
         double cooldownUntilTotalHours;
-        public bool Harvestable;
         int quantityNearbyFlowers;
         int quantityNearbyHives;
         float _activityLevel;
@@ -111,7 +112,7 @@ namespace FromGoldenCombs.BlockEntities
             Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "cropbreak");
             Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "berryharvest");
             Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "fruitharvest");
-            harvestBase = (FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay;
+            harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
         }
 
         private void managePollinationBoost(string eventName, ref EnumHandling handling, IAttribute data)
@@ -797,7 +798,6 @@ namespace FromGoldenCombs.BlockEntities
                     Bees.LifeLength = 1f;
                     Bees.WithTerrainCollision = false;
                 }
-
                 // Go back to hive
                 else
                 {
@@ -813,7 +813,7 @@ namespace FromGoldenCombs.BlockEntities
                     Api.World.SpawnParticles(Bees);
                 }
             }
-            harvestBase = (FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths / 30) * Api.World.Calendar.HoursPerDay;
+            harvestBase = (float)(((float)FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * (float)(Api.World.Calendar.DaysPerMonth/30f)) * (float)Api.World.Calendar.HoursPerDay);
         }
 
         public void ResetHive()
@@ -822,7 +822,6 @@ namespace FromGoldenCombs.BlockEntities
             GetBottomStack().quantityNearbyFlowers = 0;
             GetBottomStack()._hivePopSize = 0;
         }
-
 
         private void TestHarvestable(float dt)
         {
@@ -856,33 +855,62 @@ namespace FromGoldenCombs.BlockEntities
                     cooldownUntilTotalHours = worldTime + (2*24);
                 }
 
-                if ((threeDayTemp < minTemp || threeDayTemp > maxTemp) && quantityNearbyFlowers != 0)
-                {
-                    harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
-                    cooldownUntilTotalHours = worldTime + (24);
-                    tempOutOfRange = true;
+                //if ((threeDayTemp < minTemp || threeDayTemp > maxTemp) && quantityNearbyFlowers != 0)
+                //{
+                //    harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
+                //    cooldownUntilTotalHours = worldTime + (24);
+                //    tempOutOfRange = true;
+                //}
+
+                if (HivePopSize > 0 && !tempOutOfRange){
+                    handleCropCharges(worldTime);
                 }
 
-                if (HivePopSize > 0){
-                    handleCropCharges(tempOutOfRange, worldTime);
-                }
-
-                if (!Harvestable && harvestableAtTotalHours == 0 && _hivePopSize > EnumHivePopSize.Poor && CountLinedFrames()>0)
+                if (harvestableAtTotalHours == 0 && _hivePopSize > EnumHivePopSize.Poor && CountLinedFrames()>0)
                 {
                     BELangstrothStack bottomStack = GetBottomStack();
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                 }
-                else if (!Harvestable && worldTime > harvestableAtTotalHours && _hivePopSize > EnumHivePopSize.Poor && CountLinedFrames() > 0)
+                else if (worldTime > harvestableAtTotalHours && _hivePopSize > EnumHivePopSize.Poor && CountLinedFrames() > 0)
                 {
                     Random rand = new();
-                    GetTopStack().UpdateFrames(Math.Max(1,rand.Next(FGCServerConfig.Current.minFramePerCycle, FGCServerConfig.Current.maxFramePerCycle)*((int)this.HivePopSize/2)));
-                    harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
+                    int framesToFill = 0;
+                    //Determine how many times to run the frameFillCycle, ensure resulting value w
+                    int frameFillCycles = 1+(int)Math.Floor(((worldTime - harvestableAtTotalHours)/harvestBase));
+                    //determine number of days per cycle based on worldConfig for daysPerMonth and FGC Config for length of the harvest cycle.
+                    float daysPerCycle = ((float)FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * (float)(Api.World.Calendar.DaysPerMonth / 30f));
+
+                    while (frameFillCycles >= 1)
+                    {
+                        float CycleFirstDay = (frameFillCycles * daysPerCycle);
+                        float CycleLastDay = CycleFirstDay-daysPerCycle;
+                        float tempFirstDay = (Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays-CycleFirstDay)) + 0.66f).Temperature);
+                        float tempLastDay = (Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - CycleLastDay)) + 0.66f).Temperature);
+                        frameFillCycles--;
+                        if ((tempFirstDay + tempLastDay) / 2 < minTemp || (tempFirstDay + tempLastDay) / 2 > maxTemp) continue;
+                        framesToFill += Math.Max(1, rand.Next(FGCServerConfig.Current.minFramePerCycle, FGCServerConfig.Current.maxFramePerCycle) * ((int)this.HivePopSize / 2));
+                    }
+                    GetTopStack().UpdateFrames(framesToFill);
+                    if ((threeDayTemp < minTemp || threeDayTemp > maxTemp) && quantityNearbyFlowers != 0)
+                    {
+                        harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
+                        cooldownUntilTotalHours = worldTime + (24);
+                        tempOutOfRange = true;
+                    }
+                    else
+                    {
+                       //Determine remaining time until the next frame fill cycle.
+                       harvestableAtTotalHours = worldTime + (harvestBase - ((worldTime - harvestableAtTotalHours) % harvestBase));
+                    }
                     CountHarvestable();
                 }
                 MarkDirty();
             }
         }
-        private void handleCropCharges(bool tempOutOfRange, double worldTime)
+
+
+        
+        private void handleCropCharges(double worldTime)
         {
             if (worldTime > cropChargeAtTotalHours && cropcharges < maxCropCharges && _hivePopSize != EnumHivePopSize.Poor && quantityNearbyFlowers > 0)
             {
@@ -1008,7 +1036,7 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetInt("scanQuantityNearbyFlowers", scanQuantityNearbyFlowers);
             tree.SetInt("scanQuantityNearbyHives", scanQuantityNearbyHives);
 
-            tree.SetBool("harvestable", Harvestable);
+            //tree.SetBool("harvestable", Harvestable);
             tree.SetDouble("cooldownUntilTotalHours", cooldownUntilTotalHours);
             tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
             tree.SetInt("hiveHealth", (int)_hivePopSize);
@@ -1024,7 +1052,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             base.FromTreeAttributes(tree, worldForResolving);
 
-            bool wasHarvestable = Harvestable;
+            //bool wasHarvestable = Harvestable;
 
             scanIteration = tree.GetInt("scanIteration");
             harvestableFrames = tree.GetInt("harvestableFrames");
@@ -1033,7 +1061,7 @@ namespace FromGoldenCombs.BlockEntities
             _isActiveHive = tree.GetBool("activeHive");
             scanQuantityNearbyFlowers = tree.GetInt("scanQuantityNearbyFlowers");
             scanQuantityNearbyHives = tree.GetInt("scanQuantityNearbyHives");
-            Harvestable = tree.GetInt("harvestable") > 0;
+            //Harvestable = tree.GetInt("harvestable") > 0;
             cooldownUntilTotalHours = tree.GetDouble("cooldownUntilTotalHours");
             harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
             _hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");
@@ -1064,8 +1092,6 @@ namespace FromGoldenCombs.BlockEntities
                 string tempReport = Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect"));
 
                 if (bottomStack.harvestableFrames != 0) { sb.AppendLine(Lang.Get("fromgoldencombs:harvestableframes") + bottomStack.harvestableFrames); }
-
-                sb.AppendLine(bottomStack._isActiveHive ? Lang.Get("fromgoldencombs:populatedhive") : "");
 
                 double worldTime = Api.World.Calendar.TotalHours;
                 int daysTillHarvest = (int)Math.Round((bottomStack.harvestableAtTotalHours - worldTime) / 24);
@@ -1106,14 +1132,15 @@ namespace FromGoldenCombs.BlockEntities
                     {
                         sb.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
                     }
-
                     if (this.roomness > 0f)
                     {
                         sb.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                     }
-
-                    sb.AppendLine(tempReport);
-                    if (forPlayer.Entity.Controls.ShiftKey && FGCServerConfig.Current.showCurrentCropCharges) sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                    if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowHiveInfo == true))
+                    {
+                        sb.AppendLine(tempReport);
+                        sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                    }
                 }
             } 
         }
