@@ -39,6 +39,8 @@ namespace FromGoldenCombs.BlockEntities
         int cropChargeRange = FGCServerConfig.Current.ceramicCropRange;
         float harvestBase;
         EnumHivePopSize _hivePopSize;
+        //TODO: Implement Config Option To Set AllowUndergroundApiculture.
+        bool AllowUndergroundApiculture = false;
 
         public readonly InventoryGeneric inv;
         public override InventoryBase Inventory => inv;
@@ -78,6 +80,8 @@ namespace FromGoldenCombs.BlockEntities
             base.Initialize(api);
             RegisterGameTickListener(TestHarvestable, 5000);
             RegisterGameTickListener(OnScanForFlowers, api.World.Rand.Next(5000) + 30000);
+            //TODO: Implement Config Option To Set This Value.
+            this.AllowUndergroundApiculture = this.AllowUndergroundApiculture;
             //PushEventOnBlockBroken
             roomreg = Api.ModLoader.GetModSystem<RoomRegistry>();
 
@@ -280,7 +284,6 @@ namespace FromGoldenCombs.BlockEntities
 
         public virtual void SetAttributes(ItemStack hiveStack)
         {
-            
             hiveStack.Attributes.SetInt("scanIteration", scanIteration);
             hiveStack.Attributes.SetInt("quantityNearbyFlowers", 0);
             hiveStack.Attributes.SetInt("quantityNearbyHives", 0);
@@ -292,7 +295,6 @@ namespace FromGoldenCombs.BlockEntities
             hiveStack.Attributes.SetInt("hiveHealth", (int)_hivePopSize);
             hiveStack.Attributes.SetFloat("roomness", 0.0f);
             hiveStack.Attributes.SetInt("cropCharges", 0);
-
         }
         //Rendering Processes
         readonly Matrixf mat = new();
@@ -315,9 +317,7 @@ namespace FromGoldenCombs.BlockEntities
         public void TestHarvestable(float dt)
         {
 
-            
             bool hasEmptyHivetop = !inv[0].Empty && inv[0]?.Itemstack?.Block.Variant["type"] == "empty";
-
             float minTemp = FGCServerConfig.Current.CeramicHiveMinTemp;
             float maxTemp = FGCServerConfig.Current.CeramicHiveMaxTemp == 0 ? 37f : FGCServerConfig.Current.CeramicHiveMaxTemp;
             double worldTime = Api.World.Calendar.TotalHours;
@@ -326,10 +326,9 @@ namespace FromGoldenCombs.BlockEntities
             float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
             float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
             if (conds == null) return;
-
             float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
             float optimalTemp = (maxTemp + minTemp) / 2;
-            double distance = Math.Abs(conds.Temperature - optimalTemp);
+            double distance = Math.Abs(conds.Temperature + (roomness > 0 ? 5 : 0) - optimalTemp); //The roomness is added to account for the presence of a greenhouse
             double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
             float beeParticleModifier = 1f - (float)(distance / range);
             _activityLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
@@ -456,7 +455,7 @@ namespace FromGoldenCombs.BlockEntities
 
                 Room room = roomreg?.GetRoomForPosition(Pos);
                 roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
-
+                
                 if (_activityLevel <= 0) return;
                 if (Api.Side == EnumAppSide.Client) return;
                 if (Api.World.Calendar.TotalHours < cooldownUntilTotalHours) return;
@@ -469,7 +468,7 @@ namespace FromGoldenCombs.BlockEntities
                 int minX = -8 + 8 * (scanIteration / 2);
                 int minZ = -8 + 8 * (scanIteration % 2);
                 int size = 8;
-
+                
                 Block fullSkepN = Api.World.GetBlock(new AssetLocation("skep-populated-north"));
                 Block fullSkepE = Api.World.GetBlock(new AssetLocation("skep-populated-east"));
                 Block fullSkepS = Api.World.GetBlock(new AssetLocation("skep-populated-south"));
@@ -500,7 +499,9 @@ namespace FromGoldenCombs.BlockEntities
 
                 Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, posx, posy, posz) =>
                 {
-                    if (block.Id == 0) return;
+                    
+                    if (block.Id == 0 || (roomness > 0 && !room.Contains(new BlockPos(posx, posy, posz)))) return;
+                    
 
                     if (block.Attributes != null && block.Attributes.IsTrue("beeFeed"))
                     {

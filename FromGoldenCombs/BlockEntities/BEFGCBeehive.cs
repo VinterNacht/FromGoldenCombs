@@ -279,7 +279,7 @@ namespace FromGoldenCombs.BlockEntities
 
             float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
             float optimalTemp = (maxTemp + minTemp) / 2;
-            double distance = Math.Abs(conds.Temperature - optimalTemp);
+            double distance = Math.Abs((conds.Temperature + (roomness > 0 ? 5 : 0)) - optimalTemp); //The roomness is added to account for the presence of a greenhouse
             double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
             float beeParticleModifier = 1f - (float)(distance / range);
             actvitiyLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
@@ -525,21 +525,28 @@ namespace FromGoldenCombs.BlockEntities
             }
 
             //General Information
+            ClimateCondition conds2 = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
+            float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
+            float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
+            float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
+            float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
             float minTemp = FGCServerConfig.Current.SkepHiveMinTemp;
-            float maxTemp = FGCServerConfig.Current.SkepHiveMaxTemp == 0 ? 37f : FGCServerConfig.Current.SkepHiveMaxTemp;
+            float maxTemp = FGCServerConfig.Current.SkepHiveMaxTemp;
+
+            string tempReport = Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect"));
+
             double worldTime = Api.World.Calendar.TotalHours;
             float hoursPerDay = Api.World.Calendar.HoursPerDay;
             int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / hoursPerDay);
             daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
             string hiveState = Lang.Get("fromgoldencombs:nearbyflowers", quantityNearbyFlowers, Lang.Get(hivePopSize.ToString()));
-            float curTemp = Api.World.BlockAccessor.GetClimateAt(this.Pos, EnumGetClimateMode.NowValues).Temperature;
-            string tempReport = Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect"));
-            bool outOfTemp = (curTemp <= minTemp || curTemp >= maxTemp);
-            if (curTemp < minTemp)
+
+            bool outOfTemp = (threeDayTemp <= minTemp || threeDayTemp >= maxTemp);
+            if (threeDayTemp < minTemp)
             {
                 hiveState += "\n" + Lang.Get("fromgoldencombs:toocold");
             }
-            if (curTemp > maxTemp)
+            if (threeDayTemp > maxTemp)
             {
                 hiveState += "\n" + Lang.Get("fromgoldencombs:toohot");
             }

@@ -840,7 +840,7 @@ namespace FromGoldenCombs.BlockEntities
 
                 float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
                 float optimalTemp = (maxTemp + minTemp) / 2;
-                double distance = Math.Abs(conds.Temperature - optimalTemp);
+                double distance = Math.Abs((conds.Temperature + (roomness > 0 ? 5 : 0)) - optimalTemp); //The roomness is added to account for the presence of a greenhouse
                 double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
                 float beeParticleModifier = 1f - (float)(distance / range);
                 _activityLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
@@ -849,7 +849,7 @@ namespace FromGoldenCombs.BlockEntities
                 //if (temp <= -10)
                 //Reset timers when temp drops below 15c - FGC Settings
 
-                bool tempOutOfRange = false;
+                bool tempOutOfRange = (threeDayTemp < minTemp || threeDayTemp > maxTemp);
 
                 if(cooldownUntilTotalHours < 0) {
                     cooldownUntilTotalHours = worldTime + (2*24);
