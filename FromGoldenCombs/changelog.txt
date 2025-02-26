@@ -1,5 +1,9 @@
+1.20-1.8.11
+	- Supers will now show which Broodbox Top they need to be turned into a broodbox.
+
 1.20-1.8.11-rc.7
 	- Fixed bees not hunting for flowers when outside temp was below 10, but bees were in a greenhouse that made it over 10.
+	- Fix to prevent crashing on mousing over six high+ Langstroth stacks.
 
 1.20-1.8.11-rc.6
 	- Fix error with picking up supers related to ensuring the world interaction is reactive to whether the super contains frames or not.

@@ -71,28 +71,21 @@ namespace FromGoldenCombs.Blocks
 
                 });
 
+                ItemStack topVariant = new(world.Api.World.GetItem(new AssetLocation("fromgoldencombs:langstrothbroodtop-" + this.Variant["primary"].ToString() + "-" + this.Variant["accent"].ToString())));
                 wi3 = ObjectCacheUtil.GetOrCreate(api, "superInteractions4", () =>
                 {
                     List<ItemStack> toplist = new();
-
-                    foreach (Item item in api.World.Items)
-                    {
-                        if (item.Code == null) continue;
-
-                        if (item.FirstCodePart() == "langstrothbroodtop")
-                        {
-                            toplist.Add(new ItemStack(item));
-                        }
-                    }
+                            toplist.Add(topVariant);
 
                     return new WorldInteraction[] {
-                            new WorldInteraction() {
-                                    ActionLangCode = "fromgoldencombs:blockhelp-langstrothsuper-broodtop",
-                                    MouseButton = EnumMouseButton.Right,
-                                    Itemstacks = toplist.ToArray()
-                            }
-                    };
+              new WorldInteraction() {
+                      ActionLangCode = "fromgoldencombs:blockhelp-langstrothsuper-broodtop",
+                      MouseButton = EnumMouseButton.Right,
+                      Itemstacks = toplist.ToArray()
+              }
+      };
                 });
+
             }
             if (wi2 == null || wi3 == null)
             {

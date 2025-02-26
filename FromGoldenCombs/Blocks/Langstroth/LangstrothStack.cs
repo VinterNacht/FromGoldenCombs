@@ -109,6 +109,26 @@ namespace FromGoldenCombs.Blocks.Langstroth
             return curSelectionBoxes.ToArray();
         }
 
+        public override Cuboidf[] GetCollisionBoxes(IBlockAccessor blockAccessor, BlockPos pos)
+        {
+            List<Cuboidf> curCollisionBoxes = new List<Cuboidf>();
+            BELangstrothStack curBE = blockAccessor.GetBlockEntity<BELangstrothStack>(pos);
+            curCollisionBoxes.Add(SelectionBoxes[0]);
+
+            if (curBE != null)
+            {
+                for (int i = 1; i < curBE.Inventory.Count; i++)
+                {
+                    if (!curBE.Inventory[i].Empty)
+                    {
+                        curCollisionBoxes.Add(SelectionBoxes[i]);
+                    }
+                }
+
+            }
+            return curCollisionBoxes.ToArray();
+        }
+
         public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
         {
             WorldInteraction[] wi;
