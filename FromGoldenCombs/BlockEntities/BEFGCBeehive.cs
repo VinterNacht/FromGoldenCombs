@@ -127,9 +127,10 @@ namespace FromGoldenCombs.BlockEntities
                 Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "fruitharvest");
         }
 
-        private void managePollinationBoost(string eventName, ref EnumHandling handling, IAttribute data)
+        private void managePollinationBoost(string eventName, ref EnumHandling handling, IAttribute pollinatabledata)
         {
-            TreeAttribute tdata = data as TreeAttribute;
+            if (this.Block.Code.FirstCodePart().Contains("wildbeehive")) { return; }
+            TreeAttribute tdata = pollinatabledata as TreeAttribute;
             BlockPos cropPos = new(tdata.GetInt("x"), tdata.GetInt("y"), tdata.GetInt("z"));
             int deltaX = cropPos.X - Pos.X;
             int deltaY = cropPos.Y - Pos.Y;

@@ -3,7 +3,8 @@
 "op": "add",
 "path": "/attributes/barrelMoveToLiquidSlot",
 "value": true,
-"file": "itemtypes/resource/beeswax.json"
+"file": "itemtypes/resource/beeswax.json",
+    "side": "server"
 },
 {
 "op": "add",
@@ -11,7 +12,8 @@
 "value": {
 "base": "fromgoldencombs:block/beehive/beeswax"
 },
-"file": "itemtypes/resource/beeswax.json"
+"file": "itemtypes/resource/beeswax.json",
+    "side": "server"
 },
 {
 	"op": "add",
@@ -21,6 +23,7 @@
 		"linen-*": { "base": "block/cloth/linen/{pattern}1"}
 
 	},
-  "file": "blocktypes/cloth/linen.json"
+  "file": "blocktypes/cloth/linen.json",
+    "side": "server"
 }
 ]

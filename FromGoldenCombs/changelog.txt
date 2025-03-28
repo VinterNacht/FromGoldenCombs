@@ -1,5 +1,14 @@
+1.20-1.8.12
+	- Updated FGCBeeHive to prevent crashes when near Wild beehives.
+	- Removed unnecessary Flora Patch
+	- Added "Side": "Server" to many patches to remove log spam
+	- Added delay and scrape sound to cleaning honey pots.
+	- Slight rebalance of hives gaining charges each day (Each was boosted by 1 to slightly exceed their max charges.)
+
 1.20-1.8.11
 	- Supers will now show which Broodbox Top they need to be turned into a broodbox.
+	- After two years, finally added animations to opening and closing the langstroth super.
+	- Implement removing bees from Ceramic Hive to transfer to Langstroth.
 
 1.20-1.8.11-rc.7
 	- Fixed bees not hunting for flowers when outside temp was below 10, but bees were in a greenhouse that made it over 10.

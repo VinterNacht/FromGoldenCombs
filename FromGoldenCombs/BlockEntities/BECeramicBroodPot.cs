@@ -33,10 +33,12 @@ namespace FromGoldenCombs.BlockEntities
         double cropChargeGrowthHours = 24;
         double chargesPerDay = FGCServerConfig.Current.ceramicBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
         double cropChargeAtTotalHours;
-        double cooldownUntilCropCharge;
         int cropcharges;
         int maxCropCharges = FGCServerConfig.Current.ceramicMaxCropCharges;
         int cropChargeRange = FGCServerConfig.Current.ceramicCropRange;
+        long scanForFlowersListener;
+        long testHarvestableListener;
+        long beeParticleListener;
         float harvestBase;
         EnumHivePopSize _hivePopSize;
         //TODO: Implement Config Option To Set AllowUndergroundApiculture.
@@ -78,8 +80,12 @@ namespace FromGoldenCombs.BlockEntities
         public override void Initialize(ICoreAPI api)
         {
             base.Initialize(api);
-            RegisterGameTickListener(TestHarvestable, 5000);
-            RegisterGameTickListener(OnScanForFlowers, api.World.Rand.Next(5000) + 30000);
+            if (isActiveHive)
+            {
+                testHarvestableListener = RegisterGameTickListener(TestHarvestable, 5000);
+                scanForFlowersListener = RegisterGameTickListener(OnScanForFlowers, Api.World.Rand.Next(5000) + 30000);
+            }
+            
             //TODO: Implement Config Option To Set This Value.
             this.AllowUndergroundApiculture = this.AllowUndergroundApiculture;
             //PushEventOnBlockBroken
@@ -92,7 +98,7 @@ namespace FromGoldenCombs.BlockEntities
 
                 if (api.Side == EnumAppSide.Client)
                 {
-                    RegisterGameTickListener(SpawnBeeParticles, 300);
+                    beeParticleListener = RegisterGameTickListener(SpawnBeeParticles, 300);
                 }
             }
             Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "cropbreak");
@@ -101,92 +107,6 @@ namespace FromGoldenCombs.BlockEntities
             harvestBase = (FGCServerConfig.Current.ClayPotDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth/ 30f)) * api.World.Calendar.HoursPerDay;
         }
 
-        private void managePollinationBoost(string eventName, ref EnumHandling handling, IAttribute data)
-        {
-            TreeAttribute tdata = data as TreeAttribute;
-            BlockPos cropPos = new(tdata.GetInt("x"), tdata.GetInt("y"), tdata.GetInt("z"));
-            int deltaX = cropPos.X - Pos.X;
-            int deltaY = cropPos.Y - Pos.Y;
-            int deltaZ = cropPos.Z - Pos.Z;
-
-            double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-
-            if (isActiveHive && _hivePopSize != EnumHivePopSize.Poor)
-            {
-                if (eventName == "cropbreak")
-                {
-                    manageCropBoost(cropPos, distance, ref handling);
-                }
-                else if (eventName == "berryharvest")
-                {
-                    manageBerryBoost(cropPos, distance, ref handling);
-                }
-                else if (eventName == "fruitharvest")
-                {
-                    manageFruitBoost(cropPos, distance, ref handling);
-                }
-            }
-        }
-
-        private void manageCropBoost(BlockPos cropPos, double distance, ref EnumHandling handling) { 
-            
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(cropPos).HasBehavior<PushEventOnCropBreakBehavior>() && distance < FGCServerConfig.Current.ceramicCropRange)
-            {
-
-                if (Api.World.BlockAccessor.GetBlock(cropPos) is BlockCrop crop && Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is BlockEntityFarmland farmland)
-                {
-
-                    if(Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().validCropStages.Contains<int>(crop.CurrentCropStage)) {
-                    Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().setHandling(EnumHandling.PreventSubsequent);
-                    cropcharges--;
-                    }
-
-                    handling = EnumHandling.PreventSubsequent;
-                }
-
-                MarkDirty();
-            }
-        }
-        
-
-        private void manageBerryBoost(BlockPos bushPos, double distance, ref EnumHandling handling)
-        {
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(bushPos).HasBehavior<PushEventOnBlockHarvested>() && distance < cropChargeRange)
-            {
-                PushEventOnBlockHarvested eventBehavior = Api.World.BlockAccessor.GetBlock(bushPos).GetBehavior<PushEventOnBlockHarvested>();
-                eventBehavior.useBeeBoost = true;
-                cropcharges--;
-                
-                handling = EnumHandling.PreventSubsequent;
-                MarkDirty();
-            }
-        }
-
-        private void manageFruitBoost(BlockPos fruitFoliagePos, double distance, ref EnumHandling handling)
-        {
-
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlockEntity(fruitFoliagePos) is BlockEntityFruitTreePart beFTP && distance < FGCServerConfig.Current.ceramicCropRange)
-            {
-                AssetLocation loc = AssetLocation.Create(beFTP.Block.Attributes["branchBlock"].AsString(null), beFTP.Block.Code.Domain);
-                foreach (BlockDropItemStack drop in (beFTP.Api.World.GetBlock(loc) as BlockFruitTreeBranch).TypeProps[beFTP.TreeType].FruitStacks)
-                {
-                    ItemStack stack = drop.GetNextItemStack(0.25f);
-                    if (stack != null)
-                    {
-
-                        beFTP.Api.World.SpawnItemEntity(stack, beFTP.Pos.Add(0.0f, 0.5f, 0.0f), null);
-                    }
-                    if (drop.LastDrop)
-                    {
-                        break;
-                    }
-                }
-                cropcharges--;
-            }
-        }
-
-
-
         public void SetHiveSize(int size)
         {
             _hivePopSize = (EnumHivePopSize)size;
@@ -194,7 +114,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public bool OnInteract(IPlayer byPlayer)
         {
-            Block hive = Api.World.BlockAccessor.GetBlock(Pos,0);
+            Block hive = Api.World.BlockAccessor.GetBlock(Pos, 0);
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             if (slot.Empty)
             {
@@ -204,15 +124,29 @@ namespace FromGoldenCombs.BlockEntities
                     updateMeshes();
                     return true;
                 }
-            } else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-populated-*")) && !isActiveHive)
+            }
+            else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-populated-*")) && !isActiveHive)
             {
                 byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();
-
+                testHarvestableListener = RegisterGameTickListener(TestHarvestable, 5000);
+                scanForFlowersListener = RegisterGameTickListener(OnScanForFlowers, Api.World.Rand.Next(5000) + 30000);
                 isActiveHive = true;
                 updateMeshes();
                 return true;
             }
-            else if (TryPut(slot) ) {
+            else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-empty-*")) && isActiveHive)
+            {
+
+                byPlayer.InventoryManager.ActiveHotbarSlot.TakeOut(1);
+                ItemStack newStack = new ItemStack(Api.World.BlockAccessor.GetBlock(new AssetLocation("game:skep-populated-east")));
+                byPlayer.InventoryManager.TryGiveItemstack(newStack);
+                resetHive();
+                MarkDirty();
+                return true;
+
+            }
+            else if (TryPut(slot))
+            {
                 {
                     Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(hive.CodeWithVariant("top", "withtop")).BlockId, Pos);
                     MarkDirty(true);
@@ -222,6 +156,27 @@ namespace FromGoldenCombs.BlockEntities
             }
             return false;
 
+        }
+
+        private void resetHive()
+        {
+            isActiveHive = false;
+            cropcharges = 0;
+            harvestableAtTotalHours = 0;
+            cooldownUntilTotalHours = 0;
+            int quantityNearbyFlowers = 0;
+            int quantityNearbyHives = 0;
+            float _activityLevel = 0;
+            int scanQuantityNearbyFlowers = 0;
+            int scanQuantityNearbyHives = 0;
+            int scanIteration = 0;
+            double cropChargeAtTotalHours = 0;
+            double cooldownUntilCropCharge = 0;
+            float harvestBase;
+            EnumHivePopSize _hivePopSize = 0;
+            UnregisterAllTickListeners();
+
+            this.MarkDirty(true);
         }
 
         private bool TryTake(IPlayer player)
@@ -244,7 +199,7 @@ namespace FromGoldenCombs.BlockEntities
             else if (activeHotbarSlot.Empty && activeHotbarSlot.StorageType == EnumItemStorageFlags.Backpack)
             {
                 ItemStack stack = blockContainer.OnPickBlock(this.Api.World, Pos);
-                SetAttributes(stack);
+                SetAttributesOnPickup(stack);
 
                 if (player.InventoryManager.TryGiveItemstack(stack.Clone(), true))
                 {
@@ -282,7 +237,7 @@ namespace FromGoldenCombs.BlockEntities
             return false;
         }
 
-        public virtual void SetAttributes(ItemStack hiveStack)
+        public virtual void SetAttributesOnPickup(ItemStack hiveStack)
         {
             hiveStack.Attributes.SetInt("scanIteration", scanIteration);
             hiveStack.Attributes.SetInt("quantityNearbyFlowers", 0);
@@ -537,7 +492,105 @@ namespace FromGoldenCombs.BlockEntities
             _hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - 3 * quantityNearbyHives, 0, 2);
         }
 
+        protected ModelTransform genTransform(ItemStack stack, int index)
+        {
 
+            ModelTransform transform = new();
+            //Vec3f offset = new Vec3f(0, .1f, 0);
+            //transform.Origin = new Vec3f(0.5f, 0.0f, 0.5f);
+            //transform.WithRotation(new Vec3f(0f, this.Block.Shape.rotateY * GameMath.DEG2RAD, 0f));
+            //transform.Translation = offset;
+            return transform;
+        }
+
+
+        #region Pollination Code
+        private void managePollinationBoost(string eventName, ref EnumHandling handling, IAttribute data)
+        {
+            TreeAttribute tdata = data as TreeAttribute;
+            BlockPos cropPos = new(tdata.GetInt("x"), tdata.GetInt("y"), tdata.GetInt("z"));
+            int deltaX = cropPos.X - Pos.X;
+            int deltaY = cropPos.Y - Pos.Y;
+            int deltaZ = cropPos.Z - Pos.Z;
+
+            double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+
+            if (isActiveHive && _hivePopSize != EnumHivePopSize.Poor)
+            {
+                if (eventName == "cropbreak")
+                {
+                    manageCropBoost(cropPos, distance, ref handling);
+                }
+                else if (eventName == "berryharvest")
+                {
+                    manageBerryBoost(cropPos, distance, ref handling);
+                }
+                else if (eventName == "fruitharvest")
+                {
+                    manageFruitBoost(cropPos, distance, ref handling);
+                }
+            }
+        }
+
+        private void manageCropBoost(BlockPos cropPos, double distance, ref EnumHandling handling)
+        {
+
+            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(cropPos).HasBehavior<PushEventOnCropBreakBehavior>() && distance < FGCServerConfig.Current.ceramicCropRange)
+            {
+
+                if (Api.World.BlockAccessor.GetBlock(cropPos) is BlockCrop crop && Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is BlockEntityFarmland farmland)
+                {
+
+                    if (Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().validCropStages.Contains<int>(crop.CurrentCropStage))
+                    {
+                        Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().setHandling(EnumHandling.PreventSubsequent);
+                        cropcharges--;
+                    }
+
+                    handling = EnumHandling.PreventSubsequent;
+                }
+
+                MarkDirty();
+            }
+        }
+
+
+        private void manageBerryBoost(BlockPos bushPos, double distance, ref EnumHandling handling)
+        {
+            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(bushPos).HasBehavior<PushEventOnBlockHarvested>() && distance < cropChargeRange)
+            {
+                PushEventOnBlockHarvested eventBehavior = Api.World.BlockAccessor.GetBlock(bushPos).GetBehavior<PushEventOnBlockHarvested>();
+                eventBehavior.useBeeBoost = true;
+                cropcharges--;
+
+                handling = EnumHandling.PreventSubsequent;
+                MarkDirty();
+            }
+        }
+
+        private void manageFruitBoost(BlockPos fruitFoliagePos, double distance, ref EnumHandling handling)
+        {
+
+            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlockEntity(fruitFoliagePos) is BlockEntityFruitTreePart beFTP && distance < FGCServerConfig.Current.ceramicCropRange)
+            {
+                AssetLocation loc = AssetLocation.Create(beFTP.Block.Attributes["branchBlock"].AsString(null), beFTP.Block.Code.Domain);
+                foreach (BlockDropItemStack drop in (beFTP.Api.World.GetBlock(loc) as BlockFruitTreeBranch).TypeProps[beFTP.TreeType].FruitStacks)
+                {
+                    ItemStack stack = drop.GetNextItemStack(0.25f);
+                    if (stack != null)
+                    {
+
+                        beFTP.Api.World.SpawnItemEntity(stack, beFTP.Pos.Add(0.0f, 0.5f, 0.0f), null);
+                    }
+                    if (drop.LastDrop)
+                    {
+                        break;
+                    }
+                }
+                cropcharges--;
+            }
+        }
+        #endregion
 
         public override void ToTreeAttributes(ITreeAttribute tree)
         {
@@ -590,18 +643,6 @@ namespace FromGoldenCombs.BlockEntities
             updateMeshes();
 
         }
-
-        protected ModelTransform genTransform(ItemStack stack, int index)
-        {
-
-            ModelTransform transform = new();
-            //Vec3f offset = new Vec3f(0, .1f, 0);
-            //transform.Origin = new Vec3f(0.5f, 0.0f, 0.5f);
-            //transform.WithRotation(new Vec3f(0f, this.Block.Shape.rotateY * GameMath.DEG2RAD, 0f));
-            //transform.Translation = offset;
-            return transform;
-        }
-
 
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
         {

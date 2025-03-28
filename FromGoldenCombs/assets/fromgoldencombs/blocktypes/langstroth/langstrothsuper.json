@@ -2,6 +2,7 @@
   "code": "langstrothsuper",
   "class": "langstrothsuper",
   "entityClass": "belangstrothsuper",
+  "entityBehaviors": [{ name: "Animatable" }],
   "storageFlags": 2,
   "maxstacksize": 1,
   "heldTpIdleAnimation": "holdbothhandslarge",

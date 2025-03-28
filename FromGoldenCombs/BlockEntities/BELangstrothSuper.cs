@@ -22,6 +22,7 @@ namespace FromGoldenCombs.BlockEntities
         public override InventoryBase Inventory => inv;
 
         public override string InventoryClassName => "langstrothsuper";
+        private MeshData meshMovable;
 
         Block block;
 
@@ -34,6 +35,24 @@ namespace FromGoldenCombs.BlockEntities
         {
             block = api.World.BlockAccessor.GetBlock(Pos, 0);
             base.Initialize(api);
+            if (this.Api.Side == EnumAppSide.Client)
+            {
+                capi = (ICoreClientAPI)api;
+                if (this.Block != null)
+                {
+                    Shape shape = Shape.TryGet(api, "fromgoldencombs:shapes/block/hive/langstroth/langstrothsuper-closed.json");
+                    if (api.Side == EnumAppSide.Client)
+                    {
+                        this.capi.Tesselator.TesselateShape(this.Block, shape, out this.meshMovable, new Vec3f(0f, this.Block.Shape.rotateY, 0f), null, null);
+                        this.animUtil.InitializeAnimator("substratemixer", shape, null, new Vec3f(0f, this.Block.Shape.rotateY, 0f));
+                    }
+                    else
+                    {
+                        shape.InitForAnimations(api.Logger, "fromgoldencombs:shapes/block/hive/langstroth/langstrothsuper-closed.json", Array.Empty<string>());
+                        this.animUtil.InitializeAnimatorServer("fromgoldencombs:langstrothsuper", shape);
+                    }
+                }
+            }
         }
                 
         public override void OnBlockBroken(IPlayer player)
@@ -104,6 +123,8 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 if (base.Block.Variant["open"] == "open" && !byPlayer.Entity.Controls.Sneak)
                 {
+                    this.animUtil.StopAnimation("lidopen");
+                    this.animUtil.StartAnimation(closeAnimData);
                     this.Api.World.BlockAccessor.ExchangeBlock(this.Api.World.GetBlock(blockContainer.CodeWithVariant("open", "closed")).BlockId, blockSel.Position);
                     updateMeshes();
                     base.MarkDirty(true, null);
@@ -111,6 +132,8 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 if (base.Block.Variant["open"] == "closed" && !byPlayer.Entity.Controls.Sneak)
                 {
+                    this.animUtil.StopAnimation("lidclosed");
+                    this.animUtil.StartAnimation(openAnimData);
                     this.Api.World.BlockAccessor.ExchangeBlock(this.Api.World.GetBlock(blockContainer.CodeWithVariant("open", "open")).BlockId, blockSel.Position);
                     updateMeshes();
                     base.MarkDirty(true, null);
@@ -243,9 +266,6 @@ namespace FromGoldenCombs.BlockEntities
 
         protected override float[][] genTransformationMatrices()
         {
-            //float x = 0f;
-            //float y = 0.069f;
-            //float z = 0f;
             float[][] tfMatrices = new float[10][];
             for (int index = 0; index < 10; index++)
             {
@@ -277,6 +297,38 @@ namespace FromGoldenCombs.BlockEntities
             }
             return tfMatrices;
         }
+
+        private AnimationMetaData openAnimData = new AnimationMetaData
+        {
+            Animation = "LidOpen",
+            Code = "lidopen",
+            AnimationSpeed = 1f,
+            EaseOutSpeed = 1f,
+            EaseInSpeed = 1f
+        };
+
+        private AnimationMetaData closeAnimData = new AnimationMetaData
+        {
+            Animation = "LidClose",
+            Code = "lidclose",
+            AnimationSpeed = 1f,
+            EaseOutSpeed = 1f,
+            EaseInSpeed = 1f
+        };
+
+        private BlockEntityAnimationUtil animUtil
+        {
+            get
+            {
+                BEBehaviorAnimatable behavior = base.GetBehavior<BEBehaviorAnimatable>();
+                if (behavior == null)
+                {
+                    return null;
+                }
+                return behavior.animUtil;
+            }
+        }
+
 
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {

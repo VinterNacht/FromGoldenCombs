@@ -12,7 +12,7 @@ namespace FromGoldenCombs.Util.Config
 {
     class FGCClientConfig
     {
-        public double configVersion = 1.5;
+        public double configVersion = 1.6;
         public bool retainConfigOnVersionChange = false;
         //Hive_Sound_Instructions is basically a comment, it does nothing.
         public string Hive_Sound_Instructions = "Changes the base volume of all domestic beehives. Valid settings for hive sounds are off, soft, normal, high (2x), and loud (4x)";
@@ -32,7 +32,7 @@ namespace FromGoldenCombs.Util.Config
         public static FGCClientConfig GetClientDefault()
         {
             FGCClientConfig defaultClientConfig = new();
-            defaultClientConfig.configVersion = 1.5;
+            defaultClientConfig.configVersion = 1.6;
             defaultClientConfig.retainConfigOnVersionChange = false;
             defaultClientConfig.Hive_Sound_Instructions = "Changes the base volume of all domestic beehives. Valid settings for hive sound are off, soft, normal, high (2x), and loud (4x)";
             defaultClientConfig.hiveSoundVolume = "normal";
@@ -49,7 +49,7 @@ namespace FromGoldenCombs.Util.Config
         {
             String[] validHiveVolumes = {"off","soft","normal","high","loud" };
             String[] validWildHiveVolumes = {"normal", "high", "loud"};
-            double MasterClientConfigVersion = 1.5;
+            double MasterClientConfigVersion = 1.6;
 
             try
             {

@@ -7,7 +7,8 @@
 			"beeChanceMultiplier": 0.25
 		  }
     },
-    "file": "game:blocktypes/plant/smallberrybush.json"
+    "file": "game:blocktypes/plant/smallberrybush.json",
+    "side": "server"
   },
 	{
     "op": "addmerge",
@@ -17,6 +18,7 @@
 			"beeChanceMultiplier": 0.25
 		  }
     },
-    "file": "game:blocktypes/plant/bigberrybush.json"
+    "file": "game:blocktypes/plant/bigberrybush.json",
+    "side": "server"
   }
 ]

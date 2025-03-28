@@ -87,7 +87,7 @@ namespace FromGoldenCombs.Blocks
             {
                 
                 ItemStack stack = this.OnPickBlock(world, pos);
-                beCeramicBroodPot.SetAttributes(stack);
+                beCeramicBroodPot.SetAttributesOnPickup(stack);
 
                 world.SpawnItemEntity(stack, new Vec3d((double)pos.X + 0.5, (double)pos.Y + 0.5, (double)pos.Z + 0.5));
 

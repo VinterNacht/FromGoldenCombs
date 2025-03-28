@@ -9,7 +9,7 @@ namespace FromGoldenCombs.Util.config
     class FGCServerConfig
     {
         [ProtoMember(1)]
-        public double ConfigVersion = 1.1;
+        public double ConfigVersion = 1.2;
         [ProtoMember(2)]
         public bool retainConfigOnVersionChange = false;
         [ProtoMember(3)]
@@ -53,19 +53,19 @@ namespace FromGoldenCombs.Util.config
         [ProtoMember(22)]
         public float LangstrothHiveMaxTemp { get; set; } = 37f;
         [ProtoMember(23)]
-        public double skepBaseChargesPerDay = 1;
+        public double skepBaseChargesPerDay = 2;
         [ProtoMember(24)]
-        public int skepMaxCropCharges = 50;
+        public int skepMaxCropCharges = 60;
         [ProtoMember(25)]
         public int skepCropRange = 5;
         [ProtoMember(26)]
-        public double ceramicBaseChargesPerDay = 2;
+        public double ceramicBaseChargesPerDay = 4;
         [ProtoMember(27)]
         public int ceramicMaxCropCharges = 100;
         [ProtoMember(28)]
         public int ceramicCropRange = 7;
         [ProtoMember(29)]
-        public double langstrothBaseChargesPerDay = 3;
+        public double langstrothBaseChargesPerDay = 5;
         [ProtoMember(30)]
         public int langstrothMaxCropCharges = 150;
         [ProtoMember(31)]
@@ -83,7 +83,7 @@ namespace FromGoldenCombs.Util.config
         {
             FGCServerConfig defaultServerConfig = new();
 
-            defaultServerConfig.ConfigVersion = 1.1;
+            defaultServerConfig.ConfigVersion = 1.2;
             defaultServerConfig.retainConfigOnVersionChange = false;
             defaultServerConfig.SkepDaysToHarvestIn30DayMonths = 7;
             defaultServerConfig.ClayPotDaysToHarvestIn30DayMonths = 7;
@@ -107,13 +107,13 @@ namespace FromGoldenCombs.Util.config
             defaultServerConfig.CeramicHiveMaxTemp = 37f;
             defaultServerConfig.LangstrothHiveMinTemp = 10f;
             defaultServerConfig.LangstrothHiveMaxTemp = 37f;
-            defaultServerConfig.skepBaseChargesPerDay = 1;
-            defaultServerConfig.skepMaxCropCharges = 50;
+            defaultServerConfig.skepBaseChargesPerDay = 2;
+            defaultServerConfig.skepMaxCropCharges = 60;
             defaultServerConfig.skepCropRange = 5;
-            defaultServerConfig.ceramicBaseChargesPerDay = 2;
+            defaultServerConfig.ceramicBaseChargesPerDay = 4;
             defaultServerConfig.ceramicMaxCropCharges = 100;
-            defaultServerConfig.ceramicCropRange = 6;
-            defaultServerConfig.langstrothBaseChargesPerDay = 3;
+            defaultServerConfig.ceramicCropRange = 7;
+            defaultServerConfig.langstrothBaseChargesPerDay = 5;
             defaultServerConfig.langstrothMaxCropCharges = 150;
             defaultServerConfig.langstrothCropRange = 8;
             defaultServerConfig.showExtraBeehiveInfo = true;
@@ -123,7 +123,7 @@ namespace FromGoldenCombs.Util.config
 
         internal static void createServerConfig(ICoreAPI api)
         {
-            double MasterServerConfigVersion = 1.1;
+            double MasterServerConfigVersion = 1.2;
             try
             {
                 var ServerConfig = api.LoadModConfig<FGCServerConfig>("fromgoldencombs/fromgoldencombsserver.json");
