@@ -156,24 +156,31 @@ namespace FromGoldenCombs.BlockEntities
 
         private void manageCropBoost(BlockPos cropPos, double distance, ref EnumHandling handling)
         {
-
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(cropPos).HasBehavior<PushEventOnCropBreakBehavior>() && distance < cropChargeRange)
-            {
-
-                if (Api.World.BlockAccessor.GetBlock(cropPos) is BlockCrop crop && Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is BlockEntityFarmland farmland)
+            if (Api.Side.IsServer()) {
+                if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(cropPos).HasBehavior<PushEventOnCropBreakBehavior>() && distance < cropChargeRange)
                 {
-
-                    if (Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().validCropStages.Contains<int>(crop.CurrentCropStage))
+                    if (Api.World.BlockAccessor.GetBlock(cropPos) is BlockCrop crop && Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is BlockEntityFarmland farmland)
                     {
-                        Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().setHandling(EnumHandling.PreventSubsequent);
-                        cropcharges--;
-                    }
 
-                    handling = EnumHandling.PreventSubsequent;
+                        if (Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().validCropStages.Contains<int>(crop.CurrentCropStage))
+                        {
+                            Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().setHandling(EnumHandling.PreventSubsequent);
+                            cropcharges--;
+                            if (Api.Side.IsServer()) System.Diagnostics.Debug.WriteLine(cropcharges);
+
+                        }
+
+                        handling = EnumHandling.PreventSubsequent;
+                    }
                 }
 
                 MarkDirty();
+                
+                
             }
+
+            if (Api.World.Side == EnumAppSide.Client)
+                ((ICoreClientAPI)Api).SendChatMessage("Block Broke! After Crop Charges = " + cropcharges);
         }
 
 
@@ -594,6 +601,7 @@ namespace FromGoldenCombs.BlockEntities
             if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowHiveInfo == true))
             {
                 dsc.AppendLine(tempReport);
+                dsc.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);
                 dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
             }
         }

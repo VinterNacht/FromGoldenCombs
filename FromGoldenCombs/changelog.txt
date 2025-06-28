@@ -1,9 +1,17 @@
+1.20-1.8.13
+	- Fixed bug where removing bees from a Ceramic hive while having full backpack slots would consume the skep, remove the bees, but not give back a populated skep.
+	- Update ClayHiveTop to prevent infinite harvest glitch that happens sometimes.
+	- Added Crop Range to BlockInfo for hives.
+	- Addressed Ceramic Hives not updating listeners properly when picked up and placed while active.f
+
 1.20-1.8.12
 	- Updated FGCBeeHive to prevent crashes when near Wild beehives.
 	- Removed unnecessary Flora Patch
 	- Added "Side": "Server" to many patches to remove log spam
 	- Added delay and scrape sound to cleaning honey pots.
 	- Slight rebalance of hives gaining charges each day (Each was boosted by 1 to slightly exceed their max charges.)
+	
+
 
 1.20-1.8.11
 	- Supers will now show which Broodbox Top they need to be turned into a broodbox.

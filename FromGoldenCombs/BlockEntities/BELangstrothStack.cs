@@ -1139,6 +1139,7 @@ namespace FromGoldenCombs.BlockEntities
                     if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowHiveInfo == true))
                     {
                         sb.AppendLine(tempReport);
+                        sb.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);
                         sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
                     }
                 }
@@ -1149,7 +1150,6 @@ namespace FromGoldenCombs.BlockEntities
 
         protected override float[][] genTransformationMatrices()
         {
-            
                 float[][] tfMatrices = new float[3][];
                 for (int index = 0; index <= 2; index++)
                 {

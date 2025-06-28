@@ -64,7 +64,7 @@ namespace FromGoldenCombs
             api.RegisterBlockClass("langstrothstack", typeof(LangstrothStack));
             api.RegisterBlockClass("framerack", typeof(FrameRack));
 
-            //Items
+             //Items
             api.RegisterItemClass("langstrothpartcore", typeof(LangstrothPartCore));
 
             //
