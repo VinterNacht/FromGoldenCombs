@@ -9,13 +9,28 @@ using Vintagestory.API.Server;
 using FromGoldenCombs.BlockBehaviors;
 using FromGoldenCombs.Util.config;
 using FromGoldenCombs.Util.Config;
+using static OpenTK.Graphics.OpenGL.GL;
+using System.Collections.Generic;
+using Vintagestory.API.Datastructures;
+using Vintagestory.API.MathTools;
+using System.Linq;
 
 namespace FromGoldenCombs
 {
     class FromGoldenCombs : ModSystem
     {
         NetworkHandler networkHandler;
+        public delegate void PollinationEventHandler(string eventName, BlockPos cropPos, ref EnumHandling handled, IAttribute data);
+        public event PollinationEventHandler OnPollination;
 
+        private void HandlePollinationEvents(string eventName, ref EnumHandling handled, IAttribute data)
+        {
+            if (data is TreeAttribute tdata)
+            {
+                BlockPos cropPos = new(tdata.GetInt("x"), tdata.GetInt("y"), tdata.GetInt("z"));
+                OnPollination?.Invoke(eventName, cropPos, ref handled, data);
+            }
+        }
         enum EnumHivePopSize
         {
             Poor = 0,
@@ -32,7 +47,7 @@ namespace FromGoldenCombs
         public override void StartClientSide(ICoreClientAPI api)
         {
             networkHandler.InitializeClientSideNetworkHandler(api);
-            
+
         }
         #endregion
 
@@ -40,7 +55,9 @@ namespace FromGoldenCombs
         public override void StartServerSide(ICoreServerAPI api)
         {
             networkHandler.InitializeServerSideNetworkHandler(api);
-            
+            api.Event.RegisterEventBusListener(HandlePollinationEvents, 0.5, "cropbreak");
+            api.Event.RegisterEventBusListener(HandlePollinationEvents, 0.5, "berryharvest");
+            api.Event.RegisterEventBusListener(HandlePollinationEvents, 0.5, "fruitharvest");
         }
         #endregion
         public override void Start(ICoreAPI api)
@@ -64,7 +81,7 @@ namespace FromGoldenCombs
             api.RegisterBlockClass("langstrothstack", typeof(LangstrothStack));
             api.RegisterBlockClass("framerack", typeof(FrameRack));
 
-             //Items
+            //Items
             api.RegisterItemClass("langstrothpartcore", typeof(LangstrothPartCore));
 
             //
@@ -73,6 +90,6 @@ namespace FromGoldenCombs
             networkHandler.RegisterMessages(api);
             FGCClientConfig.createClientConfig(api);
             FGCServerConfig.createServerConfig(api);
-            }
         }
-    }
+    }   
+}

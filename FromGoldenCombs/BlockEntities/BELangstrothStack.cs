@@ -109,16 +109,16 @@ namespace FromGoldenCombs.BlockEntities
                     RegisterGameTickListener(SpawnBeeParticles, 300);
                 }
             }
-            Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "cropbreak");
-            Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "berryharvest");
-            Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "fruitharvest");
+            if (Api.Side == EnumAppSide.Server)
+            {
+                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
+            }
             harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
         }
 
-        private void managePollinationBoost(string eventName, ref EnumHandling handling, IAttribute data)
+        public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
         {
             TreeAttribute tdata = data as TreeAttribute;
-            BlockPos cropPos = new(tdata.GetInt("x"), tdata.GetInt("y"), tdata.GetInt("z"));
             int deltaX = cropPos.X - Pos.X;
             int deltaY = cropPos.Y - Pos.Y;
             int deltaZ = cropPos.Z - Pos.Z;
@@ -163,6 +163,10 @@ namespace FromGoldenCombs.BlockEntities
             }
         }
 
+        public override void OnBlockRemoved()
+        {
+            base.OnBlockRemoved();
+        }
 
         private void manageBerryBoost(BlockPos bushPos, double distance, ref EnumHandling handling)
         {

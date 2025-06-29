@@ -102,13 +102,23 @@ namespace FromGoldenCombs.BlockEntities
                     beeParticleListener = RegisterGameTickListener(SpawnBeeParticles, 300);
                 }
             }
-            
-            Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "cropbreak");
-            Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "berryharvest");
-            Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "fruitharvest");
+            if (Api.Side == EnumAppSide.Server)
+            {
+                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
+            }
+
             harvestBase = (FGCServerConfig.Current.ClayPotDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth/ 30f)) * api.World.Calendar.HoursPerDay;
         }
-       
+
+
+        public override void OnBlockRemoved()
+        {
+            if (Api.Side == EnumAppSide.Server)
+            {
+                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
+            }
+            base.OnBlockRemoved();
+        }
         public void SetHiveSize(int size)
         {
             _hivePopSize = (EnumHivePopSize)size;
@@ -516,10 +526,9 @@ namespace FromGoldenCombs.BlockEntities
 
 
         #region Pollination Code
-        private void managePollinationBoost(string eventName, ref EnumHandling handling, IAttribute data)
+        public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
         {
             TreeAttribute tdata = data as TreeAttribute;
-            BlockPos cropPos = new(tdata.GetInt("x"), tdata.GetInt("y"), tdata.GetInt("z"));
             int deltaX = cropPos.X - Pos.X;
             int deltaY = cropPos.Y - Pos.Y;
             int deltaZ = cropPos.Z - Pos.Z;
@@ -603,6 +612,7 @@ namespace FromGoldenCombs.BlockEntities
                     }
                 }
                 cropcharges--;
+                MarkDirty();
             }
         }
         #endregion
@@ -616,10 +626,10 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetInt("quantityNearbyFlowers", quantityNearbyFlowers);
             tree.SetInt("quantityNearbyHives", quantityNearbyHives);
 
-
             tree.SetInt("scanQuantityNearbyFlowers", scanQuantityNearbyFlowers);
             tree.SetInt("scanQuantityNearbyHives", scanQuantityNearbyHives);
             tree.SetBool("isactivehive", isActiveHive);
+
             if (Api.Side.IsServer())
             {
                 if (isActiveHive && testHarvestableListener == 0)
@@ -734,6 +744,7 @@ namespace FromGoldenCombs.BlockEntities
             }            
         }
 
+        
         protected override float[][] genTransformationMatrices()
         {
             float[][] tfMatrices = new float[1][];

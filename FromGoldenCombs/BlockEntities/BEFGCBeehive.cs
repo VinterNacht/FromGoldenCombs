@@ -13,6 +13,7 @@ using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 using Vintagestory.GameContent;
+using static OpenTK.Graphics.OpenGL.GL;
 
 namespace FromGoldenCombs.BlockEntities
 {
@@ -121,20 +122,17 @@ namespace FromGoldenCombs.BlockEntities
                 if (!isWildHive && api.Side == EnumAppSide.Server)
                 {
                     api.ModLoader.GetModSystem<POIRegistry>().AddPOI(this);
+                    api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
                 }
-                Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "cropbreak");
-                Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "berryharvest");
-                Api.Event.RegisterEventBusListener(managePollinationBoost, 0.5, "fruitharvest");
         }
 
-        private void managePollinationBoost(string eventName, ref EnumHandling handling, IAttribute pollinatabledata)
+        public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
         {
-            if (this.Block.Code.FirstCodePart().Contains("wildbeehive")) { return; }
-            TreeAttribute tdata = pollinatabledata as TreeAttribute;
-            BlockPos cropPos = new(tdata.GetInt("x"), tdata.GetInt("y"), tdata.GetInt("z"));
+            TreeAttribute tdata = data as TreeAttribute;
             int deltaX = cropPos.X - Pos.X;
             int deltaY = cropPos.Y - Pos.Y;
             int deltaZ = cropPos.Z - Pos.Z;
+
             double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
             if (this.Block.Variant["type"].ToString() == "populated" && hivePopSize != EnumHivePopSize.Poor)
@@ -183,7 +181,7 @@ namespace FromGoldenCombs.BlockEntities
                 ((ICoreClientAPI)Api).SendChatMessage("Block Broke! After Crop Charges = " + cropcharges);
         }
 
-
+        
         private void manageBerryBoost(BlockPos bushPos, double distance, ref EnumHandling handling)
         {
             if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(bushPos).HasBehavior<PushEventOnBlockHarvested>() && distance < cropChargeRange)
@@ -710,6 +708,7 @@ namespace FromGoldenCombs.BlockEntities
             if (!isWildHive && Api.Side == EnumAppSide.Server)
             {
                 Api.ModLoader.GetModSystem<POIRegistry>().RemovePOI(this);
+                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
             }
         }
         #endregion

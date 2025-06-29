@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Vintagestory.API.Config;
 using System;
 using FromGoldenCombs.Util.Config;
+using System.Net.Http.Headers;
 
 namespace FromGoldenCombs.Blocks
 {
