@@ -1,8 +1,22 @@
+1.20-1.8.14
+	- Incorporated code from Fix GoldenCombs-Wildcraft Compatability
+	- Modified the event system so only one hive will handle pollination and consume charges per harvest.
+
 1.20-1.8.13
 	- Fixed bug where removing bees from a Ceramic hive while having full backpack slots would consume the skep, remove the bees, but not give back a populated skep.
 	- Update ClayHiveTop to prevent infinite harvest glitch that happens sometimes.
 	- Added Crop Range to BlockInfo for hives.
-	- Addressed Ceramic Hives not updating listeners properly when picked up and placed while active.f
+	- Addressed Ceramic Hives not updating ticklisteners properly when picked up and placed while active.
+	- Refactored custom event system.
+	- Added UK Translation by justOmi
+	- Fixed Honey Pot Transformations
+
+1.20-1.8.13-dev.1
+	- Fixed bug where removing bees from a Ceramic hive while having full backpack slots would consume the skep, remove the bees, but not give back a populated skep.
+	- Update ClayHiveTop to prevent infinite harvest glitch that happens sometimes.
+	- Added Crop Range to BlockInfo for hives.
+	- Addressed Ceramic Hives not updating ticklisteners properly when picked up and placed while active.
+	- Refactored custom event system.
 
 1.20-1.8.12
 	- Updated FGCBeeHive to prevent crashes when near Wild beehives.

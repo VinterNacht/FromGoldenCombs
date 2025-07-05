@@ -176,9 +176,6 @@ namespace FromGoldenCombs.BlockEntities
                 
                 
             }
-
-            if (Api.World.Side == EnumAppSide.Client)
-                ((ICoreClientAPI)Api).SendChatMessage("Block Broke! After Crop Charges = " + cropcharges);
         }
 
         
@@ -307,7 +304,7 @@ namespace FromGoldenCombs.BlockEntities
             if (threeDayTemp <= minTemp || threeDayTemp >= maxTemp)
             {
                 harvestableAtTotalHours = Api.World.Calendar.TotalHours + harvestBase;
-                cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 48.0;
+                cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 8.0;
             }
 
             if (!Harvestable && !isWildHive && Api.World.Calendar.TotalHours > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor)
@@ -422,7 +419,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 TryPopCurrentSkep();
                 //TODO: Implement variable length swarm lengths based on DaysPerMonth
-                cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 48.0;
+                cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 8.0;
                 MarkDirty();
                 return;
             }

@@ -106,7 +106,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
             }
-
+            
             harvestBase = (FGCServerConfig.Current.ClayPotDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth/ 30f)) * api.World.Calendar.HoursPerDay;
         }
 
@@ -564,15 +564,12 @@ namespace FromGoldenCombs.BlockEntities
                     if (Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().validCropStages.Contains<int>(crop.CurrentCropStage))
                     {
                         Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().setHandling(EnumHandling.PreventSubsequent);
-                        System.Diagnostics.Debug.WriteLine("Block Broke on" + Api.Side.ToString() + "! Crop Charges Were = " + cropcharges);
                         cropcharges--;
                     }
 
                     handling = EnumHandling.PreventSubsequent;
                 }
                 string strin2g = (Api.World.BlockAccessor.GetBlockEntity(this.Pos))?.ToString();
-                System.Diagnostics.Debug.WriteLine("Block Broke on" + Api.Side.ToString() + "! Crop Charges Now = " + this.cropcharges);
-                System.Diagnostics.Debug.WriteLine("Block Broke on" + Api.Side.ToString() + "! Block Entity Is = " + strin2g);
                 MarkDirty();
             }
         }

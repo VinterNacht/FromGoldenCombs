@@ -1,0 +1,8 @@
+[
+    { 
+      "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant", 
+      "op": "replace", 
+      "path": "/dropsByType/*-ripe/0/quantity/avg", 
+      "value": 1.1
+    }
+]

@@ -856,7 +856,7 @@ namespace FromGoldenCombs.BlockEntities
                 bool tempOutOfRange = (threeDayTemp < minTemp || threeDayTemp > maxTemp);
 
                 if(cooldownUntilTotalHours < 0) {
-                    cooldownUntilTotalHours = worldTime + (2*24);
+                    cooldownUntilTotalHours = worldTime + 8;
                 }
 
                 //if ((threeDayTemp < minTemp || threeDayTemp > maxTemp) && quantityNearbyFlowers != 0)
@@ -898,7 +898,7 @@ namespace FromGoldenCombs.BlockEntities
                     if ((threeDayTemp < minTemp || threeDayTemp > maxTemp) && quantityNearbyFlowers != 0)
                     {
                         harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
-                        cooldownUntilTotalHours = worldTime + (24);
+                        cooldownUntilTotalHours = worldTime + 8;
                         tempOutOfRange = true;
                     }
                     else

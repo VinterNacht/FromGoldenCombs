@@ -5,7 +5,7 @@
   maxstacksize: 1,
   "behaviorsByType": {
     "*-raw": [
-      { "name": "GroundStorable" },
+      { name: "GroundStorable", properties: { layout: 'SingleCenter', collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 } } },
       {
         "name": "Unplaceable",
         "__comment": "The ground storable obsoletes this being a block. Should be an item, but is kept a block for backwards compatibility, must be used to permit pitkilning"
@@ -61,6 +61,12 @@
   guiTransform: {
 		origin: { x: 0.5, y: 0.3, z: 0.5 },
 		scale: 1.86
+	},
+  groundTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: 0, y: -45, z: 0 },
+		origin: { x: 0.5, y: 0, z: 0.5 },
+		scale: 5
 	},
   "collisionboxes": [
     { "x1": 0.3125,  "y1": 0, "z1": 0.3125,  "x2": 0.6875,  "y2": 0.0625, "z2": 0.6875 },

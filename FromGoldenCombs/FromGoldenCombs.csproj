@@ -123,6 +123,9 @@
     <Content Update="assets\artofgrowing\croppatch.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="assets\flora\patches\block-item\wildcraftfruit-groundberryplant.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="assets\fromgoldencombs\compatibility\flora\patches\block-item\smallberrybush.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -154,6 +157,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="assets\fromgoldencombs\lang\ru.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="assets\fromgoldencombs\lang\uk.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="assets\fromgoldencombs\lang\zh-cn.json">

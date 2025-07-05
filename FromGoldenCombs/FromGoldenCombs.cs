@@ -9,11 +9,9 @@ using Vintagestory.API.Server;
 using FromGoldenCombs.BlockBehaviors;
 using FromGoldenCombs.Util.config;
 using FromGoldenCombs.Util.Config;
-using static OpenTK.Graphics.OpenGL.GL;
-using System.Collections.Generic;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
-using System.Linq;
+using Vintagestory.Server;
 
 namespace FromGoldenCombs
 {
@@ -28,7 +26,19 @@ namespace FromGoldenCombs
             if (data is TreeAttribute tdata)
             {
                 BlockPos cropPos = new(tdata.GetInt("x"), tdata.GetInt("y"), tdata.GetInt("z"));
-                OnPollination?.Invoke(eventName, cropPos, ref handled, data);
+                if (OnPollination != null)
+                {
+                    //TODO: On future iterations of the mod, make sure that all hives have a parent type that includes an abstract method that can be called to activate the pollination.  This way we can ensure that only the closest hive pollinates a crop.
+                    foreach (PollinationEventHandler handler in OnPollination.GetInvocationList())
+                    {
+                        handler.Invoke(eventName, cropPos, ref handled, data);
+                        
+                        break;
+
+                    }
+                    
+                }
+
             }
         }
         enum EnumHivePopSize
@@ -84,12 +94,14 @@ namespace FromGoldenCombs
             //Items
             api.RegisterItemClass("langstrothpartcore", typeof(LangstrothPartCore));
 
-            //
+            //Events
             api.RegisterBlockBehaviorClass("PushEventOnCropBroken", typeof(PushEventOnCropBreakBehavior));
             api.RegisterBlockBehaviorClass("PushEventOnBlockHarvested", typeof(PushEventOnBlockHarvested));
             networkHandler.RegisterMessages(api);
             FGCClientConfig.createClientConfig(api);
             FGCServerConfig.createServerConfig(api);
+
+            MapRegionAndPos
         }
     }   
 }
