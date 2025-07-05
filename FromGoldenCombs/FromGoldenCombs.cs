@@ -100,8 +100,6 @@ namespace FromGoldenCombs
             networkHandler.RegisterMessages(api);
             FGCClientConfig.createClientConfig(api);
             FGCServerConfig.createServerConfig(api);
-
-            MapRegionAndPos
         }
     }   
 }
