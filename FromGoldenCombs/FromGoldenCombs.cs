@@ -29,12 +29,11 @@ namespace FromGoldenCombs
                 if (OnPollination != null)
                 {
                     //TODO: On future iterations of the mod, make sure that all hives have a parent type that includes an abstract method that can be called to activate the pollination.  This way we can ensure that only the closest hive pollinates a crop.
+
+                   
                     foreach (PollinationEventHandler handler in OnPollination.GetInvocationList())
                     {
-                        handler.Invoke(eventName, cropPos, ref handled, data);
-                        
-                        break;
-
+                        System.Diagnostics.Debug.WriteLine(handler.GetInvocationList().ToString());
                     }
                     
                 }

@@ -126,7 +126,8 @@ namespace FromGoldenCombs.Blocks
                         wi = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions", () =>
                         {
                             List<ItemStack> skepList = new();
-                            skepList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("game", "skep-populated-east")), 1));
+                            skepList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("game", "skep-papyrus-populated-east")), 1));
+                            skepList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("game", "skep-reed-populated-east")), 1));
 
                             return new WorldInteraction[]
                             {

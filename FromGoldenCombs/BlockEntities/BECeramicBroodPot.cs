@@ -137,7 +137,7 @@ namespace FromGoldenCombs.BlockEntities
                     return true;
                 }
             }
-            else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-populated-*")) && !isActiveHive)
+            else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-*-populated-*")) && !isActiveHive)
             {
                 byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();
                 testHarvestableListener = RegisterGameTickListener(TestHarvestable, 5000);

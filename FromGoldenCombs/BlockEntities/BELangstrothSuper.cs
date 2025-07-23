@@ -211,59 +211,6 @@ namespace FromGoldenCombs.BlockEntities
             return translation;
         }
 
-        protected override MeshData getOrCreateMesh(ItemStack stack, int index)
-        {
-            MeshData mesh = this.getMesh(stack);
-            if (mesh != null)
-            {
-                return mesh;
-            }
-            IContainedMeshSource meshSource = stack.Collectible as IContainedMeshSource;
-            if (meshSource != null)
-            {
-                mesh = meshSource.GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
-                mesh.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 0f, base.Block.Shape.rotateY * 0.017453292f, 0f);
-            }
-            else
-            {
-                ICoreClientAPI capi = this.Api as ICoreClientAPI;
-                if (stack.Class == EnumItemClass.Block)
-                {
-                    mesh = capi.TesselatorManager.GetDefaultBlockMesh(stack.Block).Clone();
-                }
-                else
-                {
-                    this.nowTesselatingObj = stack.Collectible;
-                    this.nowTesselatingShape = null;
-                    CompositeShape shape = stack.Item.Shape;
-                    if (((shape != null) ? shape.Base : null) != null)
-                    {
-                        this.nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Item.Shape.Base);
-                    }
-                    capi.Tesselator.TesselateItem(stack.Item, out mesh, this);
-                    mesh.RenderPassesAndExtraBits.Fill((short)2);
-                }
-            }
-            JsonObject attributes = stack.Collectible.Attributes;
-            if (attributes != null && attributes[this.AttributeTransformCode].Exists)
-            {
-                JsonObject attributes2 = stack.Collectible.Attributes;
-                ModelTransform transform = (attributes2 != null) ? attributes2[this.AttributeTransformCode].AsObject<ModelTransform>(null) : null;
-                transform.EnsureDefaultValues();
-                mesh.ModelTransform(transform);
-            }
-            if (stack.Class == EnumItemClass.Item && (stack.Item.Shape == null || stack.Item.Shape.VoxelizeTexture))
-            {
-                mesh.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 1.5707964f, 0f, 0f);
-                mesh.Scale(new Vec3f(0.5f, 0.5f, 0.5f), 0.33f, 0.33f, 0.33f);
-                mesh.Translate(getTranslation(block,index));
-            }
-            string key = this.getMeshCacheKey(stack);
-            this.MeshCache[key] = mesh;
-            return mesh;
-        }
-
-
         protected override float[][] genTransformationMatrices()
         {
             float[][] tfMatrices = new float[10][];

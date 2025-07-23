@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net7.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <LangVersion>10</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
@@ -63,59 +63,251 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AnimatedGif">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\AnimatedGif.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="cairo-sharp">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\cairo-sharp.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\cairo-sharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CommandLine">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\CommandLine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="csogg">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\csogg.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="csvorbis">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\csvorbis.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DnsClient">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\DnsClient.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Eto.Wpf">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Eto.Wpf.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JsonDiffPatch">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\JsonDiffPatch.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Microsoft.CodeAnalysis.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Sqlite">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Microsoft.Data.Sqlite.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Win32.SystemEvents">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Microsoft.Win32.SystemEvents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Mono.Cecil.Mdb.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Mono.Cecil.Pdb.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Mono.Cecil.Rocks.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Nat">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Mono.Nat.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoMod.Backports">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\MonoMod.Backports.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoMod.Core">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\MonoMod.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoMod.Iced">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\MonoMod.Iced.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoMod.ILHelpers">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\MonoMod.ILHelpers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoMod.Utils">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\MonoMod.Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Open.Nat">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\Open.Nat.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Open.Nat.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenTK.Audio.OpenAL">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\OpenTK.Audio.OpenAL.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenTK.Compute">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\OpenTK.Compute.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenTK.Core">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\OpenTK.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="OpenTK.Graphics">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\OpenTK.Graphics.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\OpenTK.Graphics.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenTK.Input">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\OpenTK.Input.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenTK.Mathematics">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\OpenTK.Mathematics.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenTK.Windowing.Common">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\OpenTK.Windowing.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenTK.Windowing.Desktop">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\OpenTK.Windowing.Desktop.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenTK.Windowing.GraphicsLibraryFramework">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\OpenTK.Windowing.GraphicsLibraryFramework.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="protobuf-net">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\protobuf-net.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\protobuf-net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpAvi">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\SharpAvi.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpAvi.SkiaSharp">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\SharpAvi.SkiaSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SkiaSharp">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\SkiaSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\SQLitePCLRaw.batteries_v2.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\SQLitePCLRaw.core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.e_sqlite3">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Drawing.Common">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\System.Drawing.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Private.ServiceModel">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\System.Private.ServiceModel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\System.ServiceModel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.ServiceModel.Primitives">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\System.ServiceModel.Primitives.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Tavis.JsonPatch">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Lib\Tavis.JsonPatch.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Tavis.JsonPatch.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Vintagestory">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Vintagestory.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Vintagestory.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VintagestoryAPI">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\VintagestoryAPI.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\VintagestoryAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VintagestoryLib">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\VintagestoryLib.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\VintagestoryLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VintagestoryServer">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\VintagestoryServer.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\VintagestoryServer.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VSCreativeMod">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Mods\VSCreativeMod.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Mods\VSCreativeMod.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VSEssentials">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Mods\VSEssentials.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Mods\VSEssentials.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VSSurvivalMod">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.20\Mods\VSSurvivalMod.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Mods\VSSurvivalMod.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="xplatforminterface">
+      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.21\Lib\xplatforminterface.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

@@ -109,10 +109,6 @@ namespace FromGoldenCombs.BlockEntities
                     RegisterGameTickListener(SpawnBeeParticles, 300);
                 }
             }
-            if (Api.Side == EnumAppSide.Server)
-            {
-                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
-            }
             harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
         }
 
@@ -123,6 +119,11 @@ namespace FromGoldenCombs.BlockEntities
             int deltaY = cropPos.Y - Pos.Y;
             int deltaZ = cropPos.Z - Pos.Z;
             double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+
+            
+
+
+
 
             if (isHiveActive() && _hivePopSize != EnumHivePopSize.Poor)
             {
@@ -222,7 +223,11 @@ namespace FromGoldenCombs.BlockEntities
                     if (Api.World.BlockAccessor.GetBlock(bottomStackPos, 0) is LangstrothStack)
                     {
                         bool validHive = GetBottomStack().IsValidHive();
-                        GetBottomStack()._isActiveHive = GetBottomStack().IsValidHive();
+                        if(validHive == false && _isActiveHive != validHive && Api.Side == EnumAppSide.Server)
+                        {
+                                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
+                        }
+                        GetBottomStack()._isActiveHive = validHive;
                         GetBottomStack().ResetHive();
                     }
                     MarkDirty(true);
@@ -235,7 +240,12 @@ namespace FromGoldenCombs.BlockEntities
                                   //any stacks above this, or as a new stack above the
                                   //topmost stack if the block at that position is an air block.
                 {
-                    GetBottomStack()._isActiveHive = GetBottomStack().IsValidHive();
+                    bool validHive = GetBottomStack().IsValidHive();
+                    if (validHive == true && _isActiveHive != validHive && Api.Side == EnumAppSide.Server)
+                    {
+                        Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
+                    }
+                    GetBottomStack()._isActiveHive = validHive;
                     GetBottomStack().ResetHive();
                     MarkDirty(true);
                 }
@@ -246,6 +256,10 @@ namespace FromGoldenCombs.BlockEntities
             {
                 UpdateBroodBox(slot);
                 IsValidHive();
+                if (Api.Side == EnumAppSide.Server)
+                {
+                    Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
+                }
                 this.GetTopStack().updateMeshes();
                 MarkDirty(true);
                 return true;
@@ -412,7 +426,7 @@ namespace FromGoldenCombs.BlockEntities
                 index++;
             }
 
-            if (inv[index].Empty) //If the new target index is empty, place a super
+            if (inv[index].Empty) //If the new target index is empty, place the LangstrothBlock unless slot beneath is a Langstroth Hive
             {
                 
                 if (index - 1 >= 0 && (inv[index - 1].Itemstack.Block is LangstrothBrood))
@@ -432,13 +446,18 @@ namespace FromGoldenCombs.BlockEntities
                     return true;
                 }
                 inv[index].Itemstack = slot.TakeOutWhole();
+                bool isvalid = IsValidHive();
+                if (IsValidHive() && _isActiveHive != isvalid && Api.Side == EnumAppSide.Server)
+                {
+                    Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
+                }
                 updateMeshes();
                 MarkDirty(true);
                 return true;
             }
             else if (IsLangstrothAt(Pos.UpCopy())) //Otherwise, check to see if the next block up is a Super or SuperStack
             {
-                if (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) is BELangstrothStack stack) //If It's a SuperStack, Send To Next Stack
+                if (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) is BELangstrothStack stack) //If It's a LangstrothStack, Send To Next Stack
                 {
                     stack.TryPut(slot);
                 }
@@ -534,7 +553,12 @@ namespace FromGoldenCombs.BlockEntities
             {
                 slot.Itemstack = null;
                 inv[index].Itemstack = new ItemStack(Api.World.BlockAccessor.GetBlock(Brood.CodeWithVariant("populated", "populated")));
-                GetBottomStack()._isActiveHive = GetBottomStack().IsValidHive();
+                bool isvalid = GetBottomStack().IsValidHive();
+                if(IsValidHive() && _isActiveHive != isvalid && Api.Side == EnumAppSide.Server)
+                { 
+                   Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
+                }
+                GetBottomStack()._isActiveHive = isvalid;
                 GetBottomStack().ResetHive();
             };
 
@@ -626,9 +650,11 @@ namespace FromGoldenCombs.BlockEntities
         {
             BELangstrothStack topStack = GetTopStack();
             BELangstrothStack bottomStack = GetBottomStack();
+
             CountHarvestable();
            //Check bottomStack's bottom index for a LangstrothBase
             if (!(bottomStack.inv[0].Itemstack.Block is LangstrothBase)) {
+                
                 topStack.updateMeshes();
                 bottomStack.updateMeshes();
                 ResetHive();
@@ -640,6 +666,7 @@ namespace FromGoldenCombs.BlockEntities
             if (!(topBlock is LangstrothBrood) && topBlock.Variant["populated"] == "empty"){
                 topStack.updateMeshes();
                 bottomStack.updateMeshes();
+
                 ResetHive();
                 return false;
             }
@@ -822,6 +849,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public void ResetHive()
         {
+            GetBottomStack().cropcharges = 0;
             GetBottomStack().harvestableAtTotalHours = 0;
             GetBottomStack().quantityNearbyFlowers = 0;
             GetBottomStack()._hivePopSize = 0;
@@ -1043,7 +1071,7 @@ namespace FromGoldenCombs.BlockEntities
             //tree.SetBool("harvestable", Harvestable);
             tree.SetDouble("cooldownUntilTotalHours", cooldownUntilTotalHours);
             tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
-            tree.SetInt("hiveHealth", (int)_hivePopSize);
+            tree.SetInt("hiveHealth", (int)HivePopSize);
             tree.SetFloat("roomness", roomness);
             tree.SetInt("harvestableFrames", harvestableFrames);
             tree.SetBool("activeHive", _isActiveHive);
@@ -1062,7 +1090,10 @@ namespace FromGoldenCombs.BlockEntities
             harvestableFrames = tree.GetInt("harvestableFrames");
             quantityNearbyFlowers = tree.GetInt("quantityNearbyFlowers");
             quantityNearbyHives = tree.GetInt("quantityNearbyHives");
-            _isActiveHive = tree.GetBool("activeHive");
+            if (_isActiveHive != tree.GetBool("activeHive") && tree.GetBool("activeHive"))
+            {
+                _isActiveHive = tree.GetBool("activeHive");
+            }
             scanQuantityNearbyFlowers = tree.GetInt("scanQuantityNearbyFlowers");
             scanQuantityNearbyHives = tree.GetInt("scanQuantityNearbyHives");
             //Harvestable = tree.GetInt("harvestable") > 0;

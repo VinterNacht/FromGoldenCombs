@@ -1,9 +1,10 @@
 {
   "profiles": {
-    "FGC Start Profile": {
-      "commandName": "Project",
-      "commandLineArgs": "--addModPath=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\bin\\Debug\"  --addOrigin=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\assets\"",
-      "workingDirectory": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.20"
+    "FGC Start": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.21\\vintagestory.exe",
+      "commandLineArgs": "--dataPath=\"C:\\Users\\vinte\\AppData\\Roaming\\VintagestoryData_Modding\" \r\n--addModPath=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\bin\\Debug\"  --addOrigin=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\assets\"",
+      "workingDirectory": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.21"
     }
   }
 }
