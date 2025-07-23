@@ -44,7 +44,7 @@ namespace FromGoldenCombs.BlockEntities
                     if (api.Side == EnumAppSide.Client)
                     {
                         this.capi.Tesselator.TesselateShape(this.Block, shape, out this.meshMovable, new Vec3f(0f, this.Block.Shape.rotateY, 0f), null, null);
-                        this.animUtil.InitializeAnimator("substratemixer", shape, null, new Vec3f(0f, this.Block.Shape.rotateY, 0f));
+                        this.animUtil.InitializeAnimator("langstrothsuper", shape, null, new Vec3f(0f, this.Block.Shape.rotateY, 0f));
                     }
                     else
                     {
